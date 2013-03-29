@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / intro / plotexp </title>
+<!-- Generated 1999/ 7/28  -->
+<!-- $Id: plotexp.html,v 1.13 2004/12/21 06:52:00 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index.html">          HOME </a> |
+                                  INTRODUCTION |
+<a href="../general.html">        INFORMATION </a> |
+<a href="../gallery/index.html">  GALLERY </a> |
+<a href="plotexp-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index.html">   gnuplot入門  </a></p>
+ <ul>
+  <li> <a href="basic.html">   基本の基本編  </a>
+  <li> <a href="plotcalc.html">数値計算編 </a>
+  <li> <a href="plotexp.html"> 実験データ編 </a>
+    <ul>
+     <li> <a href="plotexp.html#data">      データの準備 </a>
+     <li> <a href="plotexp.html#dataplot">  データの組 </a>
+     <li> <a href="plotexp.html#title">     凡例 </a>
+     <li> <a href="plotexp.html#overlay">   計算値 </a>
+     <li> <a href="plotexp.html#linestyle"> 線種 </a>
+     <li> <a href="plotexp.html#label">     軸名 </a>
+     <li> <a href="plotexp.html#range">     表示範囲 </a>
+     <li> <a href="plotexp.html#tics">      目盛 </a>
+     <li> <a href="plotexp.html#done">      Postscript出力 </a>
+    </ul>
+  <li> <a href="plotfunc.html">関数表示編 </a>
+  <li> <a href="working.html"> 生活編 </a>
+  <li> <a href="style.html">   スタイル一覧 </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> gnuplot 入門 --- 実験データ編 </a></h1>
+
+
+<h2><a name="data">まずはデータファイルの準備 </a></h2>
+
+<p> ファイルに書かれた実験データをプロットし，そこに解析解を重ねて表示
+してみましょう．実験データは3つのセットがあり，ひとつのファイルに続け
+て書かれています．各データのブロックの間には2行の空行をいれてあります．
+データ点は，X座標(エネルギー)，Y座標(測定値)，Yの誤差の3つの組で与えら
+れています．誤差は絶対値で与えます(つまり測定値と同じ単位を持っている
+ということ)．#で始まる行は無視されます．</p>
+
+<pre class="file">
+# Data No. 1
+ 2.1500E-02 1.3060E+00 5.3098E-02
+ 2.3900E-02 1.2220E+00 4.7043E-02
+ 2.6800E-02 1.3430E+00 4.9854E-02
+ 2.9700E-02 1.2580E+00 4.5860E-02
+ 3.2500E-02 1.2430E+00 4.4506E-02
+               ....
+ 9.4500E-01 1.2290E+00 3.7317E-02
+ 1.0350E+00 1.2630E+00 4.1449E-02
+ 1.1330E+00 1.2670E+00 4.2289E-02
+
+
+# Data No. 2
+ 2.4000E-02 1.2970E+00 3.1387E-02
+ 4.0000E-02 1.3060E+00 2.8993E-02
+ 6.0000E-02 1.2960E+00 2.8382E-02
+ 8.0000E-02 1.3300E+00 2.8728E-02
+              ....
+ 7.0000E+00 1.2210E+00 2.5031E-02
+ 7.2000E+00 1.1990E+00 2.5299E-02
+ 7.4000E+00 1.1860E+00 2.5618E-02
+
+
+# Data No.3
+ 2.2500E-02 1.3310E+00 3.4606E-02
+ 2.7500E-02 1.3370E+00 2.4066E-02
+ 3.5000E-02 1.3440E+00 2.6880E-02
+              ....
+ 1.8936E+01 1.0080E+00 2.9232E-02
+ 2.0064E+01 9.6300E-01 2.9853E-02
+ 2.1296E+01 1.0310E+00 3.1961E-02
+</pre>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="dataplot">データの組をプロット</a></h2>
+
+<p> この3組のデータを最小自乗法で直線近似すると，y = -0.01687 x +
+1.3512 となります．実験データとこの式による計算値を重ねてプロットしま
+しょう．実験データの入ったファイルを<a href="plotexp.dat"> plotexp.dat
+</a> としておきます．一つのファイルに書かれた3つの実験データのブロック
+は，<tt>index</tt>を使ってばらばらにアクセスすることができます．
+<tt>index 0:0</tt> もしくは<tt>index 0</tt>なら一番最初のデータ，
+<tt>index 2:2</tt>もしくは<tt>index 2</tt> なら3番目のデータです．
+<tt>index 0:1</tt>とすると，1と2のデータを合わせたものになります．</p>
+
+<p>誤差付きのデータをプロットするには，<tt>with yerrorbars</tt>を使います．
+誤差の値が必要なので，データファイルは3カラムあり，<tt>using
+1:2:3</tt> としてその3つを読み込みます．誤差の数値が%で与えられている
+場合は，<tt>using 1:2:($2*$3/100.0)</tt> とすれば絶対値に変換できます．
+</p>
+
+<pre class="sample">
+gnuplot&gt; plot "plotexp.dat" index 0:0 using 1:2:3 with yerrorbars,\
+&gt; "plotexp.dat" index 1:1 using 1:2:3 with yerrorbars,\
+&gt; "plotexp.dat" index 2:2 using 1:2:3 with yerrorbars
+</pre>
+
+<div align="center"><img src="plotexp1.png" alt="plotexp1" width="414" height="332"></div>
+
+<p> 入力行が長いときは，\(￥記号，もしくはバックスラッシュ)を行末にい
+れると，次の行も継続行とみなされます．行が長いときは，キーワード
+の省略形を使うと便利です．with は wだけ，indexはiだけ，と言う風に
+短くして入力できます．どこまで省略できるかはキーワード毎に違うので，
+適当に試してみてください．ちなみにファイル名の省略も可能です．一度与えた
+ファイル名をgnuplotは覚えていますので，上のように"plotexp.dat"が3回も
+出て来る場合は，下の2つは "" と略すことができます．</p>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="title">凡例をつける</a></h2>
+
+<p> 図の凡例が恰好悪いので，各データに表題を付けてみましょう．
+最初のデータに，"A. Smith (1992)", 次のものを "B. Smith (1993)",
+そして最後のを "C. Smith (1999)"とします．</p>
+
+<pre class="sample">
+gnuplot&gt; plot "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr,\
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr
+</pre>
+
+<div align="center"><img src="plotexp2.png" alt="plotexp2" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="overlay">計算値を重ねる</a></h2>
+
+<p> 関数を重ねてプロットするには，始めに関数を定義しておくのが便利です．
+最小自乗法で得られた直線を f(x) =  -0.01687*x +1.3512 で与えておき，それを
+プロットしましょう．</p>
+
+<pre class="sample">
+gnuplot&gt; f(x)= -0.01687*x + 1.3512
+gnuplot&gt; plot f(x) with lines, \
+&gt; "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr,\
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr
+</pre>
+
+<div align="center"><img src="plotexp3.png" alt="plotexp3" width="414" height="332"></div>
+
+<p> 直線を一番始めにいれたので，データ表示に使われる線種が一つずれ
+ます．</p>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="linestyle">線種を変える</a></h2>
+
+<p> ウィンドウに表示するには，色が変わっている方が見やすいのですが，こ
+れをPostScriptにして印刷すると，ちょっと困ったことが起こります．直線は
+1番の線種で描かれており，PostScriptにすると，1番は実線になります．次の
+3つのデータは2,3,4の線種になっており，PostScriptでは点線や破線になりま
+す．従って，このままでは，誤差棒が点線や破線で描かれてしまいます．</p>
+
+<div align="center"><img src="errorbar.png" alt="errorbar" width="375" height="66"></div>
+
+<p>これでは困るので，線種は実線のままで記号だけを変えるようにします．
+それにはlinestyleを定義します(ver.3.7以前)．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 lw 3
+gnuplot&gt; set linestyle 2 lt 1 pt 7
+gnuplot&gt; set linestyle 3 lt 1 pt 8
+gnuplot&gt; set linestyle 4 lt 1 pt 9
+</pre>
+
+<p>[3.8/4.0] Ver.3.8以降のgnuplotの場合は，以下のように指定します．</p>
+
+<pre class="sample">
+gnuplot&gt; set style line 1 lt 1 lw 3
+gnuplot&gt; set style line 2 lt 1 pt 7
+gnuplot&gt; set style line 3 lt 1 pt 8
+gnuplot&gt; set style line 4 lt 1 pt 9
+</pre>
+
+<p> linestyleの1番として，線幅を3の実線を定義してます．次の2〜4では線
+種としては1番の実線を使い，記号(ポイント)に7,8,9を割り当てています．こ
+れらを使ってプロットするには，withのstyleの後にlinestyleを書き，その後
+に使う番号を与えます．</p>
+
+<pre  class="sample">
+gnuplot&gt; f(x)= -0.01687*x + 1.3512
+gnuplot&gt; plot f(x) notitle with lines linestyle 1, \
+&gt; "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr linestyle 2,\ 
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr linestyle 3,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr linestyle 4
+</pre>
+
+<div align="center"><img src="plotexp4.png" alt="plotexp4" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="label">軸名を入れる </a></h2>
+
+
+<p> 直線の凡例は，notitleを使って消してしまいました．データ表示に関す
+る部分は，ここまででほぼ終りです．ウィンドウ表示の場合は，全部赤色になっ
+てしまい見づらいですが，印刷するまでの辛抱です．後は，図のミテクレを変
+えていくだけです．</p>
+
+<p> 図にXとY軸の名前を入れます．X軸は "Energy [MeV]" としましょう．ま
+たY軸には "Cross Section [b]" と入れてみましょう．軸の設定には，set
+xlabelとset ylabelを使います．replotを使うと，プロットしたものと同じも
+のをもう一度プロットし直しますので，先程の長いコマンドをもう一度入力す
+る必要はありません．</p>
+
+<pre class="sample">
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp5.png" alt="plotexp5" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="range">表示範囲を調節する</a></h2>
+
+
+<p> 今度は，X軸とY軸の範囲を変更します．Y軸の範囲を[0,2]にしましょう．
+Xの範囲は，これで全体がきれいに収まっていますが，0付近がかなりごちゃごちゃ
+しています．Xを対数にして，ここを拡大し，Xの最小値を0.01，最大値を20としましょう．
+対数表示を指定するには，set logscale {x|y}を使います．</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [0.01:20]
+gnuplot&gt; set yrange [0:2]
+gnuplot&gt; set logscale x
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp6.png" alt="plotexp6" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="tics">目盛を入れる</a></h2>
+
+<p> 最後に目盛を変えてみます．対数軸であるX軸はこのままで良いでしょう．
+Y軸のほうは，0.5刻みになっていますが，これを1刻みにし，その間を10等分
+しましょう．また，図全体に方眼紙の様な格子を入れてみます．格子は
+軸に数字が書かれている部分だけに描かれます．</p>
+
+<pre class="sample">
+gnuplot&gt; set ytics 1
+gnuplot&gt; set mytics 10
+gnuplot&gt; set grid
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp7.png" alt="plotexp7" width="414" height="332"></div>
+
+
+
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="done">Postscriptで出力する</a></h2>
+
+<p> これで完成です．結果をPostScriptにして，印刷してみましょう．
+まず，出力ドライバをpostscriptにします．次に結果を出力するファイル名を
+set output で与え，replotします．このままgnuplotを終ってしまうと，
+いままでの作業が無くなってしまいます．saveを使うと，ここまでの
+作業内容がファイルに保存されます．</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript
+gnuplot&gt; set output "plotexp.ps"
+gnuplot&gt; replot
+gnuplot&gt; save "plotexp.plt"
+gnuplot&gt; quit
+</pre>
+
+<p> 出来上がったoutput.psをPostScriptプリンタに送れば，印刷できます．
+またghostviewやgvを使えば，内容をプレビューできます．下のイメージは，
+gvでoutput.psを画面に表示したものです．</p>
+
+<div align="center"><img src="plotexp8.png" alt="plotexp8" width="577" height="462"></div>
+
+<p> 縮小しているので見えにくいとは思いますが，7番の記号は●，8番は△，
+9番は▲になってます．この様にgnuplotでは，出力ドライバによって，線や記
+号の種類が変わります．PostScriptで出力できる記号は非常に沢山ありますが，
+実験データのプロットで使えそうなのは，○△□くらいでしょう．これらの番
+号の対応は次の様になっています．</p>
+
+<div align="center"><table border="1" class="incontent">
+<tr> <td> 1 </td>  <td> 2 </td>  <td> 3 </td>  <td> 4 </td>
+     <td> 5 </td>  <td> 6 </td>  <td> 7 </td>  <td> 8 </td>
+     <td> 9 </td>  <td>10 </td>  <td>11 </td>  <td>12 </td> <td> 13 </td> </tr>
+<tr> <td> ＋ </td> <td> × </td> <td> ＊ </td> <td> □ </td> 
+     <td> ■ </td> <td> ○ </td> <td> ● </td> <td> △ </td>
+     <td> ▲ </td> <td> ▽ </td> <td> ▼ </td> <td> ◇ </td> <td> ◆</td> </tr>
+</table></div>
+
+
+<div class="top"><a href="plotexp.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

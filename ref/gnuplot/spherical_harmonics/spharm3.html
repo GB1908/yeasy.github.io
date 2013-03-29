@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / spherical_harmonics / spharm (3) </title>
+<!-- Generated 2001/11/20 -->
+<!-- $Id: spharm3.html,v 1.8 2004/12/19 09:23:51 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index.html">          HOME </a> |
+<a href="../intro/index.html">    INTRODUCTION </a> |
+<a href="../general.html">        INFORMATION </a> |
+<a href="../gallery/index.html">  GALLERY </a> |
+<a href="index-e.html">           ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index.html">   球面調和関数  </a></p>
+
+ <ul>
+  <li><a href="parametric.html"> 媒介変数表示 </a>
+  <li><a href="spharm1.html">    球面調和関数 </a>
+  <li><a href="spharm2.html">    種々の量子数 </a>
+  <li><a href="deformed.html">   変形した原子核 </a>
+      <a href="../version.html"><b>[ver.4]</b></a>
+</ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> 種々の軌道角運動量と磁気量子数 (2) </a></h1>
+
+<h2><a name="L3"> l=3,m=-3,-2,-1,0,+1,+2,+3  </a></h2>
+
+<p>l=3のときは，磁気量子数mが異なる7つの関数があります．それぞれの
+関数は以下で与えられます．</p>
+
+<pre>
+   Y[3,-3](t,p) = -sqrt(35/64pi) sin(t)sin(t)sin(t) exp(-3i p)
+   Y[3,-2](t,p) =  sqrt(105/32pi) sin(t)sin(t)cos(t) exp(-2i p)
+   Y[3,-1](t,p) = -sqrt(21/64pi) sin(t) {5cos(t)cos(t)-1} exp(-i p)
+   Y[3, 0](t,p) =  sqrt(7/16pi) {5cos(t)cos(t)cos(t)-3cos(t)}
+   Y[3, 1](t,p) =  sqrt(21/64pi) sin(t) {5cos(t)cos(t)-1} exp( i p)
+   Y[3, 2](t,p) =  sqrt(105/32pi) sin(t)sin(t)cos(t) exp( 2i p)
+   Y[3, 3](t,p) =  sqrt(35/64pi) sin(t)sin(t)sin(t) exp( 3i p)
+</pre>
+
+<p> <a href="spharm2.html#L2"> l=2の場合 </a>と同様にmが正の部分だけを
+表示します．fx(u,v)等は<a href="spharm1.html">前に出て来たもの</a>と同
+じです．また，sin(t)=cos(v), cos(t)=sin(v)の置換を行っています．</p>
+
+
+<p><b> m=0 </b></p>
+<pre class="sample">
+gnuplot&gt; a= 7.0/(16*pi)
+gnuplot&gt; g(v)= (5*sin(v)*sin(v)*sin(v)-3*sin(v))**2
+gnuplot&gt; splot a*g(v)*fx(u,v),a*g(v)*fy(u,v),a*g(v)*fz(v)
+</pre>
+
+<div align="center"><img src="sph30.png" alt="sph30" width="400" height="300"></div>
+<br>
+
+<p><b> m=1 </b></p>
+<pre class="sample">
+gnuplot&gt; a=21.0/(64*pi)
+gnuplot&gt; g(v)= (cos(v)*(5*sin(v)*sin(v)-1))**2
+gnuplot&gt; splot a*g(v)*fx(u,v),a*g(v)*fy(u,v),a*g(v)*fz(v)
+</pre>
+
+<div align="center"><img src="sph31.png" alt="sph31" width="400" height="300"></div>
+<br>
+
+<p><b> m=2 </b></p>
+<pre class="sample">
+gnuplot&gt; a=105.0/(32*pi)
+gnuplot&gt; g(v)= (cos(v)*cos(v)*sin(v))**2
+gnuplot&gt; splot a*g(v)*fx(u,v),a*g(v)*fy(u,v),a*g(v)*fz(v)
+</pre>
+
+<div align="center"><img src="sph32.png" alt="sph32" width="400" height="300"></div>
+<br>
+
+<p><b> m=3 </b></p>
+<pre class="sample">
+gnuplot&gt; a=35.0/(64*pi)
+gnuplot&gt; g(v)= (cos(v)*cos(v)*cos(v))**2
+gnuplot&gt; splot a*g(v)*fx(u,v),a*g(v)*fy(u,v),a*g(v)*fz(v)
+</pre>
+
+<div align="center"><img src="sph33.png" alt="sph33" width="400" height="300"></div>
+<br>
+
+<div class="top"><a href="spharm3.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / misc (3E) </title>
+<!-- Generated 2001/ 8/ 21 -->
+<!-- $Id: misc3-e.html,v 1.10 2005/11/20 08:04:36 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="misc3.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+    <ul>
+      <li><a href="misc1-e.html#9.1">
+           ternary operator </a>
+      <li><a href="misc1-e.html#9.1a">
+           broken function </a>
+      <li><a href="misc1-e.html#9.2">
+           loop </a>
+      <li><a href="misc2-e.html#9.3">
+           least-squares fitting (I) </a>
+      <li><a href="misc2-e.html#9.4">
+           least-squares fitting (II) </a>
+      <li><a href="misc3-e.html#9.5">
+           dumb terminal </a>
+      <li><a href="misc4-e.html#9.6">
+           many kinds of lines </a>
+      <li><a href="misc4-e.html#9.7">
+           write a value </a>
+    </ul>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> Miscellaneous Stuff (No.3) </a></h1>
+
+<div align="center">
+<a href="misc1-e.html"> 1 </a> | 
+<a href="misc2-e.html"> 2 </a> | 
+<a href="misc3-e.html"> 3 </a> |
+<a href="misc4-e.html"> 4 </a>
+</div>
+
+
+
+<h2><a name="9.5"> What is the dumb terminal ? </a></h2>
+
+<p> gnuplot has a dumb terminal. It is seldom used, but I think it is
+funny.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set term dumb
+Terminal type set to 'dumb'
+Options are 'feed 79 24'
+gnuplot&gt; set yrange [0:1.5]
+gnuplot&gt; plot [-2:2] exp(-x*x)
+
+     +--------+--------+--------+--------+-------+--------+--------+--------+
+ 1.4 ++       +        +        +        +       +        +exp(-x*x) ******++
+     |                                                                      |
+     |                                                                      |
+ 1.2 ++                                                                    ++
+     |                                                                      |
+     |                                                                      |
+   1 ++                              ********                              ++
+     |                            ***        ***                            |
+ 0.8 ++                         **              **                         ++
+     |                         **                **                         |
+     |                       **                    **                       |
+ 0.6 ++                    **                        **                    ++
+     |                    **                          **                    |
+     |                  **                              **                  |
+ 0.4 ++               ***                                ***               ++
+     |              **                                      **              |
+ 0.2 ++           **                                          **           ++
+     |        ****                                              ****        |
+     +   ******        +        +        +       +        +        ******   +
+   0 ****-----+--------+--------+--------+-------+--------+--------+-----****
+    -2      -1.5      -1      -0.5       0      0.5       1       1.5       2
+
+
+</pre>
+
+
+<p> In short, plot a graph with letters. When you are working on a TTY terminal,
+and you want to see the data trend briefly, this terminal is helpful, sometimes. 
+Or you can email this graph to your friend. </p>
+
+<div class="top"><a href="misc3-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>

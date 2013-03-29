@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / intro / plotexp (E)</title>
+<!-- Generated 2001/ 9/13 -->
+<!-- $Id: plotexp-e.html,v 1.14 2004/12/21 06:52:00 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">        HOME </a> |
+                                  INTRODUCTION |
+<a href="../general-e.html">      INFORMATION </a> |
+<a href="../gallery/index-e.html">GALLERY </a> |
+<a href="plotexp.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Introduction to Gnuplot  </a></p>
+ <ul>
+  <li> <a href="basic-e.html">   Basic Use  </a>
+  <li> <a href="plotcalc-e.html">Numerical Data </a>
+  <li> <a href="plotexp-e.html"> Experimental Data </a>
+    <ul>
+     <li> <a href="plotexp-e.html#data">      Data File </a>
+     <li> <a href="plotexp-e.html#dataplot">  Plot Data  </a>
+     <li> <a href="plotexp-e.html#title">     Legend </a>
+     <li> <a href="plotexp-e.html#overlay">   Calculated Line </a>
+     <li> <a href="plotexp-e.html#linestyle"> Line Style </a>
+     <li> <a href="plotexp-e.html#label">     Axis Names </a>
+     <li> <a href="plotexp-e.html#range">     Range </a>
+     <li> <a href="plotexp-e.html#tics">      Graduations </a>
+     <li> <a href="plotexp-e.html#done">      Postscript File </a>
+    </ul>
+  <li> <a href="plotfunc-e.html">Functions </a>
+  <li> <a href="working-e.html"> Life with gnuplot </a>
+  <li> <a href="style-e.html">   Plotting Styles </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> Introduction to gnuplot --- Experimental Dat </a></h1>
+
+
+<h2><a name="data">Preparation of Data File </a></h2>
+
+<p> Here we describe how to plot experimental data in a data file.
+There are three data sets in our example, and those data are written
+sequentially in the file. Each data block is separated by 2 blank
+lines.  The experimental data point (X,Y,Z) is energy points, measured
+values, and uncertainties in Y. The uncertainties are given as
+absolute errors, in other words, Z has the same dimension as Y
+values. A line which begins with "#" is regarded as a comment line,
+and ignored.</p>
+
+<pre class="file">
+# Data No. 1
+ 2.1500E-02 1.3060E+00 5.3098E-02
+ 2.3900E-02 1.2220E+00 4.7043E-02
+ 2.6800E-02 1.3430E+00 4.9854E-02
+ 2.9700E-02 1.2580E+00 4.5860E-02
+ 3.2500E-02 1.2430E+00 4.4506E-02
+               ....
+ 9.4500E-01 1.2290E+00 3.7317E-02
+ 1.0350E+00 1.2630E+00 4.1449E-02
+ 1.1330E+00 1.2670E+00 4.2289E-02
+
+
+# Data No. 2
+ 2.4000E-02 1.2970E+00 3.1387E-02
+ 4.0000E-02 1.3060E+00 2.8993E-02
+ 6.0000E-02 1.2960E+00 2.8382E-02
+ 8.0000E-02 1.3300E+00 2.8728E-02
+              ....
+ 7.0000E+00 1.2210E+00 2.5031E-02
+ 7.2000E+00 1.1990E+00 2.5299E-02
+ 7.4000E+00 1.1860E+00 2.5618E-02
+
+
+# Data No.3
+ 2.2500E-02 1.3310E+00 3.4606E-02
+ 2.7500E-02 1.3370E+00 2.4066E-02
+ 3.5000E-02 1.3440E+00 2.6880E-02
+              ....
+ 1.8936E+01 1.0080E+00 2.9232E-02
+ 2.0064E+01 9.6300E-01 2.9853E-02
+ 2.1296E+01 1.0310E+00 3.1961E-02
+</pre>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="dataplot">Plot Data </a></h2>
+
+<p> Those three experimental data sets can be approximated by y =
+-0.01687 x + 1.3512. This function is plotted with the data which are
+stored in a file, <a href="plotexp.dat"> plotexp.dat</a>.  To
+access each data block in the datafile, use the <tt> index </tt>
+keyword to specify the block to be drawn. You can specify the first
+block by <tt> index 0:0</tt> or <tt>index 0 </tt>. The third block is
+pointed by <tt> index 2</tt>. To combine the first and second blocks,
+use <tt> index 0:1 </tt>.
+
+<p> To plot data with error bars, use <tt> with yerrorbars </tt>. This
+ requires the error data at the third column in the file, and the
+ columns are specified by <tt> using 1:2:3 </tt>. If an error is given
+ in percent (%), <tt> using 1:2:($2*$3/100.0) </tt> converts them into
+ an absolute error. </p>
+
+<pre class="sample">
+gnuplot&gt; plot "plotexp.dat" index 0:0 using 1:2:3 with yerrorbars,\
+&gt; "plotexp.dat" index 1:1 using 1:2:3 with yerrorbars,\
+&gt; "plotexp.dat" index 2:2 using 1:2:3 with yerrorbars
+</pre>
+
+<div align="center"><img src="plotexp1.png" alt="plotexp1" width="414" height="332"></div>
+
+<p> When your command line is too long, put "&#92;" at the end of line,
+then the next line is treated as a continued line. Gnuplot recognizes
+short keywords, for example "w" is "with", "i" is "index", and so on. In
+addition, you can omit a file name if the same file is used, just like
+the example above.  In the next two lines after the first "plot" command
+line, a short form "" can be used instead of "plotexp.dat". </p>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="title">Make a Legend </a></h2>
+
+<p> Each experimental data set was measured by three different
+experimentalists.  Their names are, "A. Smith" for the fist one,
+"B. Smith" for the second, and "C. Smith" for the third, and they
+carried out the experiments in 1992, 1993, and 1999. </p>
+
+<pre class="sample">
+gnuplot&gt; plot "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr,\
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr
+</pre>
+
+<div align="center"><img src="plotexp2.png" alt="plotexp2" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="overlay">Draw a Calculated Line </a></h2>
+
+<p> To overlay a function and experimental data, the fitted linear
+function, f(x) = -0.01687*x +1.3512, is defined first. </p>
+
+<pre class="sample">
+gnuplot&gt; f(x)= -0.01687*x + 1.3512
+gnuplot&gt; plot f(x) with lines, \
+&gt; "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr,\
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr
+</pre>
+
+<div align="center"><img src="plotexp3.png" alt="plotexp3" width="414" height="332"></div>
+
+<p> In the above case, color number used for each measurement is
+shifted because the linear function was inserted at the top.</p>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="linestyle">Change the Line Style </a></h2>
+
+<p> Those experimental data are distinguishable by colors when
+the graph is on your screen. However, to convert it into Postscript
+you may see a strange symbol as below. In the Postscript terminal
+the line number 1 is solid, but the number 2,3, and 4 are dashed,
+dotted lines. So that you get a dashed error bar ! </p>
+
+<div align="center"><img src="errorbar.png" alt="errorbar" width="375" height="66"></div>
+
+<p> I suppose nobody likes such a funny symbol. Let's define all the
+lines solid, and each measurement has a distinct symbol.</p>
+ 
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 lw 3
+gnuplot&gt; set linestyle 2 lt 1 pt 7
+gnuplot&gt; set linestyle 3 lt 1 pt 8
+gnuplot&gt; set linestyle 4 lt 1 pt 9
+</pre>
+
+<p>If your gnuplot is newer than ver.3.8:</p>
+
+<pre class="sample">
+gnuplot&gt; set style line 1 lt 1 lw 3
+gnuplot&gt; set style line 2 lt 1 pt 7
+gnuplot&gt; set style line 3 lt 1 pt 8
+gnuplot&gt; set style line 4 lt 1 pt 9
+</pre>
+
+
+<p> The first line defines the linestyle No.1 as the solid line with
+width of 3. The second to fourth lines define the linestyles those are
+used for experimental data. The line kind is solid, but the symbols of
+No.7, 8, and 9 are used. </p>
+
+<pre class="sample">
+gnuplot&gt; f(x)= -0.01687*x + 1.3512
+gnuplot&gt; plot f(x) notitle with lines linestyle 1, \
+&gt; "plotexp.dat" ind 0:0 usi 1:2:3 ti "A. Smith (1992)" w yerr linestyle 2,\ 
+&gt; "plotexp.dat" ind 1:1 usi 1:2:3 ti "B. Smith (1993)" w yerr linestyle 3,\
+&gt; "plotexp.dat" ind 2:2 usi 1:2:3 ti "C. Smith (1999)" w yerr linestyle 4
+</pre>
+
+<div align="center"><img src="plotexp4.png" alt="plotexp4" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="label">Insert Axis Names  </a></h2>
+
+<p> In the above graph, a legend for the fitted line was removed with
+the <tt> notitle </tt> keyword. Although it is difficult to see this
+figure since all data points and the line is red, this inconvenience
+will disappear when it is printed out. </p>
+
+<p> Now, make labels for the X and Y axes. The name of X axis is
+"Energy [MeV]", while the Y axis is "Cross Section [b]". To set those
+names, use <tt> set xlabel</tt> and <tt>set ylabel </tt>. The <tt>
+replot </tt> command invokes the "plot" command you typed before, so
+that you don't need to type the long command again.</p>
+
+<pre class="sample">
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp5.png" alt="plotexp5" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="range">Adjust the Range </a></h2>
+
+
+<p> Then, adjust the ranges for X and Y axes. For Y axis, setting the
+minimal value of 0 and the maximal of 2 works fine. There are too many
+measured data points near X=0. We take logarithm to magnify there. The
+least X value is set to 0.01, while the largest value is 20.  The <tt>
+set logscale {x|y} </tt> command controls the logarithm. </p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [0.01:20]
+gnuplot&gt; set yrange [0:2]
+gnuplot&gt; set logscale x
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp6.png" alt="plotexp6" width="414" height="332"></div>
+
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="tics">Put Graduations </a></h2>
+
+<p> Finally, put graduations on the axes. The X axis is log, so you can
+leave it. The Y axis has a tic with an interval of 0.5. Let's set
+the interval 1, and divide it by 10. In addition, we draw a grid 
+in the graph. The grid is shown at the major tics where you see
+figures. </p>
+
+<pre class="sample">
+gnuplot&gt; set ytics 1
+gnuplot&gt; set mytics 10
+gnuplot&gt; set grid
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotexp7.png" alt="plotexp7" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="done">Generate a Postscript File </a></h2>
+
+<p> Now we have completed. With the Postscript driver, specify an
+output file name, and <tt> replot</tt>, you get a Postscript
+graph. Before quit gnuplot, save everything in a file </p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript
+gnuplot&gt; set output "plotexp.ps"
+gnuplot&gt; replot
+gnuplot&gt; save "plotexp.plt"
+gnuplot&gt; quit
+</pre>
+
+<p> A Postscript printer can generate a printed graph. Postscript
+browsers like ghostscript or gv, can display the content. The image
+below was made with gv.</p>
+
+<div align="center"><img src="plotexp8.png" alt="plotexp8" width="577" height="462"></div>
+
+<p> It is not clear to see because the image size is small.  Anyway,
+the No.7 symbol is the filled circle, No.8 is the open triangle, and
+No.9 is the filled triangle. The kind of symbols and lines depends on
+the terminal. There are a number of symbols when a Postscript terminal
+is used, but a limited number of those are practically used for a plot
+of experimental data, those are circle, triangle, square, and so on
+(both filled and open). Here is the style numbers of those
+symbols.</p>
+
+<div align="center"><table border="1" class="incontent">
+<tr><td>  1  </td><td> +          </td> <td>  7  </td><td> (f) circle </td></tr>
+<tr><td>  2  </td><td> cross      </td> <td>  8  </td><td> (o) triangle</td></tr>
+<tr><td>  3  </td><td> *          </td> <td>  9  </td><td> (f) triangle</td></tr>
+<tr><td>  4  </td><td> (o) square </td> <td> 10  </td><td> (o) inverse-triangle</td></tr>
+<tr><td>  5  </td><td> (f) square </td> <td> 11  </td><td> (f) inverse-triangle</td></tr>
+<tr><td>  6  </td><td> (o) circle </td> <td> 12  </td><td> (o) diamond </td></tr>
+<tr><td>     </td><td>            </td> <td> 13  </td><td> (f) diamond</td></tr>
+</table></div>
+
+
+<div class="top"><a href="plotexp-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

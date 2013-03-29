@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / datafile (3E)</title>
+<!-- Generated 2003/ 6/ 6 -->
+<!-- $Id: datafile3-e.html,v 1.6 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <a href="index-e.html">
+    <div align="left"><img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90"></div>
+    </a></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/15 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="datafile3.html">       JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <ul>
+      <li><a href="datafile-e.html#7.1">
+           format </a>
+      <li><a href="datafile2-e.html#7.2">
+           plot several data sets </a>
+      <li><a href="datafile2-e.html#7.3">
+           modify values </a>
+      <li><a href="datafile2-e.html#7.4">
+           commands in a data file </a>
+      <li><a href="datafile2-e.html#7.5">
+           eliminate some points </a>
+      <li><a href="datafile2-e.html#7.6">
+           part of data </a>
+      <li><a href="datafile3-e.html#7.7">
+           UNIX commands </a>
+      <li><a href="datetime-e.html">
+           Date/Time Data </a>
+    </ul>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> Plotting Numerical Data in a Data File (No.3) </a></h1>
+
+<div align="center">
+<a href="datafile-e.html">  1 </a> | 
+<a href="datafile2-e.html"> 2 </a> | 
+<a href="datafile3-e.html"> 3 </a> |
+<a href="datetime-e.html">  4 </a>
+</div>
+
+
+
+<h2><a name="7.7">How do I use UNIX commands inside gnuplot. </a></h2>
+
+<p> With gnuplot you can <a href="datafile2-e.html#7.3"> modify the data
+     in your file at plotting </a>, but the flexibility is limited. For
+     example, the data to be plotted are separated into two files - X
+     data are in 'a.dat' and Y data are in 'b.dat', or you want to
+     modify a specific data point in the file. Of course the best way is
+     to edit your datafile before you plot it, but sometimes UNIX
+     commands are helpful. </p>
+
+<p> Here we use the following commands.</p>
+
+<ul>
+ <li> <a href="datafile3-e.html#sort">  sort</a>
+ <li> <a href="datafile3-e.html#paste"> paste </a>
+ <li> <a href="datafile3-e.html#sed">   sed </a>
+ <li> <a href="datafile3-e.html#awk">   awk </a>
+</ul>
+
+
+<h3><a name="sort"> sort </a></h3>
+
+<p> With the <tt>sort</tt> command, you can concatenate / merge several
+     data files.</p>
+
+<table border="1">
+<tr><td> file1.dat </td><td> file2.dat </td></tr>
+<tr>
+<td style="{background-color:#ffffff;width:320;}">
+<pre>
+   1.0   0.1
+   2.0   0.2
+   5.0   0.5
+   8.0   0.8
+</pre>
+<td style="{background-color:#ffffff;width:320;}">
+<pre>
+   5.0   1.0
+  10.0   1.2
+  12.0   1.3
+</pre>
+</td></tr></table>
+
+
+<pre class="sample">
+ % sort -n file1.dat file2.dat
+   1.0   0.1
+   2.0   0.2
+   4.0   0.6
+   5.0   0.5
+   5.0   1.0
+   8.0   0.8
+  10.0   1.2
+  12.0   1.3
+</pre>
+
+
+<p> Two datasets are shown by symbols, then all data points are
+ connected by one line.</p>
+
+<pre class="sample">
+gnuplot&gt; plot "&lt; cat -n file1.dat file2.dat" using 1:2  w l,\
+&gt;             "file1.dat" u 1:2 w p,\
+&gt;             "file2.dat" u 1:2 w p
+</pre>
+ 
+<div align="center"><img src="fig/sample7.7a.png" alt="fig/sample7.7a" width="400" height="300"></div>
+
+
+
+<h3><a name="paste"> paste </a></h3>
+
+<p> <tt> Paste </tt> command puts more than two files side by side.</p>
+
+<table border="1">
+<tr><td> file1.dat </td><td> file2.dat </td></tr>
+<tr><td style="{background-color:#ffffff;width:320;}">
+<pre>
+   1.0   0.1
+   2.0   0.2
+   3.0   0.5
+   4.0   0.8
+</pre>
+<td style="{background-color:#ffffff;width:320;}">
+<pre>
+   1.0   0.6
+   2.0   1.0
+   3.0   1.2
+   4.0   1.3
+</pre>
+</td></tr></table>
+
+
+<pre class="sample">
+ % paste file1.dat file2.dat
+   1.0   0.1       1.0   0.6
+   2.0   0.2       2.0   1.0
+   3.0   0.5       3.0   1.2
+   4.0   0.8       4.0   1.3
+</pre>
+
+<p> To draw figure of (X,Y) pairs when X data are in 'file1.dat' and Y
+ data are in 'file2.dat' : </p>
+
+<pre class="sample">
+gnuplot&gt; plot "&lt; paste file1.dat file2.dat" using 2:4  w lp
+</pre>
+
+
+<p> You can compare two files with this command. The <tt> paste </tt>
+ command writes Y data of 'file1.dat' in the second column, and those of
+ 'file2.dat' are in the fourth column, therefore difference between two
+ data sets are expressed by <tt>$2-$4</tt>, and the ratios are by <tt>
+ $2/$4 </tt>. </p>
+
+
+<pre class="sample">
+gnuplot&gt; plot "&lt; paste file1.dat file2.dat" using 1:($2/$4) w points
+</pre>
+<div align="right"><i>  from Ken. Thanks !</i></div>
+
+
+
+
+<h3><a name="sed"> sed </a></h3>
+
+<p> The stream editor <tt>sed</tt> is very powerful tool to edit your
+     text data. It is impossible to explain everything here, so I show
+     some useful examples. The above data file 'file1.dat' is used as
+     the example.</p>
+
+<p> Shift X data of 1.0 to 1.2. </p>
+
+<pre class="sample">
+gnuplot&gt; plot '&lt;sed "s/^   1.0/   1.2/g" file1.dat'
+</pre>
+
+<p> Show all data points, but draw a line which does not pass through
+     (2.0,0.2). </p>
+
+<pre class="sample">
+gnuplot&gt; plot 'file1.dat'                   u 1:2 with points,\
+&gt;             '&lt;sed "/^   2.0/d" file1.dat' u 1:2 with lines
+</pre>
+
+<div align="center"><img src="fig/sample7.7b.png" alt="fig/sample7.7b" width="400" height="300"></div>
+
+<p> Remove the third line. </p> 
+
+<pre class="sample">
+gnuplot&gt; plot '&lt;sed "3d" file1.dat' u 1:2 with points
+</pre>
+
+
+
+<h3><a name="awk"> awk </a></h3>
+
+<p> <tt> Awk </tt> is also very powerful language with which you can
+     manipulate each data column in a file. </p>
+
+<p> Cumulative values of Y data are plotted with a bar graph. The last
+     value becomes the sum of Y data.</p>
+
+<pre class="sample">
+gnuplot&gt; plot "&lt;awk '{x=x+$2; print $1,x}' file1.dat" with boxes
+</pre>
+
+<div align="center"><img src="fig/sample7.7c.png" alt="fig/sample7.7c" width="400" height="300"></div>
+
+<p> Change Y into zero when Y is less than 0.2. </p>
+
+<pre class="sample">
+gnuplot&gt; plot  "&lt;awk '{print $1,($2<0.1) ? 0.0 : $2}' file1.dat" with lines
+</pre>
+
+<p> Multiply Y-values by 5 when X is in the range of [1:3]. </p>
+
+<pre class="sample">
+gnuplot&gt; plot  "&lt;awk '{print $1,($1&lt;=3 &amp;&amp; $1&gt;=1) ? $2*5 : $2}' file1.dat" with lines
+</pre>
+
+<div class="top"><a href="datafile3-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

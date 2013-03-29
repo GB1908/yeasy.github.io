@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot /gallery / integ2 </title>
+<!-- Generated 2003/ 1/14 -->
+<!-- $Id: integ2.html,v 1.3 2004/12/04 10:01:53 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+</head>
+<body bgcolor="white">
+<hr>
+<ul>
+  <li> <a href="integ.dat"> ratios of calculations to experimental data </a>
+</ul>
+<hr>
+<pre>
+set terminal postscript eps enhanced color
+
+set linestyle 1 lt 2 lw 10
+set linestyle 2 lt 1 lw 10
+set linestyle 3 lt 3 lw 10
+
+set tmargin 1
+set border 3
+set boxwidth 0.2
+set key right top
+set ticscale 0
+set xrange [ -1 : 26 ]
+
+set xlabel "Dosimetry Reactions" 0,7
+set ylabel "Fission Spectrum Averaged Cross Section, C/E"
+
+set xtics nomirror rotate ( \
+  "^{19}F(n,2n)"      1,\
+  "^{24}Mg(n,p)"      2,\
+  "^{27}Al(n,p)"      3,\
+  "^{27}Al(n,{/Symbol a})"      4,\
+  "^{32}S(n,p)"       5,\
+  "^{46}Ti(n,p)"      6,\
+  "^{47}Ti(n,p)"      7,\
+  "^{48}Ti(n,p)"      8,\
+  "^{55}Mn(n,2n)"     9,\
+  "^{54}Fe(n,p)"     10,\
+  "^{56}Fe(n,p)"     11,\
+  "^{59}Co(n,{/Symbol a})"     12,\
+  "^{59}Co(n,2n)"    13,\
+  "^{58}Ni(n,p)"     14,\
+  "^{58}Ni(n,2n)"    15,\
+  "^{63}Cu(n,{/Symbol a})"     16,\
+  "^{63}Cu(n,2n)"    17,\
+  "^{64}Zn(n,p)"     18,\
+  "^{90}Zr(n,2n)"    19,\
+  "^{115}In(n,n')"   20,\
+  "^{127}I(n,2n)"    21,\
+  "^{197}Au(n,2n)"   22,\
+  "^{235}U(n,f)"     23,\
+  "^{238}U(n,f)"     24,\
+  "^{239}Pu(n,f)"    25)
+set ytics nomirror
+
+set output "integ.eps"
+plot 1 noti w l 0,\
+     "integ.dat" usi ($1):3       ti "JENDL-3.2"     w imp ls 1,\
+     "integ.dat" usi ($1+0.25):4  ti "JENDL-3.3"     w imp ls 2,\
+     "integ.dat" usi ($1+0.50):5  ti "ENDF/B-VI"     w imp ls 3
+pause -1
+</pre>
+<hr>
+
+<center><img src="integ2.png" alt="integ2.png" width="740" height="460"></center>
+
+</body>
+</html>

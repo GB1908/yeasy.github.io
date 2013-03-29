@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / fractal / selfsq (E) </title>
+<!-- Generated 2002/4/15 -->
+<!-- $Id: selfsq-e.html,v 1.5 2004/12/04 10:01:51 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/29 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">         HOME </a> |
+<a href="../intro/index-e.html">   INTRODUCTION </a> |
+<a href="../general-e.html">       INFORMATION </a> |
+<a href="../gallery/index-e.html"> GALLERY </a> |
+<a href="selfsq.html">             JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Fractal  </a></p>
+
+ <ul>
+  <li><a href="recursive-e.html">  Recursive Definition </a>
+  <li><a href="mandelbrot-e.html"> Mandelbrot Set </a>
+  <li><a href="selfsq-e.html">     Julia Set </a>
+ </ul>
+</td>
+
+<td id="content">
+
+<h1><a name="top"> Julia Set (Self-Squared Fractal) </a></h1>
+
+<p> Same as the Mandelbrot set. We calculate the recurrence relation
+     with a complex variable <i>A</i>, and look for a set of numbers
+     with which the value of |<i>z</i>(<i>n</i>)|^2 does not diverge for
+     a large number of <i>n</i>. The differences from the Mandelbrot set
+     are that the initial value of the recurrence relation is the (x,y)
+     coordinate on the complex plane, and the number of <i>A</i> is
+     arbitrary. </p>
+
+<pre class="file">
+    z(0)   = X + iY
+    z(n+1) = z(n)*z(n) + A
+</pre>
+
+<p> The function calculate the function above is just the same as our
+     <tt>mandel</tt> function defined in <a href="mandelbrot.html">the
+     previous section</a>. The complex value <i>A</i> is given outside
+     the function, and the (X,Y) coordinate is used as the initial
+     value.  Here we employ <i>A</i>=-0.37-0.612 <i>i</i>.</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-0.5:0.5]
+gnuplot&gt; set yrange [-0.5:0.5]
+gnuplot&gt; set logscale z
+gnuplot&gt; set isosample 50
+gnuplot&gt; set hidden3d
+gnuplot&gt; set contour
+gnuplot&gt; a= -0.37
+gnuplot&gt; b= -0.612
+gnuplot&gt; splot mandel(a,b,complex(x,y),0) notitle
+</pre>
+
+<div align="center">
+<img src="selfsq1.png" alt="selfsq1" height="350" width="520">
+</div>
+
+<p> You can make a great variety of images by changing the complex
+     constant <i>A</i>. In fact, a very small change in the constant
+     result in a completely different picture. For example, the value of
+     <i>A</i> was -0.37 -0.612 <i>i</i> in the figure above, but if you
+     change the imaginary part into 0.6, you get:</p>
+
+<div align="center">
+<img src="selfsq2.png" alt="selfsq2" height="350" width="520">
+</div>
+
+<br clear="all"><br>
+
+<div class="top"><a href="selfsq-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+
+<p> The following CGs of the self-squared fractal are made with the
+     parameters above. </p>
+
+<div align="center">
+<img src="selfsquared1.png" width="256" height="256" alt="selfsquared1">
+<img src="selfsquared2.png" width="256" height="256" alt="selfsquared2">
+</div>
+
+<div class="top"><a href="selfsq-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+
+</td>
+</tr></table>
+<hr class="topsep">
+
+</body>
+</html>

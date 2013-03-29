@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / plotpm3d (E) </title>
+<!-- Generated 2004/ 2/17  -->
+<!-- $Id: plotpm3d-e.html,v 1.5 2006/04/18 15:12:17 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/12/17 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="plotpm3d.html">        JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <ul>
+      <li><a href="plot3d-e.html#6.1">
+           origin of Z-axis </a>
+      <li><a href="plot3d-e.html#6.2">
+           fine mesh </a>
+      <li><a href="plot3d-e.html#6.3">
+           view point </a>
+      <li><a href="plot3d-e.html#6.4">
+           contours </a>
+      <li><a href="plot3d-e.html#6.5">
+           contours on the 2D plot </a>
+      <li><a href="plot3d2-e.html#6.6">
+           3D grid graph </a>
+      <li><a href="plotpm3d-e.html#6.7">
+           colored 3D figure </a>
+          <a href="version-e.html"><b>[ver.4]</b></a>
+      <li><a href="plotpm3d-e.html#6.8">
+           colors for contours </a>
+          <a href="version-e.html"><b>[ver.4]</b></a>
+      <li><a href="plotpm3d-e.html#6.9">
+           pseudo 3D bar </a>
+      <li><a href="plotpm3d2-e.html#6.10">
+           change 3D colors </a>
+          <a href="version.html"><b>[ver.4]</b></a>
+    </ul>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+
+
+<h1><a name="top"> 3-Dim Plot with a Color-Map (pm3d) </a></h1>
+
+<div align="center">
+<a href="plot3d-e.html">    1 </a> | 
+<a href="plot3d2-e.html">   2 </a> |
+<a href="plotpm3d-e.html">  3 </a> |
+<a href="plotpm3d2-e.html"> 4 </a>
+</div>
+
+<h2><a name="6.7">How do I draw a colored 3D figure ? </a></h2>
+
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> Gnuplot draws 3D figures with lines and / or points, in addition,
+     ver.3.8 or 4.0 allows you to draw a color-mapped 3D figure by setting <tt>
+     pm3d </tt>. The figure is shown on your screen as well as
+     PostScript or some image formats like PNG/JPG.</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-2:2]
+gnuplot&gt; set yrange [-2:2]
+gnuplot&gt; set pm3d
+gnuplot&gt; splot exp(-x*x)*exp(-y*y)
+</pre>
+
+<div align="center"><img src="fig/sample6.7a.png" alt="fig/sample6.7a" width="400" height="300"></div>
+
+<p> You can choose color or gray-scale by the terminal option of
+     <tt>color/monochrome </tt>. The gray-scale figure can be drawn 
+     by <tt> set palette gray </tt>, but the surface grid lines are 
+     still colored in this case. The following two examples are
+     for the PostScript terminal. </p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced color
+gnuplot&gt; set output "color.eps"
+gnuplot&gt; replot
+gnuplot&gt; set term postscript eps enhanced monochrome
+gnuplot&gt; set output "mono.eps"
+gnuplot&gt; replot
+</pre>
+
+<div align="center">
+<img src="fig/sample6.7b.png" alt="fig/sample6.7b" width="300" height="200">
+<img src="fig/sample6.7c.png" alt="fig/sample6.7c" width="300" height="200">
+</div>
+
+
+
+
+<div class="top"><a href="plotpm3d-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="6.8"> I want to draw colors for contours. </a></h2>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> A contour map of gnuplot is shown by lines. The colored contour by pm3d 
+     is something like a colored density distribution, which means,
+     each piece of colored surface is mapped on the bottom/top plain.
+     To show this on the bottom, add the <tt> at b </tt> option 
+     to the <tt> set pm3d </tt> command.</p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d at b
+gnuplot&gt; set ticslevel 0.8
+gnuplot&gt; set isosample 40,40
+gnuplot&gt; splot x*x*exp(-x*x)*y*y*exp(-y*y)
+</pre>
+
+<div align="center"><img src="fig/sample6.8a.png" alt="fig/sample6.8a" width="400" height="300"></div>
+
+
+<p> With pm3d, it is very easy to see the bottom surface in the 2D plot.</p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d map
+gnuplot&gt; splot x*x*exp(-x*x)*y*y*exp(-y*y)
+</pre>
+
+
+<div align="center"><img src="fig/sample6.8b.png" alt="fig/sample6.8b" width="400" height="300"></div>
+     
+
+
+
+<div class="top"><a href="plotpm3d-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="6.9"> Pseudo 3D Bar graph </a></h2>
+
+<p> Since gnuplot cannot draw a 3D-bar graph, we need a little trick
+to make it. Suppose we have the following 3D data.</p>
+
+<pre class="file">
+# X     Y    Z
+  0.0   0.0  2.0
+  0.0   1.0  3.5
+  1.0   0.0  1.0
+  1.0   1.0  3.0
+</pre>
+
+<p> The first line means Z=2 when 0&lt; X &lt;1, 0&lt; Y &lt;1, and 
+it corresponds to the area (1) in the next figure. The data file does not
+contain maximal values. The ranges of X and Y are implicitly
+assumed as 1&lt; Y &lt;2, 1&lt; Y &lt;2, and  the Z value is 3.0.
+We will make a 3D histgram like this. </p>
+
+<div align="center"><img src="fig/sample6.9.png" alt="fig/sample6.9" width="464" height="271"></div>
+
+<p> Now we expand the data with some programs/tools. See the figure
+above at X=0, the Y values are step function changing Y=2.0, 2.0, 3.5,
+and 3.5.  This step function is expressed as one line in a 3D
+space. Same can be consider for X=1 and X=2.</p>
+
+<pre class="file">
+# X     Y    Z
+  0.0   0.0  2.0
+  0.0   1.0  2.0
+  0.0   1.0  3.5
+  0.0   2.0  3.5
+
+  1.0   0.0  2.0
+  1.0   1.0  2.0
+  1.0   1.0  3.5
+  1.0   2.0  3.5
+
+  1.0   0.0  1.0
+  1.0   1.0  1.0
+  1.0   1.0  3.0
+  1.0   2.0  3.0
+
+  2.0   0.0  1.0
+  2.0   1.0  1.0
+  2.0   1.0  3.0
+  2.0   2.0  3.0
+</pre>
+
+<p> Once you prepare your data in such a way, we just depict
+them with lines. A program to process the data can be ....
+your homework. </p>
+
+<pre class="sample">
+gnuplot&gt; set hidden3d
+gnuplot&gt; splot "test.dat" with lines
+</pre>
+
+<div align="center"><img src="fig/sample6.9a.png" alt="fig/sample6.9a" width="340" height="240"></div>
+
+
+<div class="top"><a href="plotpm3d-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> When your gnuplot is ver.4, a funcy figure can be made with pm3d. </p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d
+gnuplot&gt; splot "test.dat" with pm3d
+</pre>
+
+<div align="center"><img src="fig/sample6.9b.png" alt="fig/sample6.9b" width="360" height="240"></div>
+
+<div class="top"><a href="plotpm3d-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

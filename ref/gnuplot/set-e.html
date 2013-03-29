@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / set (E) </title>
+<!-- Generated 2001/ 8/27 -->
+<!-- $Id: set-e.html,v 1.9 2004/12/19 09:23:44 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/12/17 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="set.html">             JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+<div align="center">
+<table border="1" width="90%" bgcolor="#ffffff">
+<tr><th> command    </th><th> arguments </th><th>description </th></tr>
+<tr><td> angles     </td><td> degrees | radians </td>
+                         <td> unit of angles </td></tr>
+<tr><td> arrow      </td><td> {<i> tag </i>} <br>
+                              {from <i>pos </i>}  {to <i> pos n</i>} <br>
+                              {<i> head | nohead </i>}<br>
+                              {ls <i>style</i>} {lt <i>type</i>} {lw <i>width</i>}</td>
+                         <td> draw an arbitrary arrow </td></tr>
+<tr><td> autoscale  </td><td> x|y|z|x2|y2|xy {min|max} </td>
+                         <td> axis whose scale is automatically determined </td></tr>
+<tr><td> bar        </td><td> small | large | <i>size</i></td>
+                         <td> a small bar on the top of error-bars </td></tr>
+<tr><td> border     </td><td> <i> num </i> <br>
+                              {ls <i>style</i>} {lt <i>type</i>} {lw <i>width</i>}</td>
+                         <td> border lines (frame, axis) </td></tr>
+<tr><td> boxwidth   </td><td> <i> width </i></td>
+                         <td> bar width for box-style </td></tr>
+<tr><td> clabel     </td><td> <i> 'format' </i></td>
+                         <td> format of contour lines in legend </td></tr>
+<tr><td> clip       </td><td> points | one | two </td>
+                         <td> data clipping near border </td></tr>
+<tr><td> cntrparam  </td><td> {linear | cubicspline | bspline} <br>
+                              {points <i> n </i>} <br>
+                              {order <i> n </i>} <br>
+                              {levels {<i> n </i> <br>
+                               | auto {<i> n </i>}<br>
+                               | discrete <i> z1 {, z2 ,... }</i><br>
+                               | incremental <i> start,incr,end</i> }</td>
+                         <td> control contour map </td></tr>
+<tr><td> contour    </td><td>{base | surface | both} </td>
+                         <td> display contour lines </td></tr>
+<tr><td> data       </td><td> style <i> style </i></td>
+                         <td> default style for data plot </td></tr>
+<tr><td> dgrid3d    </td><td> {<i> row, col, norm </i>} </td>
+                         <td> convert 3D data into grid data </td></tr>
+<tr><td> dummy      </td><td> <i> var, var </i> </td>
+                         <td> convert variables into others </td></tr>
+<tr><td> encoding   </td><td> <i> value </i> </td>
+                         <td> change character-set encoding </td></tr>
+<tr><td> format     </td><td> x|y|z|x2|y2|xy <i> 'format' </i> </td>
+                         <td> format of numeric label on axes </td></tr>
+<tr><td> function   </td><td> style <i> style </i></td>
+                         <td> default style for function plot </td>
+<tr><td> grid       </td><td>{{m}xtics {m}ytics ....} <br>
+                             {polar {<i>angle</i>}}<br>
+                             {ls <i>style</i>} {lt <i>type</i>} {lw <i>width</i>}</td>
+                         <td> draw grid </td></tr>
+<tr><td> hidden3d   </td><td> {offset <i> num </i> ...}<br>
+                              {trianglepattern <i>num</i>} <br>
+                              {{undefined <i>level</i>} | {noundefined}}<br>
+                              {altdiagonal | noaltdiagonal}<br>
+                              {bentover | nobentover} </td>
+                         <td> do hidden line removal </td></tr>
+<tr><td> isosamples </td><td> <i>iso_1</i> {,<i>iso_2</i>} </td>
+                         <td> number of curves for function plot in 3D mode</td></tr>
+<tr><td> key        </td><td> left | right | top | bottom | outside | below <br>
+                              {Left | Right} <br>
+                              {reverse | noreverse} <br>
+                              {samplen <i> length </i>} <br>
+                              {spacing <i> spacing </i>} <br>
+                              {width <i>width_increment</i>} <br>
+                              {title <i>"text"</i>}<br>
+                              {box  | nobox} {ls <i>style</i>} {lt <i>type</i>} {lw <i>width</i>} </td>
+                         <td> control legend </td></tr>
+<tr><td> label      </td><td> <i>tag</i><i> "string" </i> at <i> pos </i> <br>
+                              {left | right | center} <br>
+                              {rotate | norotate} <br>
+                              {font <i>"name,size"</i>} </td>
+                         <td> write arbitrary text in figure</td></tr>
+<tr><td> linestyle  </td><td> <i> index </i>
+                              {lt <i> line_type </i>}<br>
+                              {lw <i> width </i>}<br>
+                              {pt <i> point_type </i>} <br>
+                              {ps <i> point_size </i>} </td>
+                         <td> definition of line and symbols </td></tr>
+<tr><td> locale     </td><td> <i> "locale" </i> </td>
+                         <td> locale </td></tr>
+<tr><td> logscale   </td><td> {x|y|z|x2|y2|xy} {<i> base </i>} </td>
+                         <td> log-scale </td></tr>
+<tr><td> mapping    </td><td> {cartesian | spherical | cylindrical} </td>
+                         <td> coordinate of 3D data </td></tr>
+<tr><td> margin     <br>  
+         bmargin    <br>   
+         lmargin    <br>  
+         rmargin    <br>
+         tmargin    </td><td> <i> margin </i> </td>
+                         <td> margins outside the border </td></tr>
+<tr><td> missing    </td><td> <i> "character" </i></td>
+                         <td> define a letter which is treated as a missing point in a data file </td></tr>
+<tr><td> multiplot  </td><td> - </td>
+                         <td> enter a multi-plot mode </td></tr>
+<tr><td> offsets    </td><td> <i> left</i>, <i>right</i>, <i>top</i>, <i>bottom</i> </td>
+                         <td> margin between the curve and borders at autoscaling </td></tr>
+<tr><td> origin     </td><td> <i> x_orig</i>, <i>y_orig</i> </td>
+                         <td> origin of the graph </td></tr>
+<tr><td> output     </td><td> <i> "file_name" </i> </td>
+                         <td> device name for output </td></tr>
+<tr><td> parametric </td><td> - </td>
+                         <td> use parameters for function plot </td></tr>
+<tr><td> pointsize  </td><td> <i> num </i>  </td>
+                         <td> default symbol size </td></tr>
+<tr><td> polar      </td><td> - </td>
+                         <td> polar coordinate </td></tr>
+<tr><td> samples    </td><td> <i>samples_1</i> {,<i>samples_2</i>} </td>
+                         <td> sampling rate for function plot </td></tr>
+<tr><td> size       </td><td>{square | ratio <i>r</i>} <br>
+                             {<i> xscale</i>,<i>yscale</i>} </td>
+                         <td> figure size </td></tr>
+<tr><td> surface    </td><td> - </td>
+                         <td> show 3D surface </td></tr>
+<tr><td> term       <br>
+         terminal   </td><td> <i> terminal-type </i> </td>
+                         <td> terminal name </td></tr>
+<tr><td> tics       </td><td> in | out </td>
+                         <td> direction of tics </td></tr>
+<tr><td> ticscale   </td><td> <i>major_scale</i> {<i>minor_scale </i>}} </td>
+                         <td> length of tics </td></tr>
+<tr><td> ticslevel  </td><td> <i> level </i> </td>
+                         <td> distance between Z-axis and XY-plane </td></tr>
+<tr><td> time       <br>
+         timestamp  </td><td> <i> "format"</i> <br>
+                              {top|bottom} {rotate|norotate} <br>
+                              {<i>x_offset</i>}{,<i>y_offset</i>}<br>
+                              {<i>"font"</i>} </td>
+                         <td> display the date </td></tr>
+<tr><td> timefmt    </td><td> <i> "format" </i> </td>
+                         <td> date/time format in a data file </td></tr>
+<tr><td> title      </td><td> <i>"text"</i> <br>
+                              {<i>x_offset</i>}{,<i>y_offset</i>}<br>
+                              {<i>"font"</i>} </td>
+                         <td> figure title </td></tr>
+<tr><td> view       </td><td> <i>rot_x</i> {,<i>rot_z</i>}<br>
+                              {,{<i>scale</i>}  {,<i> scale_z </i>}}</td>
+                         <td> view point in the 3D plot </td></tr>
+<tr><td> xdata      <br>
+         ydata      <br>
+         zdata      <br>
+         x2data     <br>
+         y2data     </td><td> {time} </td>
+                         <td> if date/time data  </td></tr>
+<tr><td> xlabel     <br>
+         ylabel     <br>
+         zlabel     <br>
+         x2label    <br>
+         y2label    </td><td> <i>"label"</i> <br>
+                              {<i>x_offset</i>}{,<i>y_offset</i>}<br>
+                              {<i>"font"</i>} </td>
+                         <td> axis label </td></tr>
+<tr><td> xrange     <br>
+         yrange     <br>
+         zrange     <br>
+         x2range    <br>
+         y2range    <br>
+         rrange     <br>
+         trange     <br>
+         urange     <br>        
+         vrange     </td><td> [<i>min</i>:<i>max</i>] <br>
+                              {reverse | noreverse} {writeback | nowriteback}</td>
+                         <td> max/min values of axes </td></tr>
+<tr><td> xdtics     <br>
+         ydtics     <br>
+         zdtics     <br>
+         x2dtics    <br>
+         y2dtics    </td><td> - </td>
+                         <td> convert numbers into day </td></tr>
+<tr><td> xmtics     <br>
+         ymtics     <br>
+         zmtics     <br>
+         x2mtics    <br>
+         y2mtics    </td><td> - </td>
+                         <td> convert numbers into month </td></tr>
+<tr><td> xtics      <br>
+         ytics      <br>
+         ztics      <br>
+         x2tics     <br>        
+         y2tics     </td><td> {axis | border}<br>
+                              {mirror | nomirror}<br>
+                              {rotate | norotate}<br>
+                              {autofreq <br>
+                             | <i> incr </i> <br>
+                             | <i> start,incr,end </i>
+                             | ( <i>"label"</i> <i>pos</i>, ...) }</td>
+                         <td> control major tics </td></tr>
+<tr><td> mxtics     <br>
+         mytics     <br>
+         mztics     <br>
+         mx2tics    <br>
+         my2tics    </td><td> {<i> num </i> | default}</td>
+                         <td> control minor tics </td></tr>
+<tr><td> xzeroaxis  <br>
+         yzeroaxis  <br>
+         x2zeroaxis <br>
+         y2zeroaxis <br>
+         zeroaxis   </td><td>{ls <i>style</i>} {lt <i>type</i>} {lw <i>width</i>}</td>
+                         <td> display zero-axis </td></tr>
+<tr><td> zero       </td><td> <i>number</i> </td>
+                         <td> threshold for zero </td></tr>
+</td></tr></table></div>
+
+<hr class="topsep">
+
+</body>
+</html>

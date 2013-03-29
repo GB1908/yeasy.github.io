@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / intro / working (E) </title>
+<!-- Generated 2001/ 9/13 -->
+<!-- $Id: working-e.html,v 1.13 2004/12/04 10:01:55 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">        HOME </a> |
+                                  INTRODUCTION |
+<a href="../general-e.html">      INFORMATION </a> |
+<a href="../gallery/index-e.html">GALLERY </a> |
+<a href="working.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Introduction to Gnuplot  </a></p>
+ <ul>
+  <li> <a href="basic-e.html">   Basic Use  </a>
+  <li> <a href="plotcalc-e.html">Numerical Data </a>
+  <li> <a href="plotexp-e.html"> Experimental Data </a>
+  <li> <a href="plotfunc-e.html">Functions </a>
+  <li> <a href="working-e.html"> Life with gnuplot </a>
+    <ul>
+     <li> <a href="working-e.html#batch">     Make a Batch Process </a>
+     <li> <a href="working-e.html#many">      Draw Many Figures </a>
+    </ul>
+  <li> <a href="style-e.html">   Plotting Styles </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+
+<h1><a name="top"> Introduction to gnuplot --- Life with it </a></h1>
+<div align="right"> <i> It's working ! <br> (Anakin, Tatooine)</i></div>
+
+<h2><a name="batch">Make a Batch Process </a></h2>
+
+
+<p> Here we explain how to finish your graph which was prepared as
+described before. A <a href="output.plt"> plot-file "output.plt" </a>
+is a saved file at the last part of <a href="plotcalc-e.html">
+"Numerical Calculations" </a> section.  This file contains parameters
+and functions, some of those are default ones while the other part is
+defined by user. In the following list we eliminated the default
+lines, and "set terminal" and "plot" lines are folded. </p>
+
+<pre class="file">
+#!/usr/local/bin/gnuplot -persist
+# set terminal postscript landscape noenhanced monochrome \
+#              dashed defaultplex "Helvetica" 14
+# set output 'output.ps'
+set xlabel "x" 0.000000,0.000000  ""
+set ylabel "y=exp(-x)" 0.000000,0.000000  ""
+set title "Pade approximation" 0.000000,0.000000  ""
+set xrange [ 0 : 2 ] noreverse nowriteback
+set yrange [ 0 : 1 ] noreverse nowriteback
+set mxtics 5.000000
+set mytics 5.000000
+set xtics border mirror norotate 1
+set ytics border mirror norotate 0.5
+plot "output.dat" using 1:2 title "Analytical" w l, \
+     "output.dat" using 1:3 title "L=1, M=2" w l, \
+     "output.dat" using 1:4 title "L=2, M=1" w l
+#    EOF
+</pre>
+
+<p> At the top of this file you may see the part where an output device
+ (Postscript) and file-name are defined. You can draw the same graph
+ with this file by using the <tt> load </tt> command. When you make
+ another calculation, and the result is stored in "output.dat", you can
+ reused this plot-file for the new plotting.</p>
+
+
+<pre class="sample">
+gnuplot&gt; load "output.plt"
+</pre>
+
+<p> Alternatively, you can give this file name as a command-line
+option when gnuplot is invoked. In this way gnuplot exits after the
+last line of the file is read. A graph on your screen disappears at
+the same time. To keep the graph on your screen, insert 
+<tt> pause -1 </tt> at the end of this file.
+ The graph stays there till you hit a 'return' key.</p>
+
+
+<pre class="sample">
+ % gnuplot output.plt
+</pre>
+
+
+<p> A command-line option <tt>-persist</tt> also keeps the graph on
+your screen. With this method, gnuplot itself exits but the graph
+window settles down. </p>
+
+<pre class="sample">
+ % gnuplot -persist output.plt
+</pre>
+
+<p> As can be see at the first line of the plot-file, this option is 
+already included as a shell script option. This option can be used 
+by giving permission of execution to this file, as follows. </p>
+
+<pre class="sample">
+ % chmod +x  output.plt
+ % ./output.plt
+</pre>
+
+<p> With this manner you have to close the window every time. </p>
+
+<p> You can continue your work interactively at the gnuplot
+command-line once the plot-file is loaded.  However, a batch-mode
+is more convenient. Firstly, insert <tt> pause -1 </tt> at the 
+end of the file, then </p>
+
+<ul>
+ <li> Edit the plot-file with a text editor
+ <li> Browse the graph on a screen
+</ul>
+
+<p> Repeat this sequence until you get a satisfactory figure. If you
+are aiming at a Postscript file, your sequence may become:</p>
+
+<ul>
+ <li> Edit the plot-file with a text editor
+ <li> Output the graph in a Postscript data
+ <li> Preview it with gv (ghostview)
+</ul>
+
+<p> In this case, a comment sign '#' at the beginning of 
+<tt> set terminal postscript </tt> and 
+<tt> set output 'output.ps'</tt> lines
+should be deleted. You don't need <tt> pause </tt> because no drawing
+appears on your screen. </p>
+
+
+
+
+<div class="top"><a href="working-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="many">Draw Many Figures </a></h2>
+
+<p> One nice thing to use gnuplot in your scientific activity is that we
+ can reuse the plot-file to make a similar figure. We often draw very
+ similar figures those have same axis names, same ranges, etc. but the
+ numerical data inside the graph are different. With gnuplot you can do
+ this by using only one plot-file. To do it, change the data file name
+ at <tt>plot "datafile"</tt> or use the same data file name but the file
+ is overridden by various data.</p>
+
+<p> Gnuplot batch mode is very useful when you want to make a large
+ number of figures at one time. If you are doing this with something
+ another software, you have to struggle with your computer until
+ midnight. Why don't you make your life easier with gnuplot and some
+ UNIX commands to generate many figures within a few seconds.</p>
+
+<p> Here we think about a case that you have many data files ---
+ calc1.dat, calc2.dat, calc3.dat --- in your directory, and each file
+ contains simple (X,Y) data. Firstly, we make a graph of the data file,
+ <a href="calc1.dat"> calc1.dat </a>. Here we define the figure title,
+ name of axes, X and Y ranges, and graduations, just like we have done in the
+ <a href="plotcalc-e.html"> numerical calculation section. </a></p>
+
+<pre class="file">
+set terminal png
+set output "calc1.png"
+set xlabel "Energy [MeV]"
+set ylabel "Cross Section [b]"
+set title "(n,2n) reaction"
+set xrange [ 0 : 20 ]
+set yrange [ 0 : 2 ]
+set mxtics 5
+set mytics 5
+set xtics 5
+set ytics 0.5
+plot "calc1.dat" using 1:2 notitle w l
+</pre>
+
+
+<p> A PNG image file is generated by gnuplot, when you "feed" this <a
+href="data.plt"> data.plt </a> file to gnuplot. If you need an EPS
+file, use <tt> set terminal postscript </tt>, and change the name of
+output file properly, like calc1.eps.</p>
+
+<pre class="sample">
+ % gnuplot &lt; data.plt
+</pre>
+
+<div align="center"><img src="calc1.png" alt="calc1.png" width="640" height="480"></div>
+
+
+<p> Now we reuse this to make a figure of another data file. To do it,
+     we have to rewrite the file names "calc1.dat" and "calc1.png" in
+     that file.  Unfortunately you cannot use strings-type data in a
+     gnuplot command, we <a href="working-e.html#sed">replace the text "calc1" into
+     "calc2" with the UNIX command, sed</a>. Alternatively, <a
+     href="working-e.html#heredoc"> those file names are give as command line
+     options</a> of a shell script.</p>
+
+<hr width="50%">
+<p><a name="sed"> The following command changes the text "calc1" in a file 
+    into "calc2". </a></p>
+
+<pre class="sample">
+ % sed "s/calc1/calc2/g" data.plt | gnuplot
+</pre>
+
+<p> This one-line command makes a new figure, calc2.png. You repeat
+this for all your data files. When the number of data is not so large,
+you can use a shell-loop ('foreach' of csh, or 'for' of sh).</p>
+
+<p> csh, tcsh</p>
+<pre class="sample">
+ % foreach i (calc2 calc3 calc4 cal5)
+ foreach? sed "s/calc1/$i/g" data.plt | gnuplot
+ foreach? end
+</pre>
+
+<p> sh, bash</p>
+<pre class="sample">
+ $ for i in calc2 calc3 calc4 cal5 ; do
+ &gt; sed "s/calc1/$i/g" data.plt | gnuplot
+ &gt; done
+</pre>
+
+<p> When you have many files, you can remove the extension '.dat' of
+the file name with sed like below. Be careful that there are quotation
+and back-quotation marks. The inside sed command is to remove '.dat'
+extention of the variable <i> $i </i>, and the outside is to convert
+the strings "calc1."</p>
+
+<pre class="sample">
+ $ for i in *.dat ; do
+ &gt; sed "s/calc1/`echo $i | sed "s/\.dat$//"`/g" data.plt | gnuplot
+ &gt; done
+</pre>
+
+<p> You can also make a shell script to draw figures one-by-one.
+Once you make such a script, you can reuse this for other jobs.
+The script contains many lines corresponding to the number of 
+your data files.</p>
+
+<pre class="file">
+#!/bin/sh
+sed "s/calc1/calc2/g" data.plt | gnuplot
+sed "s/calc1/calc3/g" data.plt | gnuplot
+sed "s/calc1/calc4/g" data.plt | gnuplot
+sed "s/calc1/calc5/g" data.plt | gnuplot
+ ...
+</pre>
+
+<p> To make this you can use the UNIX commands, 'ls' and 'awk'. The
+following one-line command shows you the list of commands with which
+you can make many figures at one time. To make a shell-script file,
+re-direct this output to a file (<i> command </i> <tt> &gt; script.sh</tt> ). </p>
+
+<pre class="sample">
+ % ls *.dat | awk '{printf("sed \"s/calc1/%s/g\" data.plt | gnuplot\n",$1)}'
+</pre>
+
+<br>
+<hr width="50%">
+<br>
+
+
+<p> <a name="heredoc">You can write gnuplot commands directly in a shell
+ script</a>, and your file name is given as a command line option. To do
+ this, use a "here document" of the UNIX shells. In this example, we
+ make an EPS file "calc1.eps" from the data file "calc1.dat."</p>
+
+<pre class="file">
+#!/bin/sh
+gnuplot &lt;&lt; EOF
+set terminal postscript eps color enhanced
+set output "$1.eps"
+set xlabel "Energy [MeV]"
+set ylabel "Cross Section [b]"
+set title "(n,2n) reaction"
+set xrange [ 0 : 20 ]
+set yrange [ 0 : 2 ]
+set mxtics 5
+set mytics 5
+set xtics 5
+set ytics 0.5
+plot "$1.dat" using 1:2 notitle w l
+EOF
+</pre>
+
+<p> As you can see in the example above, the names of data and EPS files
+     (without extensions) are replaced by a variable <i>$1</i>.  The
+     real names of those variables are given as the command line option
+     to this shell script <a href="plot.sh">plot.sh</a>.  This script
+     makes the EPS file "calc1.eps" from the data file "calc1.dat" when
+     the command is invoked like below.  With this method you can make a
+     figure of your data files which are in a different directory, and
+     the result is stored in the same directory.</p>
+
+<pre class="sample">
+ $ ./plot.sh calc1
+</pre>
+
+<p> To change the names of data file and EPS, you replace one of the
+     <i>$1</i> variables in the script above into <i>$2</i>, and give
+     two command line options to this script.</p>
+
+<p> Finally the next shell script makes it possible to generate many
+     figures within a second.</p>
+
+<pre class="file">
+#!/bin/sh
+./plot.sh  calc1
+./plot.sh  calc2
+./plot.sh  calc3
+./plot.sh  calc4
+ ...
+</pre>
+<div align="right"><i> from Dr. Sato. Thanks !</i></div>
+
+
+<div align="center"><img src="manyfigure.png" alt="manyfigure.png" width="640" height="480"></div>
+
+
+<div class="top"><a href="working-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

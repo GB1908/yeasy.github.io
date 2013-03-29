@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / misc (1) </title>
+<!-- Generated 1999/ 9/ 1 -->
+<!-- $Id: misc1.html,v 1.17 2005/11/20 08:04:36 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="misc1-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+    <ul>
+      <li><a href="misc1.html#9.1">
+           3項演算子 </a>
+      <li><a href="misc1.html#9.1a">
+           途切れた関数 </a>
+      <li><a href="misc1.html#9.2">
+           ループ </a>
+      <li><a href="misc2.html#9.3">
+           最小自乗法(その1) </a>
+      <li><a href="misc2.html#9.4">
+           最小自乗法(その2) </a>
+      <li><a href="misc3.html#9.5">
+           dumb端末  </a>
+      <li><a href="misc4.html#9.6">
+           多くの線種 </a>
+      <li><a href="misc4.html#9.7">
+           数値の書き込み </a>
+    </ul>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> その他もろもろ (その1) </a></h1>
+
+<div align="center">
+<a href="misc1.html"> 1 </a> | 
+<a href="misc2.html"> 2 </a> | 
+<a href="misc3.html"> 3 </a> |
+<a href="misc4.html"> 4 </a>
+</div>
+
+
+<h2><a name="9.1"> 3項演算子 (A ? B : C) の使い方．</a></h2>
+
+<p> 3項演算子は，C言語のそれと同様に働きます，と言うとあまりに不親切な
+ので，もう少し詳しく説明しましょう．3項演算子とは A ? B : C のように書
+かれたもので，Aは条件式，BとCは実行文です．これは，Aが真ならBを実行し，
+そうでなければCを実行せよ，という意味を表します．X&gt;0の範囲ではexp(-x)，
+Xが負の領域ではexp(4*x)となる関数をプロットしてみましょう．</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-5:5]
+gnuplot&gt; plot x&gt;0 ? exp(-x) : exp(4*x) 
+</pre>
+
+<div align="center"><img src="fig/sample9.1.png" alt="fig/sample9.1" width="400" height="300"></div>
+
+<p> 条件式を入れ子にすれば，もう少し複雑な関数を定義することも可能です．
+     Xの絶対値の範囲に応じてY値が離散的に変化する関数を作ってみましょう．
+     </p>
+
+<pre class="sample">
+gnuplot&gt; f(x)= (abs(x)&lt;1) ? 100 : ( (abs(x)&lt;2) ? 50 : ((abs(x)&lt;3) ? 20: 10 )) 
+gnuplot&gt; set xrange [-5:5]
+gnuplot&gt; set yrange [0:150]
+gnuplot&gt; set sample 1000
+gnuplot&gt; plot f(x)
+</pre>
+
+<img src="fig/sample9.1b.png" alt="fig/sample9.1b" width="400" height="300" align="left">
+
+<p> この関数は，Xの絶対値が1未満では100，1以上2未満では50，2以上3未満で
+     は20，それ以外は10という定数を与えるものです．Xの区間が変わるところ
+     でYの値は離散的になっていますが，gnuplotはその部分を線分でつないで
+     しまいます．<tt> set sample </tt>を使ってサンプリング数を増やしてい
+     るのは，この不連続部分での線分が，なるべく垂直になるようにするため
+     です．</p>
+
+
+
+
+<div class="top"><a href="misc1.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="9.1a">途切れた関数．</a></h2>
+
+<p> Gnuplot FAQにも書かれていますが，gnuplotはゼロでの除算のような数学的
+     に定義されない表現を無視します．これと3項演算子を使って，途中で途切
+     れる関数を表示することができます．</p>
+
+
+<pre class="sample">
+gnuplot&gt; f(x) = (abs(x)&gt;pi/2) ? sin(x+pi/2) : 0
+gnuplot&gt; g(x) = (abs(x)&gt;pi/2) ? sin(x) : 1/0
+gnuplot&gt; set xrange [-2*pi:2*pi]
+gnuplot&gt; set yrange [-1:1]
+gnuplot&gt; plot g(x) w l lw 2,f(x)
+</pre>
+
+<img src="fig/sample9.1c.png" alt="fig/sample9.1c" width="400" height="300" align="left">
+
+<p> ここでは2つの正弦関数f(x)とg(x)を定義して，比較しています．f(x)の方
+     は xの絶対値が90度以下でゼロになるもの，g(x)は同じ領域でゼロで除算
+     するものです．見やすいように，f(x)の方は少しずらして表示しています．</p>
+
+
+
+
+<div class="top"><a href="misc1.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="9.2"> ループの作り方．</a></h2>
+
+<p> gnuplotのコマンドに <tt>reread</tt> と <tt>if</tt> というものがあり，
+     これらを組み合わせると簡単なループが作れます．<tt>reread</tt>はファ
+     イルをもう一度読み直すコマンドです．<tt>reread</tt>だけでは無限ルー
+     プになりますので，<tt>if</tt>を使って一定の反復回数になると終了する
+     ようにします．</p>
+
+<p> 3次元プロットを回転させて，簡単なアニメーションにしてみましょう．回
+     転させるには，視点の角度を0〜360までを5°ステップで変化させます．ま
+     ず次のような内容のプロットファイルを作り，"loop.plt"という名前にし
+     ておきます．ここで表示する関数は exp(-x*x)*erf(y)というものです．
+     </p>
+
+<pre class="file">
+theta = theta + 10
+set view 60, theta
+splot exp(-x*x)*erf(y)
+if(theta&lt;360) reread
+</pre>
+
+<p>thetaの初期値や，その他の設定は別の所で行い，<tt> load
+     "loot.plt"</tt>でループに入ります．各コマをダンプし，適当なソフトウェ
+     アを使ってGIFに変換するとアニメーションを作ることができます．</p>
+
+<pre class="sample">
+gnuplot&gt; set nokey
+gnuplot&gt; set noxtics 
+gnuplot&gt; set noytics 
+gnuplot&gt; set noztics 
+gnuplot&gt; set border 0
+gnuplot&gt; set isosamples 40, 40
+gnuplot&gt; set hidden3d
+gnuplot&gt; set xrange [ -5 : 5 ]
+gnuplot&gt; set yrange [ -5 : 5 ]
+gnuplot&gt; theta = 5
+gnuplot&gt; load "loop.plt"
+</pre>
+
+
+<div class="top"><a href="misc1.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

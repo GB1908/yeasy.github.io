@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / intro / basic (E) </title>
+<!-- Generated 2001/ 9/12 -->
+<!-- $Id: basic-e.html,v 1.13 2004/12/17 07:34:07 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">        HOME </a> |
+                                  INTRODUCTION |
+<a href="../general-e.html">      INFORMATION </a> |
+<a href="../gallery/index-e.html">GALLERY </a> |
+<a href="basic.html">             JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Introduction to gnuplot  </a></p>
+ <ul>
+   <li><a href="basic-e.html">   Basic Use  </a>
+   <ul>
+     <li> <a href="basic-e.html#exit">  Quit, Read, Save </a>
+     <li> <a href="basic-e.html#plot">  Plot </a>
+     <li> <a href="basic-e.html#set">   Change Parameters </a>
+     <li> <a href="basic-e.html#shell"> Shell </a>
+     <li> <a href="basic-e.html#var">   Function, Calculation  </a>
+   </ul>
+   <li> <a href="plotcalc-e.html">Numerical Data </a>
+   <li> <a href="plotexp-e.html"> Experimental Data </a>
+   <li> <a href="plotfunc-e.html">Functions </a>
+   <li> <a href="working-e.html"> Life with Gnuplot </a>
+   <li> <a href="style-e.html">   Plotting Styles</a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> Introduction to gnuplot --- Basic Use  </a></h1>
+
+<p> Since gnuplot has been ported to various operating systems, its
+ usage slightly depends on the platform. Here we describe an
+ introduction to gnuplot for the case of UNIX, X11. Basically its usage
+ is common to those systems, so that this tutorial may be helpful for
+ the other operating systems. </p>
+
+<p> First of all, exec gnuplot. Gnuplot displays a banner and credit, then
+shows a gnuplot command line prompt <tt>"gnuplot&gt; "</tt>. Gnuplot is 
+a command line driven plotting tool. You give commands here to make your 
+figure.</p>
+
+<pre class="sample">
+% gnuplot
+ 
+        G N U P L O T
+        Version 4.0 patchlevel 0
+        last modified Thu Apr 15 14:44:22 CEST 2004
+        System: Linux 2.4.23
+ 
+        Copyright (C) 1986 - 1993, 1998, 2004
+        Thomas Williams, Colin Kelley and many others
+ 
+        This is gnuplot version 4.0.  Please refer to the documentation
+        for command syntax changes.  The old syntax will be accepted
+        throughout the 4.0 series, but all save files use the new syntax.
+ 
+        Type `help` to access the on-line reference manual.
+        The gnuplot FAQ is available from
+                http://www.gnuplot.info/faq/
+ 
+        Send comments and requests for help to
+                &lt;gnuplot-info@lists.sourceforge.net&gt;
+        Send bugs, suggestions and mods to
+                &lt;gnuplot-bugs@lists.sourceforge.net&gt;
+ 
+ 
+Terminal type set to 'x11'
+gnuplot&gt; 
+</pre>
+
+<p> At the <tt> "gnuplot&gt; " </tt> prompt you can use the following commands:</p>
+<ul>
+  <li> <a href="basic-e.html#exit">  commands to quit, read a command file, and save parameters </a>
+  <li> <a href="basic-e.html#plot">  commands to plot  </a>
+  <li> <a href="basic-e.html#set">   commands to change parameters </a>
+  <li> <a href="basic-e.html#shell"> commands to execute the shell </a>
+  <li> <a href="basic-e.html#var">   commands to define a function, substitute variables, and calculate </a>
+</ul>
+<p> Actually there are more commands which cannot be categorized into the items
+above, so that it is hard to explain everything here. See gnuplot online help by
+<tt> help </tt> command.  Here we explain the simplest way to draw a graph with
+gnuplot.</p>
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="exit">Commands to Quit, Read a Command File, and Save Parameters </a></h2>
+
+<p> <tt> exit </tt> or <tt> quit </tt> command terminates gnuplot.
+Once you quit gnuplot, all of setting you made will be lost. To save
+the current setting, use <tt> save </tt> command followed by a file name in
+which parameters and functions you defined are stored. The file name
+is quoted by a single or double quotation. The file name is arbitrary, 
+but if the same name exists in the current
+directory, gnuplot overwrites internal parameters in that file without
+any warnings.</p>
+
+<pre class="sample">
+gnuplot&gt; save "savefile.plt"
+</pre>
+
+
+<p> <a href="savefile.plt">The saved file</a> is a usual text file. You
+ can edit the contents with a text editor. To draw a graph again with
+ this file, use the <tt> load "savefile.plt" </tt> command at the
+ gnuplot command-line, or execute gnuplot and give the data-file name as
+ a command line option.</p>
+
+
+<p> Inside gnuplot </p>
+<pre class="sample">
+gnuplot&gt; load "savefile.plt"
+</pre>
+
+<p> Outside gnuplot (shell command line) </p>
+<pre class="sample">
+ % gnuplot savefile.plt
+</pre>
+
+<p> The difference of those two methods is: with the <tt>load</tt>
+     command you go back to the <tt> gnuplot&gt; </tt> command prompt after
+     gnuplot read the file, then you enter the usual interactive
+     mode. If you give the data-file name as a command line option (the
+     second case), gnuplot ends after it reads the file, and you come
+     back to shell. This is a <a href="working-e.html#batch">batch
+     mode.</a></p>
+
+
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="plot">Commands to plot </a></h2>
+
+<p> There are two basic commands to plot a graph, <tt> plot </tt> and 
+<tt> splot </tt>. The former is used for a 2-dimensional graph,
+and the latter is for a 3-dim. Gnuplot makes a graph of any kinds
+of functions or numerical data stored in a file. To plot a function,
+use the <tt> plot/splot </tt> command with  a range of X-axis 
+(or X and Y ranges for 3-dim. plot) and the function. You can omit
+the range parameters. Here is an example of plotting y=sin(x), 
+which you may often see at many gnuplot tutorials. </p>
+
+
+<pre class="sample">
+gnuplot&gt; plot sin(x)
+</pre>
+
+<div align="center"><img src="basic1.png" alt="basic1" width="414" height="332"></div>
+
+
+<p> This is the 2-dimensional graph gnuplot generates.  The frame is
+ drawn by a thick line, which is called "border".  The X and Y axes have
+ graduation called "major tics", and numeric labels are written at the
+ tics location. The intervals between each major tic can be divided by
+ minor tics. You can draw names of X and Y axes. The X-axis name --
+ "xlabel" -- is shown below the x-axis border, while the position of
+ "ylabel" depends on your terminal. If your terminal can rotate letters,
+ the 90-degree rotated ylabel should go to the left of y-axis, otherwise
+ it is shown at the top of y-axis.</p>
+
+
+<p> If ranges of X and Y axes are not specified, gnuplot determines
+ appropriate values for those automatically. The example above you can
+ see the default X range which is -10 to +10, and the Y range was
+ automatically determined. To set the X range 0 to 5, <tt> [0:5]
+ </tt>.</p>
+
+
+<pre class="sample">
+gnuplot&gt; plot [0:5] sin(x)
+</pre>
+
+<div align="center"><img src="basic2.png" alt="basic2" width="414" height="332"></div>
+
+
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="set">Commands to change variables and parameters</a></h2>
+
+<p> There are a number of parameters which change your plot appearance. 
+You can change them by the <tt> set </tt> command. See online help.</p>
+
+<pre class="sample">
+gnuplot&gt; help set
+ The `set` command can be used to sets _lots_ of options.  No screen is
+ drawn, however, until a `plot`, `splot`, or `replot` command is given.
+
+ The `show` command shows their settings;  `show all` shows all the
+ settings.
+
+ If a variable contains time/date data, `show` will display it according to
+ the format currently defined by `set timefmt`, even if that was not in effect
+ when the variable was initially defined.
+
+Subtopics available for set:
+      angles         arrow          autoscale      bar
+      bmargin        border         boxwidth       clabel
+      clip           cntrparam      contour        data
+      dgrid3d        dummy          encoding       format
+.....
+      zero           zeroaxis       zlabel         zmtics
+      zrange         ztics
+</pre>
+
+<p> Here are several examples to change the parameters. Firstly
+insert some text into the xlabel and ylabel. The text should be
+quoted by a single or double quotation. Next, specify the range
+of X and Y axes. As explained above the X range can be changed if 
+you specify that at plotting. Alternatively you can change them
+by the "xrange" and "yrange" parameters. </p>
+
+
+<pre class="sample">
+gnuplot&gt; set xlabel "X-AXIS"
+gnuplot&gt; set ylabel "Y-AXIS"
+gnuplot&gt; set xrange [0:5]
+gnuplot&gt; set yrange [-2:2]
+gnuplot&gt; plot sin(x)
+</pre>
+
+<div align="center"><img src="basic3.png" alt="basic3" width="414" height="332"></div>
+
+
+
+<p> If a terminal is not specified, gnuplot makes a graph on your
+screen. The <tt> set terminal </tt> command changes the destination of
+your plot into a postscript file or printer, etc. Gnuplot
+produces a variety of graph by means of various drivers, so that it is
+independent of the platforms (but quality of the drawing still depends
+of the terminal). The terminals which your gnuplot can handle can be
+displayed by the <tt> set terminal </tt> command.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set terminal
+
+Available terminal types:
+          unknown  Unknown terminal type - not a plotting device
+            table  Dump ASCII table of X Y [Z] values to output
+            linux  Linux PC with (s)vgalib
+             ....
+             tpic  TPIC -- LaTeX picture environment with tpic \specials
+         pstricks  LaTeX picture environment with PSTricks macros
+          texdraw  LaTeX texdraw environment
+               mf  Metafont plotting standard
+
+gnuplot&gt; set terminal postscript
+Terminal type set to 'postscript'
+Options are 'landscape noenhanced monochrome dashed defaultplex "Helvetica" 14'
+</pre>
+
+
+<p> Gnuplot produces a graph in a Postscript format when <tt> set
+terminal postscript </tt> command is given. If an output direction is
+not specified, the produced Postscript data flow on your screen. The
+<tt> set output </tt> command changes the destination of output. </p>
+
+
+<pre class="sample">
+gnuplot&gt; set output "plot.ps"
+gnuplot&gt; plot sin(x)
+</pre>
+
+
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="shell">Commands about Shell </a></h2>
+
+
+<p> You can escape to an interactive shell temporary in which any
+shell commands can be used. To spawn a shell, use <tt> shell </tt>
+command. To return to gnuplot, use <tt> exit </tt>. A single shell
+command can be executed with the ! character at the beginning of the
+command, like <tt> ! ls -a </tt>.</p>
+
+
+<p> Gnuplot supports 'pwd' and 'cd' commands with which you can
+display your working directory, or change the directory. The working
+directory is your current directory when gnuplot is invoked. To change the
+current directory, <tt> cd "../other/dir" </tt>. You need a quotation
+mark.</p>
+
+
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="var">Commands for Substitution, Function Definition, Calculations, etc. </a></h2>
+
+<p> You can use gnuplot as a simple calculator. To substitute a value
+into a variable, just type "variable = value" at the gnuplot command
+line.  To see the value of variable, use <tt> print </tt> command.</p>
+
+
+<pre class="sample">
+gnuplot&gt; a=10
+gnuplot&gt; print a
+10
+</pre>
+
+<p> "Variable = expression" substitutes a calculated value into the 
+variable. Double precision is used for the calculation except for 
+integer. </p>
+
+
+<pre class="sample">
+gnuplot&gt; a=1+2*sqrt(3)
+gnuplot&gt; print log(a)
+1.49606798806764
+</pre>
+
+
+<p> The defined variable can be used for the <tt> plot </tt> command. 
+Gnuplot holds the circular constant in "pi". To draw a graph of a*sin(x)
+from -2pi to +2pi, where a=0.5:</p>
+
+
+<pre class="sample">
+gnuplot&gt; set xrange [-2*pi:2*pi]
+gnuplot&gt; a=0.5
+gnuplot&gt; plot a*sin(x)
+</pre>
+
+<div align="center"><img src="basic4.png" alt="basic4" width="414" height="332"></div>
+
+
+<p> You can define your own function. For example, to make a function
+of f(x)=sin(x)*cos(x), it is defined as: </p>
+
+<pre class="sample">
+gnuplot&gt; f(x)=sin(x)*cos(x)
+</pre>
+
+<p>The function defined above can be referred to as "f(x)". You can
+also include a user-defined variable in your function. </p>
+
+<pre class="sample">
+gnuplot&gt; f(x)=a*sin(x)*cos(x)
+</pre>
+
+<p> This function contains a variable "a" which is defined by user,
+and the function varies with this parameter. </p>
+
+
+
+<div class="top"><a href="basic-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td>
+</tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

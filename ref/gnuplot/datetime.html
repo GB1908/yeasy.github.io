@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / datetime </title>
+<!-- Generated 2004/ 2/15 -->
+<!-- $Id: datetime.html,v 1.6 2004/12/19 09:23:44 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/15 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="datetime-e.html">      ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <ul>
+      <li><a href="datafile.html#7.1">
+           データフォーマット </a>
+      <li><a href="datafile2.html#7.2">
+           複数のデータをプロット</a>
+      <li><a href="datafile2.html#7.3">
+           数値の修正 </a>
+      <li><a href="datafile2.html#7.4">
+           データとコマンドの共存 </a>
+      <li><a href="datafile2.html#7.5">
+           データをスキップ </a>
+      <li><a href="datafile2.html#7.6">
+           一部をプロット</a>
+      <li><a href="datafile3.html#7.7">
+           UNIXのコマンド </a>
+      <li><a href="datetime.html">
+           日付/時間型データ </a>
+    </ul>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> 日付/時間型データの表示 </a></h1>
+
+<div align="center">
+<a href="datafile.html">  1 </a> | 
+<a href="datafile2.html"> 2 </a> | 
+<a href="datafile3.html"> 3 </a> |
+<a href="datetime.html">  4 </a>
+</div>
+
+
+
+
+<h2><a name="S1"> 時系列型データを用意する．</a></h2>
+
+<p> データが日にちや時間となっている時系列データをプロットするには，まず 
+     <tt> set xdata time </tt>や<tt> set ydata time </tt> を使ってデータ
+     が日付型であることgnuplotに教え，さらに <tt> set timefmt </tt> で日
+     付/時間の表示がどのようになっているかを与える必要があります．始めに
+     データとしては以下のようなものを考えます．</p>
+
+<pre class="file">
+2004-02-09  310
+2004-02-10  185
+2004-02-11  239
+2004-02-12  132
+2004-02-13   85
+2004-02-14   57
+2004-02-15    8
+</pre>
+
+<p> この日付のデータをgnuplotに読み込ませるには，<tt>timefmt</tt>として 
+     "%Y-%m-%d" を与えます．この例では月と日にちが10未満の時に頭にゼロを
+     パディングして桁数をそろえていますが，これをしなくとも(例えば
+     2004-2-9というデータでも)同じフォーマットで正しく読み込まれます．
+     </p>
+
+<pre class="sample">
+gnuplot&gt; set xdata time
+gnuplot&gt; set timefmt "%Y-%m-%d"
+gnuplot&gt; plot "sample.dat" using 1:2 with boxes
+</pre>
+
+<div align="center"><img src="fig/sampleS1.1.png" alt="fig/sampleS1.1.png" width="400" height="300"></div>
+
+
+<p> gnuplotでは日付/時間型データをかなり柔軟に読み込めるようになっていま
+     す．ファイル中のデータ表式と <tt>timefmt</tt>で与えるフォーマットの
+     対応の例を以下に挙げます．</p>
+
+<div align="center"><table border="1" bgcolor="#ccffff">
+<tr><th>データ表示形式 </th> <th> timefmt </th> <th> comment</th></tr>
+<tr><td> 2004/4/6      </td> <td> %Y/%m/%d</td> <td> 2004/04/06でも可</td></tr>
+<tr><td> December/96   </td> <td> %B/%y   </td> <td> spellingを間違えるとwarningがでます </td></tr>
+<tr><td> 2004/Jan      </td> <td> %Y/%b   </td> <td> 3文字の略名 </td></tr>
+<tr><td> 1970/240      </td> <td> %Y/%j   </td> <td>"%j"は一年間の第何日目(1-365)</td></tr>
+<tr><td> 02:45:03      </td> <td> %H:%M:%S</td> <td> 時間は24時間制 </td></tr>
+<tr><td> 1076909172    </td> <td> %s      </td> <td> 1970年1月1日0時からの秒数</td></tr>
+</table></div>
+
+
+<div class="top"><a href="datetime.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="S2"> 出力文字列を整える．</a></h2>
+
+
+<p> gnuplotは日付/時間型のデータをX座標データとして読み込むと，そのデー
+     タに合った形でX軸にメモリを表示します．上の一週間分のデータの例なら，
+     "月/日"が出力されます．しかしながら，ここではやや余分な"00:00"とい
+     う時間まで表示されています．出力の表示形式を制御するには <tt> set
+     format </tt>を用います．ここでのフォーマット指定は<a
+     href="tics.html#3.3">通常の数値出力</a>とは異なり，UNIXのライブラリ
+     strftime関数でのフォーマットとなります．</p>
+
+<pre class="sample">
+gnuplot&gt; set xdata time
+gnuplot&gt; set timefmt "%Y-%m-%d"
+gnuplot&gt; set format x "%b/%a"
+gnuplot&gt; plot "sample.dat" using 1:2 with boxes
+</pre>
+
+<img src="fig/sampleS2.1.png" alt="fig/sampleS2.1.png" align="left" width="400" height="300">
+
+<p> 上の表に挙げたフォーマットに加えて，この例のように "%a" という
+     <tt>timefmt</tt>にはない，曜日を出力するフォーマットを指定すること
+     が可能です．詳しくはstrftime関数のマニュアルを参照してください．色々
+     な出力が可能ですが，現実的には上の表に挙げてあるような Y, y, m, d,
+     H, M, S で十分では無いでしょうか．</p>
+
+<br clear="all">
+<div class="top"><a href="datetime.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / intro / plotfunc </title>
+<!-- Generated 2004/ 4/10  -->
+<!-- $Id: plotfunc.html,v 1.4 2004/12/17 07:34:07 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index.html">          HOME </a> |
+                                  INTRODUCTION |
+<a href="../general.html">        INFORMATION </a> |
+<a href="../gallery/index.html">  GALLERY </a> |
+<a href="plotfunc-e.html">        ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index.html">   gnuplot入門  </a></p>
+ <ul>
+  <li> <a href="basic.html">   基本の基本編  </a>
+  <li> <a href="plotcalc.html">数値計算編 </a>
+  <li> <a href="plotexp.html"> 実験データ編 </a>
+  <li> <a href="plotfunc.html">関数表示編 </a>
+   <ul>
+     <li> <a href="plotfunc.html#function"> 関数の定義 </a>
+     <li> <a href="plotfunc.html#value">    関数値 </a>
+     <li> <a href="plotfunc.html#fit">      最小自乗法 </a>
+     <li> <a href="plotfunc.html#done">     Postscriptで出力 </a>
+   </ul>
+  <li> <a href="working.html"> 生活編 </a>
+  <li> <a href="style.html">   スタイル一覧 </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+
+<h1><a name="top"> gnuplot 入門 --- 関数表示編 </a></h1>
+
+
+
+<h2><a name="function">関数の定義 </a></h2>
+
+<p> 式で書けるような関数であれば，gnuplotはその式を計算して表示すること
+     ができます．「式で書ける」というのは，例えばf(x)=a*x+b のような形で
+     書けることを表し，微分や積分などを含むものはgnuplotだけでは計算でき
+     ません．gnuplotは三角関数やBessel関数，Gamma関数等，多くの関数を内
+     部に持っており，それら自身，あるいはそれらを組み合わせたグラフを表
+     示することができます．</p>
+
+<p> 関数のグラフそのものを利用することは(数学の授業目的以外には)少ないと
+     思います(何かあるかもしれません．あったら教えてください)．gnuplotの
+     関数機能の威力が最も発揮されるのは，データへの関数当てはめ(データ
+     フィッティング)，つまり最小自乗法です．実験データを，直線等の単純な
+     解析曲線で近似することがしばしばありますが，gnuplotを使えば非線形関
+     数の当てはめも簡単に行うことができます．この章では関数の定義の方法
+     と，その関数に含まれるパラメータに対する最小自乗法を説明します．
+     </p>
+
+<p> 次式で表される，Lorentz型関数と 1/sqrt(x) の和の関数を表示してみます．
+     式に含まれるa,b,c,dの4つの変数は，実験データから求められるものとし
+     ます．</p>
+
+<div align="center"><img src="lorentz.png" alt="" width="269" height="56" border="0"></div>
+
+<p> gnuplotで関数を定義するには，FortranやCなどのプログラミングと全く同
+     じように式を書きます．下の例の
+     <tt>f(x)=c/((x-a)*(x-a)+b)+d/sqrt(x)</tt> が，上の関数を定義してい
+     る部分です．<tt> (x-a)</tt>の2自乗の部分は，Fortran風に<tt>
+     (x-a)**2 </tt>と書くこともできます．変数 a,b,c,d は任意ですが，とり
+     あえず適当な数値を与えています．</p>
+
+<pre class="sample">
+gnuplot&gt; a=0.25
+gnuplot&gt; b=0.02
+gnuplot&gt; c=0.05
+gnuplot&gt; d=0.1
+gnuplot&gt; f(x)=c/((x-a)*(x-a)+b)+d/sqrt(x)
+gnuplot&gt; set xrange [0:1]
+gnuplot&gt; set yrange [0:4]
+gnuplot&gt; plot f(x)
+</pre>
+
+<div align="center"><img src="plotfunc1.png" alt="plotfunc1" width="412" height="336"></div>
+
+
+
+<div class="top"><a href="plotfunc.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="value">関数値を求める</a></h2>
+
+<p> gnuplotはユーザが定義した式を内部で計算しますが，グラフを表示するだけでなく，
+     数値を直接表示することもできます．あるX座標の値を求めるには，<tt>print</tt>
+     コマンドを用います．式に含まれるパラメータ(a,b,c,d)を変えれば，関数値も
+     変化します．なお，計算は倍精度で行われます．</p>
+
+<pre class="sample">
+gnuplot&gt; print f(0.25)
+2.7
+gnuplot&gt; print f(0.4)
+1.33458447124371
+gnuplot&gt; a=0.4
+gnuplot&gt; print f(0.4)
+2.65811388300842
+</pre>
+
+<p> 計算された関数値をスプレッドシート等に取り込んで利用したいこともあり
+     ます．数値を表にして出力したいなら，特殊なterminal，<tt> table
+     </tt> を用います．<tt> set output </tt>でファイルを指定すれば，
+     計算結果はそのファイルに書き込まれます．</p>
+
+<pre class="sample">
+gnuplot&gt; set term table
+Terminal type set to 'table'
+gnuplot&gt; plot f(x)
+#Curve 0, 100 points
+#x y type
+0 0 u
+0.010101 1.63972 i
+0.020202 1.39031 i
+0.030303 1.30688 i
+   ....
+
+0.979798 0.191506 i
+0.989899 0.188622 i
+1 0.185837 i
+
+gnuplot&gt; set output "calc.plt"
+gnuplot&gt; replot
+</pre>
+
+
+
+<div class="top"><a href="plotfunc.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="fit">最小自乗法でパラメータを求める</a></h2>
+
+<p> パラメータ a,b,c,dに対し，実験データに基づいて最適値を求めます．データ
+はファイル exp.dat に用意しておきます．</p>
+
+<pre class="file">
+ 2.5000E-03 3.0420E+00 6.47E-01
+ 3.5000E-03 2.5700E+00 4.37E-01
+ 4.5000E-03 2.3020E+00 2.53E-01
+   ...
+
+ 7.0000E-01 2.7420E-01 2.14E-03
+ 7.5000E-01 2.5680E-01 1.81E-03
+ 8.0000E-01 2.4630E-01 1.59E-03
+</pre>
+
+<p> データファイルには，(x,y,z)の組が1行に書かれています．X,Y座標に加え
+     て，Yの誤差Zが3カラム目に与えられています．誤差は絶対誤差で，データ
+     Yと同じ単位を持ちます．例えば，上の1行目で，Yが3.04cmなら，誤差は
+     0.647cmといった具合です．誤差の逆数が，各データ点の重みとなります．
+     誤差が無ければ，全てのデータは同じ重みを持つものと解釈されます．</p>
+
+<p> まずはデータと関数を同時に重ねてプロットします．<a href="plotexp.html">
+     実験データ編</a>や<a href="plotcalc.html">数値計算編</a>で述べたように，
+     軸名等を適宜調整しています．</p>
+
+<pre class="sample">
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; set xtics 0.1
+gnuplot&gt; set ytics 0.5
+gnuplot&gt; plot f(x) title "Lorentzan",\
+&gt; "exp.dat" using 1:2:3 title "experiment" with yerrors
+</pre>
+
+<img src="plotfunc2.png" alt="plotfunc2" width="412" height="336" align="left">
+
+<p> 上で，パラメータ a,b,c,d は適当に与えたと書きましたが，実はこのデー
+     タに対して大体の数値を決めたものです．aはLorentz型のピーク位置に相
+     当しますが，この実験データの図から，大体0.25としました．bの平方根は
+     ピークの幅に対応します．図から幅は0.1程度，その平方が0.01ですが，
+     ちょっと大きめにして0.02を入れてみました．</p>
+
+<br clear="all">
+
+<p> gnuplotを使って最小自乗法をするのはとても簡単です．<tt> fit </tt>コ
+     マンドを用い，求めたいパラメータを <tt> via </tt>というオプションに
+     続けて書くだけです．但し，この関数のような非線形関数を使って多くの 
+     パラメータを同時にフィットには，初期値に注意する必要があります．初
+     期値が最適値から非常に離れている場合は，最小自乗解を求めるのが難し
+     くなります．上の数値をそのまま使って最小自乗法を適用すると，次のよ
+     うになります．</p>
+
+<pre class="sample">
+gnuplot&gt; fit f(x) "exp.dat" using 1:2:3 via a,b,c,d
+ 
+ 
+Iteration 0
+WSSR        : 96618.1           delta(WSSR)/WSSR   : 0
+delta(WSSR) : 0                 limit for stopping : 1e-05
+lambda    : 1150.73
+ 
+initial set of free parameter values
+
+    ...
+
+After 17 iterations the fit converged.
+final sum of squares of residuals : 3341.93
+rel. change during last iteration : -5.29173e-06
+ 
+degrees of freedom (ndf) : 47
+rms of residuals      (stdfit) = sqrt(WSSR/ndf)      : 8.43237
+variance of residuals (reduced chisquare) = WSSR/ndf : 71.1049
+ 
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+ 
+a               = 0.26191          +/- 0.005759     (2.199%)
+b               = 0.00251445       +/- 0.0008358    (33.24%)
+c               = 0.00541346       +/- 0.0009206    (17.01%)
+d               = 0.182469         +/- 0.007329     (4.016%)
+ 
+ 
+correlation matrix of the fit parameters:
+ 
+               a      b      c      d
+a               1.000
+b               0.042  1.000
+c              -0.229  0.783  1.000
+d               0.210 -0.538 -0.768  1.000
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotfunc3.png" alt="plotfunc3" width="412" height="336"></div>
+
+<p> このように，Yの値が小さい部分以外はフィッティングがあまり良くありません．
+これは定義したフィッティング関数が，このデータに対してあまり良くなかったことに
+起因します．ピークの形状はLorentzianで良さそうですので，<tt> d/sqrt(x) </tt>の部分
+を，新しいパラメータ e を使って <tt> d*x**e </tt>のように修正し，その最適値を
+gnuplotで求めてみましょう．eの初期値は-0.5としておきます．</p>
+
+
+<pre class="sample">
+gnuplot&gt; e=-0.5
+gnuplot&gt; f(x)=c/((x-a)*(x-a)+b)+d*x**e
+gnuplot&gt; fit f(x) "exp.dat" using 1:2:3 via a,b,c,d,e
+
+     ...
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+ 
+a               = 0.25029          +/- 0.002106     (0.8412%)
+b               = 0.00197707       +/- 0.0002747    (13.89%)
+c               = 0.00550098       +/- 0.0003662    (6.657%)
+d               = 0.21537          +/- 0.003743     (1.738%)
+e               = -0.358371        +/- 0.0115       (3.208%)
+ 
+ 
+correlation matrix of the fit parameters:
+ 
+               a      b      c      d      e
+a               1.000
+b               0.021  1.000
+c              -0.078  0.788  1.000
+d              -0.110 -0.384 -0.500  1.000
+e              -0.304  0.198  0.335  0.381  1.000
+gnuplot&gt; replot
+</pre>
+
+<img src="plotfunc4.png" alt="plotfunc4" width="412" height="336" align="left">
+
+<p> Best fitまではあと一歩といった感じですね．<tt>a=0.24</tt>くらいに固定して
+おいて，<tt> via b,c,d,e</tt>のように a 以外をサーチすると，見た目はもう少し
+良くなりますが，χ^2は大きくなってしまいます．</p>
+<br clear="all">
+
+
+<div class="top"><a href="plotfunc.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="done">Postscriptで出力する</a></h2>
+
+<p> <a href="plotexp.html">実験データ編</a>のように，出来上がった図を
+Postscriptにします．実験データには実線で7番のシンボル○を割り当て，関数には
+太めの点線を割り当てます．</p>
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 pt 7
+gnuplot&gt; set linestyle 2 lt 2 lw 3
+gnuplot&gt; set size 0.6,0.6
+gnuplot&gt; set term postscript eps enhanced color
+Terminal type set to 'postscript'
+Options are 'eps enhanced color dashed defaultplex "Helvetica" 14'
+gnuplot&gt; set output "exp.ps"
+gnuplot&gt; plot"exp.dat" using 1:2:3 title "experiment" with yerrors ls 1,\
+&gt;        f(x) title "Lorentzan" with line ls 2
+</pre>
+
+<p>[3.8/4.0] Ver.3.8以降のgnuplotの場合は，線種を以下のように定義します．</p>
+<pre class="sample">
+gnuplot&gt; set style line 1 lt 1 pt 7
+gnuplot&gt; set style line 2 lt 2 lw 3
+</pre>
+
+<div align="center"><img src="plotfunc5.png" alt="plotfunc5" width="450" height="315"></div>
+<br clear="all">
+
+
+<div class="top"><a href="plotfunc.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / postproc (E) </title>
+<!-- Generated 2001/ 6/ 6 -->
+<!-- $Id: postproc-e.html,v 1.14 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="postproc.html">        JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <ul>
+      <li><a href="postproc-e.html#8.1">
+           TeX document </a>
+      <li><a href="postproc-e.html#8.2">
+           merge several figures </a>
+      <li><a href="image-e.html#8.3">
+           convert into image </a>
+      <li><a href="postscript-e.html#8.4">
+           change colors </a>
+      <li><a href="postscript-e.html#8.5">
+           right-side margin </a>
+    </ul>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> After Plotting (No.1) </a></h1>
+
+<div align="center">
+<a href="postproc-e.html">   1 </a> | 
+<a href="image-e.html">      2 </a> | 
+<a href="postscript-e.html"> 3 </a>
+</div>
+
+
+
+<h2><a name="8.1">I want to put a figure in my TeX document. </a></h2>
+
+<p> Gnuplot has a latex terminal which is capable of generating a
+PicTeX graph.  This terminal, however, tends to makes a lot of data
+points to show a graph, and sometimes you cannot process it with the
+TeX system because a computer memory is not enough. An easy way to
+include your graph into the TeX document, make the graph in an EPS
+format and use the LaTeX graphics (graphicx) package.</p>
+
+
+<p> Firstly, make a figure with gnuplot, and use the enhanced EPS terminal to
+make an EPS file.</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set output "test.eps"
+gnuplot&gt; set key left top
+gnuplot&gt; set size 0.5,0.5
+gnuplot&gt; set xrange [0:4]
+gnuplot&gt; set yrange [0:4]
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; set linestyle 1 lt 1
+gnuplot&gt; set linestyle 2 lt 1 pt 7
+gnuplot&gt; # for gnuplot ver.4
+gnuplot&gt; # set style line 1 lt 1
+gnuplot&gt; # set style line 2 lt 1 pt 7
+gnuplot&gt; plot 0.2536*x+1.1717      title "LESQ fit" \
+&gt;                                  with lines      linestyle 1,\
+&gt;             "test.dat" usi 1:2:3 title "data" \
+&gt;                                  with yerrorbars linestyle 2
+</pre>
+
+<img src="fig/sample8.1a.png" alt="fig/sample8.1a" align="left" width="452" height="318">
+
+<p> If you don't change the figure size, letters in the generated EPS
+become too small in comparison with the graph. To make them larger,
+use the <tt> set term </tt> option to
+specify the larger font, or use the <tt> set size </tt> 
+command to make the whole figure smaller, just like
+the example above. The font size is the same even you change the size
+of figure, so that the letters become larger relative to the
+graph.</p>
+
+
+<p> When symbols in your figure have error bars, the PostScript driver
+     draws the bars with the specified line type. If those are not the
+     number 1 (solid line), gnuplot the error bars with draws dotted or
+     dashed lines.  To avoid this, use <tt>linestyle</tt> to set the
+     linetype <tt> lt=1 </tt> and change the symbol number <tt>
+     pt</tt>. </p>
+<br clear="all">
+
+
+<p> To paste a graph in your TeX(LaTeX2e) document, use graphics
+     package.  <tt>\includegraphics{<i> EPS file </i>}</tt> command
+     inserts the figure at that location. The EPS file name is specified
+     at <i>EPS file</i>. If you want to chance the figure size, use <tt>
+     \resizebox{<i>X size</i>}{<i>Y size</i>} </tt> command, which
+     enlarges or shrinks the figure size. If you want to keep the aspect
+     ratio, put "!" into the X or Y size. In the next example, a figure
+     is inserted into the figure environment, a caption is given, and
+     the figure width is set to 120mm.</p>
+
+<pre class="file">
+\documentclass{article}
+\usepackage{graphics}
+\begin{document}
+  \begin{figure}
+    \begin{center}
+      \resizebox{120mm}{!}{\includegraphics{test.eps}}
+      \caption{This is a sample figure.}
+      \label{test}
+    \end{center}
+  \end{figure}
+\end{document}
+</pre>
+
+<div align="center"><img src="fig/sample8.1b.png" alt="fig/sample8.1b" width="400" height="438"></div>
+
+
+
+
+<div class="top"><a href="postproc-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="8.2">I want to merge several figures into one figure. </a></h2>
+
+<p> There are several ways to merge some figures, for example, use
+multiplot, combine EPS figures into one drawing. Maybe the simplest
+way to do is to use a LaTeX tabular environment, and arrange the EPS
+figures.</p>
+
+<p> When you have 4 figures, and those are aligned into 2x2 matrix.
+The Y label appears only the left figures, while the lower figures
+have X label. In addition, a caption is given for 4 drawings, namely
+those 4 plots are regarded as one figure.</p>
+
+<p> Firstly, those 4 figures are prepared by 4 different EPS files.
+At that time, all figures should be <a href="plot1-e.html#5.1"> in the
+same size.</a> As an example, here shows the graphs of 
+y=sin(x), cos(x), sin(2x), and  cos(2x).</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set lmargin 5
+gnuplot&gt; set bmargin 3
+gnuplot&gt; set rmargin 2
+gnuplot&gt; set tmargin 2
+gnuplot&gt; set size 0.5,0.5
+gnuplot&gt; set xrange [0:2*pi]
+gnuplot&gt; set yrange [-1:1]
+
+gnuplot&gt; set output "test1.eps"
+gnuplot&gt; set xlabel ""
+gnuplot&gt; set ylabel "sin x"
+gnuplot&gt; plot sin(x) notitle
+
+gnuplot&gt; set output "test2.eps"
+gnuplot&gt; set xlabel ""
+gnuplot&gt; set ylabel ""
+gnuplot&gt; plot sin(2*x) notitle
+
+gnuplot&gt; set output "test3.eps"
+gnuplot&gt; set xlabel "X [nodim.]"
+gnuplot&gt; set ylabel "cos x"
+gnuplot&gt; plot cos(x) notitle
+
+gnuplot&gt; set output "test4.eps"
+gnuplot&gt; set xlabel "X [nodim.]"
+gnuplot&gt; set ylabel ""
+gnuplot&gt; plot cos(2*x) notitle
+</pre>
+
+<p> Those EPS figures are inserted into the tabular environment,
+and aligned. </p>
+
+<pre class="file">
+\documentclass{article}
+\usepackage{graphics}
+\begin{document}
+\begin{figure}
+  \begin{center}
+    \begin{tabular}{cc}
+      \resizebox{60mm}{!}{\includegraphics{test1.eps}} &amp;
+      \resizebox{60mm}{!}{\includegraphics{test2.eps}} \\
+      \resizebox{60mm}{!}{\includegraphics{test3.eps}} &amp;
+      \resizebox{60mm}{!}{\includegraphics{test4.eps}} \\
+    \end{tabular}
+    \caption{This is sample figures.}
+    \label{test4}
+  \end{center}
+\end{figure}
+\end{document}
+</pre>
+
+<div align="center"><img src="fig/sample8.2b.png" alt="fig/sample8.2b" width="400" height="438"></div>
+
+<p> If you want to make one PS file which contains several figures,
+use the tabular environment (not table float), and cut off with 
+the dvips command line option <tt> -pp </tt>. With the <tt> -E </tt> option, you can make
+another EPS file which contains several figures. See the manual of divps.</p>
+
+<p> Of course the same thing you can do with a drawing tools
+like Tgif or commercial softwares.</p>
+
+
+<div class="top"><a href="postproc-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

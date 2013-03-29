@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / plot (3E) </title>
+<!-- Generated 2001/ 5/14 -->
+<!-- $Id: plot3-e.html,v 1.13 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+ <body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="plot3.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <ul>
+      <li><a href="plot1-e.html#5.1">
+           fixed-size plot </a>
+      <li><a href="plot1-e.html#5.2">
+           both sides of Y-axes </a>
+      <li><a href="plot1-e.html#5.3">
+           erase axes </a>
+      <li><a href="plot1-e.html#5.4">
+           fixed aspect ratio figure </a>
+      <li><a href="plot2-e.html#5.5">
+           zero axis </a>
+      <li><a href="plot2-e.html#5.6">
+           small bars of error bars </a>
+      <li><a href="plot2-e.html#5.7">
+           larger letters </a>
+      <li><a href="plot2-e.html#5.8">
+           smooth curves. </a>
+      <li><a href="plot2-e.html#5.9">
+           points on border </a>
+      <li><a href="plot3-e.html#5.10">
+           several figures </a>
+      <li><a href="plot3-e.html#5.11">
+           grid at minor tics </a>
+      <li><a href="plot4-e.html#5.12">
+           two axes </a>
+      <li><a href="plot4-e.html#5.13">
+           grid at an arbitrary position </a>
+      <li><a href="plot5-e.html#5.14">
+           figure in figure </a>
+      <li><a href="plot5-e.html#5.15">
+           bar-chart </a>
+      <li><a href="plot6-e.html#5.16">
+           Align two figures </a>
+      <li><a href="plot7-e.html#5.17">
+           normal probability axis </a>
+    </ul>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> About 2-Dimensional Plot (No.3)</a></h1>
+
+<div align="center">
+<a href="plot1-e.html"> 1 </a> | 
+<a href="plot2-e.html"> 2 </a> | 
+<a href="plot3-e.html"> 3 </a> | 
+<a href="plot4-e.html"> 4 </a> | 
+<a href="plot5-e.html"> 5 </a> | 
+<a href="plot6-e.html"> 6 </a> | 
+<a href="plot7-e.html"> 7 </a>
+</div>
+
+
+<h2><a name="5.10">I want to draw several figures on one drawing. </a></h2>
+
+<p> There are two methods to make a drawing which contains several
+     figures. The first one is to use <tt> multiplot </tt>. The other
+     way is to use the EPS format, then those files in this format are
+     gathered by TeX or some drawing tools.  Here we explain the <tt>
+     multiplot </tt> command.</p>
+
+
+<p> With the command <tt> set multiplot </tt> you enter the multi-plot
+     mode, and the gnuplot command prompt becomes <tt> multiplot&gt; </tt>.
+     In this mode a new figure overlaps the old one. The next example
+     shows the overlapping plot of three functions, y=x, y=x*x, and
+     y=x*x*x.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set multiplot
+multiplot&gt; plot x
+multiplot&gt; plot x*x
+multiplot&gt; plot x*x*x
+multiplot&gt; set nomultiplot
+</pre>
+
+<img src="fig/sample5.10a.png" alt="fig/sample5.10a" align="left" width="400" height="300">
+<p> Gnuplot determines the range, tics, and size of figure automatically
+     for each plotting, then the plot gets into a mess. Let's try to fix
+     the X and Y ranges [-10:10], and erase the legends by <tt> no key
+     </tt> command since they overlap.</p>
+<br clear="all">
+
+<pre class="sample">
+gnuplot&gt; set xrange [-10:10]
+gnuplot&gt; set yrange [-10:10]
+gnuplot&gt; set nokey
+gnuplot&gt; set multiplot
+multiplot&gt; plot x
+multiplot&gt; plot x*x
+multiplot&gt; plot x*x*x
+multiplot&gt; set nomultiplot
+</pre>
+
+<img src="fig/sample5.10b.png" alt="fig/sample5.10b" align="left" width="400" height="300">
+<p> Well, it's much better. But such thing can be done by usual plotting
+     procedures. With the <tt> multiplot </tt> command you can draw
+     several figures in one page by moving the origin of each figure.
+     To do that, use <tt> set size </tt> and <tt> set origin </tt>
+     commands.</p>
+<br clear="all">
+
+
+<p> As an example of multiplot, four Lissajous' figures are plotted in
+     one drawing. The Lissajous's figure can be drawn by a parametric
+     representaion of two functions, x=sin(n*t) and y=sin(m*t). Here we
+     draw the case of n=3,5 and m=2,4. </p>
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; set noxtic
+gnuplot&gt; set noytic
+gnuplot&gt; set nokey
+gnuplot&gt; set size square 0.3,0.3
+gnuplot&gt; set rmargin 0 
+gnuplot&gt; set lmargin 0 
+gnuplot&gt; set tmargin 0 
+gnuplot&gt; set bmargin 0 
+gnuplot&gt; set multiplot
+multiplot&gt; set origin 0.1,0.1
+multiplot&gt; plot sin(3*t),cos(2*t)
+multiplot&gt; set origin 0.1,0.5    
+multiplot&gt; plot sin(3*t),cos(4*t) 
+multiplot&gt; set origin 0.5,0.1    
+multiplot&gt; plot sin(5*t),cos(2*t) 
+multiplot&gt; set origin 0.5,0.5    
+multiplot&gt; plot sin(5*t),cos(4*t) 
+multiplot&gt; set nomultiplot
+</pre>
+
+<div align="center"><img src="fig/sample5.10c.png" alt="fig/sample5.10c" width="400" height="300"></div>
+
+<p> In order to make those figures the same size, the tics are erased by
+     <tt> noxtic </tt> and <tt> noytic </tt>, and the four margins are
+     set to be zero.</p>
+
+
+<p> Usually it is difficult to adjust the position of each figure
+     appropriately. There is no easy way to determine the values of
+     <tt> origin </tt>, and you have to do
+     it by "trial-and-error". When your figure has tics and labels, the
+     size of figure also depends on them. The adjustment of the
+     positions becomes very severe for this case. </p>
+
+
+
+<div class="top"><a href="plot3-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="5.11">I want to draw a grid at minor tics. </a></h2>
+
+<p> The command <tt>set grid </tt> makes
+grids at the major tics position. In order to make them at the minor
+tics :</p>
+
+<pre class="sample">
+gnuplot&gt; set mxtics 5
+gnuplot&gt; set mytics 5
+gnuplot&gt; set grid xtics ytics mxtics mytics
+</pre>
+
+<p> This gives five grids at the minor tics between the major ones.  You
+     can specify the grid position by <tt> xtics ... mytics </tt>
+     options of the <tt> set grid </tt> command.  If <tt> set grid
+     noxtics noytics mxtics mytics </tt>, the grids appear at the minor
+     tics position only (but I guess no one likes such a graph
+     though...)</p>
+
+<div class="top"><a href="plot3-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

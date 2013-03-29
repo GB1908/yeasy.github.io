@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / memo </title>
+<!-- Generated 2003/ 1/12 -->
+<!-- $Id: memo.html,v 1.20 2006/04/18 15:12:17 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <a href="index.html">
+    <div align="left"><img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90"></div>
+    </a></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2006/04/18 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a>|
+<a href="intro/index.html">     INTRODUCTION </a> |
+                                INFORMATION  |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="general-e.html">       ENGLISH</a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="general.html">       一般的な情報 </a></p>
+    <ul>
+      <li><a href="general.html#1.1">  gnuplot最新版 </a>
+      <li><a href="general.html#1.2">  gnuplot FAQ </a>
+      <li><a href="general.html#1.3">  文書の間違い等 </a>
+      <li><a href="general.html#1.4">  全部ダウンロード </a>
+      <li><a href="general.html#1.5">  関連情報，リンク </a>
+      <li><a href="version.html">      versionの注意事項 </a>
+      <li><a href="memo.html">         このサイトについて </a>
+    </ul>
+</td>
+
+
+<td id="content">
+
+
+
+
+<h1><a name="memo">このサイトについての覚え書きのようなもの </a></h1>
+
+
+<h2>近況とか </h2>
+
+<ul>
+ <li> Apr. 2006 <br>
+      <a href="plotpm3d2.html#6.10"> カラー表示</a>に「虹色」を追加しました．<br>
+
+ <li> Nov. 2005 <br>
+      <a href="misc4.html#9.7"> 最小自乗法で得られたパラメータ数値を図に書き込む </a>を追加しました．<br>
+      <a href="implicit/index.html"> 陰関数を表示する．</a>を追加しました．<br>
+      <a href="gallery/pressureSlopes.html"> 数本のデータを上下で比較する例 (multiplot)</a>を追加しました．<br>
+
+ <li> Dec, 2004 <br>
+      なんとか全ページの変更を終了しました．<br>
+      IE用にスタイルファイルを少し調整しました．<br>
+      <a href="plotpm3d.html#6.9"> 疑似3次元棒グラフ</a>を追加しました．<br>
+      <a href="plotpm3d2.html#6.10"> 3次元図をカラー表示で描きたい．</a>を追加しました．<br>
+      <a href="gallery/index.html"> ぎゃらりぃ</a> に Thumbnailをつけました．<br>
+
+ <li> Aug, 2004 <br>
+      Ver.4対応のために，大幅に改訂することに決定．とりあえずトップページと
+      gnuplot入門のコーナーだけを変えてみました．
+
+ <li> May, 2004 <br>
+      待っていた，でもちょっと恐れていたgnuplot ver.4が，先月ついにリリース．
+      まだそれほど使われてはいないと思うけれど，その内，全ページのスクリプトを
+      大幅に書き直さないといけない．うーん，どうしたものか．
+
+ <li> Apr., 2004 <br>
+      <a href="intro/plotfunc.html">gnuplot入門，関数表示編 </a>を追加しました．<br>
+      <a href="gallery/func2.html"> 2変数正規分布 </a>を追加しました．<br>
+      <a href="parametric.html#Q4"> X軸とY軸を入れ換える</a>を追加しました．
+
+ <li> Mar., 2004 <br>
+      <a href="plot7.html#5.17">   正規確率軸の描き方</a>を追加しました．<br>
+      <a href="spherical_harmonics/deformed.html">
+                                   pm3dを使った球面調和関数表示のページ</a>を追加しました．<br>
+      <a href="misc1.html#9.1a">   途切れた関数</a>を追加しました．<br>
+
+ <li> Feb., 2004 <br>
+      <a href="general.html#1.5">  簡単なリンク集</a>を作りました．<br>
+      <a href="datetime.html">     日付/時間型データの取扱</a>を追加しました．<br>
+      <a href="plotpm3d.html">     pm3dのページ</a>を追加しました．<br>
+</ul>
+
+
+
+<h2>いきさつなど </h2>
+
+<p> このサイトは，私が今までにgnuplotについて質問を受けたことに対して，
+     その答えをメモしておくような目的で作られていました．また，自分が作
+     成した図(主として論文中で利用したもの)で，後々再利用できそうなスク
+     リプトを保管しておく場所という目的もありました．従って，ここで解説
+     されているgnuplot利用方法は，一般的なものとはちょっと異なったものに
+     なっていると思います．普通，gnuplotの解説書では種々の関数の表示が中
+     心ですが，このサイトで解説されている利用方法は，計算値や実験値等の
+     データファイルを表示するものがほとんどです．そして，図はプリンタで
+     印刷されるために出力されるのではなく，EPSファイルとしてTeXで書かれ
+     た学術論文中に取り込むことが第一に考えられています．</p>
+
+<p> Web Page作成当初は，当時居た大学の学生向けの簡単なtip集になる予定で
+     したが，次々とQ and Aを増やしていくうちに随分と分量が多くなってしま
+     いました．質問も，主に内輪からの質問事項を扱っていますが，このサイ
+     トにたどり着いた方々からも時々面白い質問が入ってくるようになり，そ
+     ういった項目も増やしてきました．もっとも，全ての質問に答えられるわ
+     けでは無いのですが．．．．
+     </p>
+
+<p> 「あまり頻繁には聞かれない質問」集を目指していたのでtutorial関連のペー
+     ジは始めは無かったのですが，「とりあえずこのサイトを見れば一通り図
+     が描けるようになる」というのも良いかなと思い，後から追加しました．
+     このサイトのサンプル図は，X Window上で表示したものをxwdでダンプし，
+     netpbmやgimpを使ってPNGに変換したものです．サンプル図が多いため，ファ
+     イルサイズが小さくなるように，画像はできるだけシンプルなものにして
+     います．tutorialのページだけ図がウィンドウの枠付きで画像化されてい
+     るのは，後になってこっちの方が格好良かったかなと思ったためで，この
+     辺りにページ製作の歴史を垣間見ることができます(ってこともない
+     か．．．．)．今さら他のページも枠付きで作りなおすのは面倒なので，他
+     のページは素っ気ない図のままです．</p>
+
+<p> ここを作り始めたのが1999年の夏，そろそろネタ切れの状態で，最近では気
+     が向いた時に英訳したり，間違いを見付ければ修正するくらいで，あまり
+     ページの改訂がなされていません．2003年の春にはアメリカの<a
+     href="http://www.lanl.gov"> 某研究所 </a>のサーバへ移転し，もっとマ
+     トモな英語にせねばとは思いつつ，英語は相変わらずいい加減です．それ
+     でもここの内容が読者の研究・開発に役立つなら，作者としてこれ以上嬉
+     しいことはありません．</p>
+
+<p> PS: リンクは御自由に </p>
+
+
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>

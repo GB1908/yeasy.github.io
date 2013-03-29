@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / intro / style </title>
+<!-- Generated 2001/ 9/13 -->
+<!-- $Id: style-e.html,v 1.11 2004/12/04 10:01:55 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<meta http-equiv="content-style-type" content="text/css">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">        HOME </a> |
+                                  INTRODUCTION |
+<a href="../general-e.html">      INFORMATION </a> |
+<a href="../gallery/index-e.html">GALLERY </a> |
+<a href="style.html">             JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Introduction to Gnuplot  </a></p>
+ <ul>
+  <li> <a href="basic-e.html">   Basic Use  </a>
+  <li> <a href="plotcalc-e.html">Numerical Data </a>
+  <li> <a href="plotexp-e.html"> Experimental Data </a>
+  <li> <a href="plotfunc-e.html">Functions </a>
+  <li> <a href="working-e.html"> Life with gnuplot </a>
+  <li> <a href="style-e.html">   Plotting Styles </a>
+    <ul>
+     <li> <a href="style-e.html#lines">       Lines, Dots, and Symbols</a>
+     <li> <a href="style-e.html#boxes">       Bar-Graph </a>
+     <li> <a href="style-e.html#errorbars">   Symbols with Error Bars </a>
+     <li> <a href="style-e.html#vector">      Vectors </a>
+     <li> <a href="style-e.html#others">      Others</a>
+    </ul>
+ </ul>
+</td>
+
+<td id="content">
+
+
+
+
+<h1><a name="top"> Introduction to gnuplot --- Plot Style </a></h1>
+
+
+<p> Here you can see what kinds of graph gnuplot can draw. To specify
+     the style of graph, <tt> with </tt> <i> style </i>.  To connect the
+     data points with lines, use <tt> with lines </tt>. The <tt> with
+     points </tt> option places symbols at the data points.</p>
+
+<ul>
+  <li> <a href="style-e.html#lines">      Draw lines, dots, and symbols</a>
+  <li> <a href="style-e.html#boxes">      Draw a bar-graph </a>
+  <li> <a href="style-e.html#errorbars">  Draw symbols with error bars </a>
+  <li> <a href="style-e.html#vector">     Draw vectors </a>
+  <li> <a href="style-e.html#others">     Others (candlesticks, financebars)</a>
+</ul>
+
+<p> Those styles can be easily combined. For example, to draw 
+a line graph and a bar graph at the same time:</p>
+
+<pre class="sample">
+gnuplot&gt; plot "file.dat" with boxes, "" notitle with lines
+</pre>
+
+
+
+
+<div class="top"><a href="style-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="lines">Draw Lines, Dots, and Symbols </a></h2>
+
+
+<div align="center"><table border="0" cellpadding="2" cellspacing="2">
+<tr><td valign="top"><div style="font-size:24pt;"> lines </div>
+    <p> It connects each data point with lines. 
+        Suitable to smoothly varying data. </p></td>
+    <td><img src="style1.png" alt="style1.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> dots </div>
+    <p> It displays dots, can be used when there many data points,
+        but hard to see though. </p></td>
+    <td><img src="style2.png" alt="style2.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> points </div>
+    <p> Symbols are shown at the data point location, can be used to plot 
+        experimental data. The number of different kinds of symbol
+        depends on your terminal, but there are at least 6. 
+        The number '-1' is a dot. The size of symbol can be changed
+        by the <tt>set pointsize </tt> command. </p></td>
+    <td><img src="style3.png" alt="style3.png" width="402" height="333"></td></tr>
+
+
+<tr><td valign="top"><div style="font-size:24pt;"> linespoints <br> lp  </div>
+    <p> Draw lines and symbols at the same time. </p></td>
+    <td><img src="style4.png" alt="style4.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> impulses  </div>
+    <p> Draw vertical lines from each data point to X-axis. This is 
+        a bar-graph without width.</p></td>
+    <td><img src="style5.png" alt="style5.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> steps<br>fsteps<br>histeps  </div>
+    <p> Three kinds of histgram. The difference of those is a definition
+        of starting and ending points, which you can see below. 
+        Gnuplot can draw a histgram, but it cannot calculate the histgram
+        data themselves.</p></td>
+    <td><img src="style6.png" alt="style6.png" width="402" height="333"></td></tr>
+
+</table></div>
+
+<p> Here you can see the difference of 3 histgrams.</p>
+
+<p> The data position is shown by a blue box.  With <tt> steps </tt>,
+     the data point defines an initial position, while the data points
+     are treated as the final position with <tt> fsteps </tt>.  With
+     <tt> histeps </tt> a graph becomes a kind of bar-graph but the bars
+     stick together.</p>
+
+
+<div align="center"><table border="0" width="100%">
+<tr><td><div style="font-size:24pt;"> steps   </div></td><td><img src="style6a.png" alt="style6a.png" width="402" height="333"></td></tr>
+<tr><td><div style="font-size:24pt;"> fsteps  </div></td><td><img src="style6b.png" alt="style6b.png" width="402" height="333"></td></tr>
+<tr><td><div style="font-size:24pt;"> histeps </div></td><td><img src="style6c.png" alt="style6c.png" width="402" height="333"></td></tr>
+</table></div>
+
+
+
+<div class="top"><a href="style-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="boxes">Draw a Bar-Graph </a></h2>
+
+
+<div align="center"><table border="0" width="100%">
+<tr><td valign="top"><div style="font-size:24pt;"> boxes </div>
+    <p> This bar graph resembles the histgrams above except for vertical
+        lines. Inside the each bar is empty, cannot be filled with color. 
+        If you want a color-filled bar-graph, exports the produced graph
+        into some drawing softwares line Tgif, and paint them. </p></td>
+    <td><img src="style7.png" alt="style7.png" width="402" height="333"></td></tr>
+</table></div>
+
+<p> A width of each bar is calculated automatically so that each box
+touches the adjucent box. To control the width, use <tt>set
+boxwidth</tt><i> width</i>. For this case the width of all boxes
+become <i> width </i>. The width can be given by a data file, the
+third column (otherwise you can specify the column by <tt> using X:Y:Z
+</tt> where Z becomes the width). In the example below, the data
+points are shown by blue symbols</p>
+
+<div align="center"><table border="0" width="100%">
+<tr><td valign="top"><div style="font-size:24pt;"> default </div>
+    <p> Widths are calculated automatically </td>
+    <td><img src="style7a.png" alt="style7a.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> set boxwidth 1 </div>
+    <p> Set the width to 1 </td>
+    <td><img src="style7b.png" alt="style7b.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> data file </div>
+    <p> When your data file has the third column, that is 
+        used for the bar-width. In the right figure, 
+        widths of 1,2,1,2... are given in the file</p></td>
+    <td><img src="style7c.png" alt="style7c.png" width="402" height="333"></td></tr>
+</table></div>
+
+
+
+
+<div class="top"><a href="style-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="errorbars">Draw Symbols with Error Bars </a></h2>
+
+
+<div align="center"><table border="0" width="100%">
+<tr><td valign="top"><div style="font-size:24pt;"> yerrorbars </div>
+    <p> Same as 'points' but Y values have errors.
+        The length of error bar is given in a file. 
+        If the data file has 3 columns, the third column 
+        is used as the Y-error, Y plus/minus dY.
+        It there are 4 columns, the third and fourth columns
+        are used, likel, Y plus dY1 minus dY2.</p></td>
+    <td><img src="style8a.png" alt="style8a.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> xerrorbars  </div>
+    <p> Same as 'yerrorbars' but the error bars are horizontal.</p></td>
+    <td><img src="style8b.png" alt="style8b.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> xyerrorbars </div>
+    <p> Both X and Y values have errors. You need 4 or 6 columns data.</p></td>
+    <td><img src="style8c.png" alt="style8c.png" width="402" height="333"></td></tr>
+</table></div>
+
+<p> See <a href="../datafile-e.html#errorbar">data file</a> how to 
+specify the data and data errors.</p>
+
+
+
+
+<div class="subsect"><a name="vector">Draw Vectors </a></div>
+
+
+<div align="center"><table border="0" width="100%">
+<tr><td valign="top"><div style="font-size:24pt;"> vector </div>
+    <p> Draw vectors. An arrow is plotted from (X,Y) to (X+dX,Y+dY).
+        So that you need 4 columns data in your data file. </p></td>
+    <td><img src="style9.png" alt="style9.png" width="402" height="333"></td></tr>
+</table></div>
+
+
+
+
+<div class="subsect"><a name="others">Others (financebars, candlesticks) </a></div>
+
+
+<p> There are two styles those can be used for financial plot.  Those
+were categorized into "others" here, because the author of this page
+is not good at finance :-) Maybe those are used for plotting of
+variation of stok or price. The style "financebars" and "candlesticks"
+requires 5 columns which are date/time, opening, low, high, and
+closing prices, respectively. </p>
+
+<div align="center"><table border="0" width="100%">
+<tr><td valign="top"><div style="font-size:24pt;"> financebars </div>
+    <p> High and low prices are connected with a vertical line,
+        and opening and closing prices are indicated by small 
+        horizontal tics. The length of the tics can be changed by
+        <tt>set bar</tt>.</p></td>
+    <td><img src="style10.png" alt="style10.png" width="402" height="333"></td></tr>
+
+<tr><td valign="top"><div style="font-size:24pt;"> candlesticks </div>
+    <p> Similar to "financebars". A rectangular represents
+        opening and closing prices, and a horizontal line segment
+        shows high and low prices. </p></td>
+    <td><img src="style11.png" alt="style11.png" width="402" height="333"></td></tr>
+</table></div>
+
+
+<div class="top"><a href="style-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / postscript </title>
+<!-- Generated 1999/ 7/21 -->
+<!-- $Id: postscript.html,v 1.12 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="postscript-e.html">    ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <ul>
+      <li><a href="postproc.html#8.1">
+           TeXの文書 </a>
+      <li><a href="postproc.html#8.2">
+           複数の図をまとめる </a>
+      <li><a href="image.html#8.3">
+           イメージに変換 </a>
+      <li><a href="postscript.html#8.4">
+           グラフの色 </a>
+      <li><a href="postscript.html#8.5">
+           右の余白 </a>
+    </ul>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+
+
+
+<h1><a name="top"> 図を描いたその後は．．．(その3) </a></h1>
+
+<div align="center">
+<a href="postproc.html">   1 </a> | 
+<a href="image.html">      2 </a> | 
+<a href="postscript.html"> 3 </a>
+</div>
+
+
+
+
+<h2><a name="8.4"> Color PostScriptで出力したグラフの色を変えたい．</a></h2>
+
+
+<p> 出力をカラーのPostScriptにするとき，線や記号の色をgnuplotから直接
+与える方法は無いようです．別の色を使う簡単な方法は，gnuplotから直接
+Color PostScriptを生成するのではなく，一旦tgifのファイルに出力し，それ
+をtgifで編集する方法です．</p>
+
+
+<p> もう少し反則技に近い方法として，出来上がったPostScriptを直接編集す
+る手があります．gnuplotが生成するPostScriptファイルは，案外読みやすい
+ように出来ています．まず，何番の線が何色に対応するのかを調べるために，
+カラーのインデックスを作ってみましょう．testコマンドで調べるのが簡単で
+すが，ちょっと手間をかけて次のようにしてみました．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set term postscript enhanced color 
+gnuplot&gt; set output "colorindex.ps"
+gnuplot&gt; set size 0.5,0.5
+gnuplot&gt; set noborder
+gnuplot&gt; set nokey
+gnuplot&gt; set linestyle  1 linetype  1 linewidth 8
+gnuplot&gt; set linestyle  2 linetype  2 linewidth 8
+gnuplot&gt; set linestyle  3 linetype  3 linewidth 8
+gnuplot&gt; set linestyle  4 linetype  4 linewidth 8
+gnuplot&gt; set linestyle  5 linetype  5 linewidth 8
+gnuplot&gt; set linestyle  6 linetype  6 linewidth 8
+gnuplot&gt; set linestyle  7 linetype  7 linewidth 8
+gnuplot&gt; set linestyle  8 linetype  8 linewidth 8
+gnuplot&gt; set linestyle  9 linetype  9 linewidth 8
+gnuplot&gt; set linestyle 10 linetype 10 linewidth 8
+gnuplot&gt; # for gnuplot ver.4
+gnuplot&gt; # set style line 1 line type 1 linewidth 8
+gnuplot&gt; # ... etc
+gnuplot&gt; set noxtics
+gnuplot&gt; set ytics nomirror 1
+gnuplot&gt; set yrange [ -1.5 : 10.5 ]
+gnuplot&gt; plot  1 w l ls  1,  2 w l ls  2,  3 w l ls  3, 4 w l ls  4,\
+gnuplot&gt;       5 w l ls  5,  6 w l ls  6,  7 w l ls  7, 8 w l ls  8,\
+gnuplot&gt;       9 w l ls  9, 10 w l ls 10, -1 w line -1, 0 with line 0
+gnuplot&gt; pause -1
+</pre>
+
+
+<p> PostScript出力では線種は1から9までが定義されており，それ以降は1から
+     の繰り返しになります．上の例では，<i>y</i>=1から<i>y</i>=10までの直
+     線をlinestyleを変えながら引いています．色が分かりやすいように，線を
+     太くしています．</p>
+
+
+<p> 同じ事をモノクロのPostScript出力でもやってみましょう．上の1行目に
+ある"color"というキーワードを外し，結果を"monoindex.ps"というファイル
+に出力します．この monoindex.psと，最初に作った colorindex.ps の何処が
+違うのかをUNIXのdiffコマンドで調べると，表題と作成時間の違い以外は，
+PostScriptファイルの12行目にある<tt> /Color true def </tt>と<tt>
+/Color false def </tt>の部分だけです．つまり，この <tt>/Color {true
+|false}</tt>の部分を書き換えてしまえば，モノクロPSからカラーPSへ(また
+はその逆)の変更が，gnuplot終了後でもできるわけです．</p>
+
+
+<p> さて，本題に戻りましょう．出力されたPSファイルをざっと眺めると，
+色を定義している部分がわかります．40行目あたりに，次のような部分が
+ある筈です(見やすいように空白を入れて縦を揃えています)．</p>
+
+
+<pre class="file">
+/LT0 { PL [                                         ] 1   0   0   DL } def
+/LT1 { PL [4 dl 2   dl                              ] 0   1   0   DL } def
+/LT2 { PL [2 dl 3   dl                              ] 0   0   1   DL } def
+/LT3 { PL [1 dl 1.5 dl                              ] 1   0   1   DL } def
+/LT4 { PL [5 dl 2   dl 1 dl 2 dl                    ] 0   1   1   DL } def
+/LT5 { PL [4 dl 3   dl 1 dl 3 dl                    ] 1   1   0   DL } def
+/LT6 { PL [2 dl 2   dl 2 dl 4 dl                    ] 0   0   0   DL } def
+/LT7 { PL [2 dl 2   dl 2 dl 2 dl 2 dl 4 dl          ] 1   0.3 0   DL } def
+/LT8 { PL [2 dl 2   dl 2 dl 2 dl 2 dl 2 dl 2 dl 4 dl] 0.5 0.5 0.5 DL } def
+</pre>
+
+
+<p> どうやらこの部分が線種の1から9に対応しているようです．LT0の右の方
+の数値 "1 0 0" がRGB(Red, Green, Blue)と考えれば，これは赤なので，1番
+の線の赤と一致します．同様にLT1は緑，LT2は青になっています．そして，
+"1, 0, 1"(マゼンタ), "0, 1, 1"(シアン)，"1, 1, 0"(黄色)，"0, 0, 0"(黒)，
+"1, 0.3, 0"(オレンジ色)，"0.5, 0.5, 0.5"(灰色)，と続きます．ここのRGB
+の値を変えれば好きな色の線が描けます．ちなみに灰色は呪われていると下に
+置けなくなるので注意が必要です(意味不明)．</p>
+
+
+<p>試しに，赤から黄色へ変化するグラデーションを作ってみましょう．RGBの
+Rは常に1，Bは常に0にして，Gを0から1に徐々に変化させます．</p>
+
+
+<pre class="file">
+/LT0 { PL [                                         ] 1   0    0   DL } def
+/LT1 { PL [4 dl 2   dl                              ] 1   0.1  0   DL } def
+/LT2 { PL [2 dl 3   dl                              ] 1   0.2  0   DL } def
+/LT3 { PL [1 dl 1.5 dl                              ] 1   0.3  0   DL } def
+/LT4 { PL [5 dl 2   dl 1 dl 2 dl                    ] 1   0.4  0   DL } def
+/LT5 { PL [4 dl 3   dl 1 dl 3 dl                    ] 1   0.5  0   DL } def
+/LT6 { PL [2 dl 2   dl 2 dl 4 dl                    ] 1   0.6  0   DL } def
+/LT7 { PL [2 dl 2   dl 2 dl 2 dl 2 dl 4 dl          ] 1   0.7  0   DL } def
+/LT8 { PL [2 dl 2   dl 2 dl 2 dl 2 dl 2 dl 2 dl 4 dl] 1   0.8  0   DL } def
+</pre>
+
+
+<p> 下のイメージは，gnuplotが生成したColor PostScriptと，線の色をPSファ
+     イルを編集して変えたものを並べて比較したものです．これでどんな色で
+     も使えるようになりましたね．</p>
+
+<div align="center"><table border="0">
+<tr><td align="center"><img src="fig/sample8.4a.png" alt="fig/sample8.4a" width="370" height="256"></td>
+    <td align="center"> gnuplotで作ったColorPS </td></tr>
+<tr><td align="center"><img src="fig/sample8.4b.png" alt="fig/sample8.4b" width="372" height="258"></td>
+    <td align="center"> PSファイルを編集 </td></tr>
+</table></div>
+
+
+<p> tgifでgnuplotの結果を編集した方が画面で色を確認しながらできるので
+便利ですが，毎回々々tgifを起動してマウスで操作するのは面倒です．このよ
+うにPostScriptを直接編集する方法なら，sedやperlで該当部分を書き換える
+ことが出来るので，何度も同じ図を作成するときに作業が楽になります．</p>
+
+
+<p> ついでながら先程の線の種類を定義している部分をもう一度眺めてみると，
+"[4 dl 2 dl]"などと定義されている部分があります．ここは点線や鎖線を作っ
+ている部分です．"[4 dl 2 dl]"なら，線分と空隙の比が4:2の破線になります．
+"[5 dl 2 dl 1 dl 2 dl]"なら，まず5の長さの線分があり，次に2の空隙，次
+に1の線分があって再び2の空隙，となり，これが繰り返されます．ここの部分
+を変えれば線のパターンを変えることができます．</p>
+
+
+<p> また，LT0を定義している部分よりも上にある2行は，</p>
+
+<pre class="file">
+/LTb { BL [] 0 0 0 DL } def
+/LTa { AL [1 dl 2 dl] 0 setdash 0 0 0 setrgbcolor } def
+</pre>
+
+<p>となっています．ここは枠に使われる線(LTb)とゼロ軸に使われる線(LTa)
+を定義しています．RGBが"0 0 0"なので，これらの線は黒で描かれることにな
+ります．もちろん，ここの数値を変えれば，枠線やゼロ軸の色が変わります．</p>
+
+
+
+
+<div class="top"><a href="postscript.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="8.5">正方形の図を作ると，右に余白ができてしまう．</a></h2>
+
+
+<p> <tt> set size square </tt> を使って図を作るとプロット自体は正方形にな
+     りますが，これをEPSにしてTeX等の他のアプリケーションで読み込むと右
+     側に余白ができてしまいます．これはgnuplotが画面全体を囲むように，
+     BoundingBoxを決めているためです．右の無駄な余白を取るには，エディタ
+     を使ってEPSファイルを直接編集する必要ことになります．生成される
+     PostScriptファイルの最初の部分にBoundingBoxが定義されています．</p>
+
+<pre class="file">
+%%BoundingBox: 50 50 410 302
+</pre>
+
+<p> この410という数字が大きすぎるので，ここを小さくします．どの程度にす
+     るかは，図のラベルやマージンで変わるので，適当な大きさに図が収まる
+     様になるまで，何度かcut-and-tryする必要があります．この場合は縦が
+     302なので，320程度にしておけば大丈夫でしょう．</p>
+
+<p> Unix,Linux上でGhostScriptを使っている場合は，<tt>ps2ps</tt>や
+     <tt>eps2eps</tt>というshell scriptがあると思いますので，これを使う
+     のが簡単です．</p>
+
+<pre class="sample">
+% eps2eps input.eps output.eps
+</pre>
+
+<p> これだけで，BoundingBoxが適当に修正されたEPSファイルが出来上がります．</p>
+<div align="right"><i> from Russell in  Universiteit van Amsterdam. Thanks !</i></div>
+
+<div class="top"><a href="postscript.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

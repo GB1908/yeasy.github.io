@@ -1,0 +1,58 @@
+*
+{
+  font-family: "Helvetica", sans-serif;
+  font-weight: bold;
+  background: black;
+  color: gray;
+}
+
+body
+{
+}
+
+table
+{
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td.eventName
+{
+  text-align: center;
+  font-size: 36pt;
+  color: white;
+}
+
+tr.timer td
+{
+  text-align: center;
+  font-size: 24pt;
+  width: 70px;
+  color: red;
+}
+
+tr.labels td
+{
+  text-align: center;
+  width: 70px;
+}
+
+td.futuredate
+{
+  text-align: center;
+}
+
+div#currenttime
+{
+margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+width: 280px;
+}
+
+div#currenttime b
+{
+color: #ffffff;
+}

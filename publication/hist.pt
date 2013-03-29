@@ -1,0 +1,28 @@
+#k-failure,k=1,2,3
+set term postscript enhanced
+set output "| ps2pdf - output.pdf"
+set xlabel "X-Label" 0,-1
+set ylabel "Y-Label" 0,0
+
+unset title
+set xtics font 'Arial,20'
+set ytics font 'Arial,20'
+set xlabel font 'Times New Roman Bold,24'
+set ylabel font 'Times New Roman Bold,24'
+set key top left
+set key spacing 1.4
+set lmargin 3
+set rmargin 0
+set tmargin 0
+set bmargin 1
+
+set style data histograms
+set boxwidth 1.0 relative
+set style histogram clustered gap 1 title offset character 0,0,0
+
+#set xrange[0:10] noreverse nowriteback
+#set yrange[0:10] noreverse nowriteback
+
+plot "result.dat" u 1:xtic(1) ti col title '{/Times=18 Title1}' fs pattern 1 ls 1,\
+'' u 2 ti col title '{/Times=18 Title2}' fs pattern 4 ls 1,\
+'' u 3 ti col title '{/Times=18 Title3}' fs pattern 5 ls 1

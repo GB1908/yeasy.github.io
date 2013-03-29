@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / fractal / recursive (E) </title>
+<!-- Generated 2002/4/14 -->
+<!-- $Id: recursive-e.html,v 1.6 2004/12/04 10:01:51 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/29 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">         HOME </a> |
+<a href="../intro/index-e.html">   INTRODUCTION </a> |
+<a href="../general-e.html">       INFORMATION </a> |
+<a href="../gallery/index-e.html"> GALLERY </a> |
+<a href="recursive.html">          JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Fractal  </a></p>
+
+ <ul>
+  <li><a href="recursive-e.html">  Recursive Definition </a>
+  <li><a href="mandelbrot-e.html"> Mandelbrot Set </a>
+  <li><a href="selfsq-e.html">     Julia Set </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> Recursive Definition </a></h1>
+
+<p> You can define a function recursively, so that you can include your
+     defined function in itself. For example, a factorial of integer
+     number N!=FAC(N) is written as FAC(N)=N*FAC(N-1), you can define
+     this in gnuplot as:</p>
+
+<pre class="sample">
+gnuplot&gt; fac(n) = n * fac(n-1)
+</pre>
+
+<p> This one-line function is infinite-loop in which the variable N
+     decreases by 1. In order to terminate the loop, we use a ternary
+     operator. The next example tells gnuplot to stop the loop when
+     N=0.</p>
+
+<pre class="sample">
+gnuplot&gt; fac(n) = (n==0) ? 1 : n * fac(n-1)
+</pre>
+
+<p> This means, when N is equal to zero, just after the '?' is
+     evaluated, otherwise fac(n-1) is executed, and again, the same
+     function is called but its argument is n-1. The function-call is
+     terminated when its argument is zero.</p>
+
+<p> To calculate N!, N should be integer. When the argument is a real
+     number, we use a gnuplot function int() to make it integer. Perhaps
+     you also need to include the restriction that N must be positive,
+     although we don't consider this.</p>
+
+<pre class="sample">
+gnuplot&gt; fac(x) = (int(x)==0) ? 1.0 : int(x) * fac(int(x)-1.0)
+</pre>
+
+<p> Now you can calculate the function fac(x), as follows:</p>
+
+<pre class="sample">
+gnuplot&gt; fac(x) = (int(x)==0) ? 1.0 : int(x) * fac(int(x)-1.0)
+gnuplot&gt; print fact(1)
+1.0
+gnuplot&gt; print fact(5) 
+120.0
+gnuplot&gt; print fact(5.5) 
+120.0
+gnuplot&gt; print fact(20) 
+2.43290200817664e+18
+</pre>
+
+<p> It is known that N! can be approximated by the Stirling formula.</p>
+
+<div align="center"><img src="eq.png" alt="eq" width="289" height="39"></div>
+
+<p> Let's compare the Stirling formula with our function fac(x).</p>
+
+<pre class="sample">
+gnuplot&gt; stirling(x) = sqrt(2*pi*x) * x**x * exp(-x)
+gnuplot&gt; set xrange [1:15]
+gnuplot&gt; set yrange [1:1e+10]
+gnuplot&gt; set log y
+gnuplot&gt; set sample 15
+gnuplot&gt; plot stirling(x) notitle with lines,\
+&gt;             fact(x)     notitle with points
+</pre>
+
+<div align="center">
+<img src="fact.png" alt="fact" width="400" height="300">
+</div>
+
+<div class="top"><a href="recursive-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+
+</td>
+</tr></table>
+<hr class="topsep">
+
+</body>
+</html>

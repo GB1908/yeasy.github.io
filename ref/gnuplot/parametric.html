@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / parametric </title>
+<!-- Generated 2003/ 9/16 -->
+<!-- $Id: parametric.html,v 1.10 2004/12/19 09:23:44 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="parametric-e.html">    ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <ul>
+      <li><a href="parametric.html#Q1">
+           媒介変数表示 </a>
+      <li><a href="parametric.html#Q2">
+           垂直線 </a>
+      <li><a href="parametric.html#Q3">
+           円，正多角形 </a>
+      <li><a href="parametric.html#Q4">
+           X軸とY軸の入れ換え </a>
+    </ul>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> 媒介変数表示のあれこれ </a></h1>
+
+
+
+<h2><a name="Q1">媒介変数表示について． </a></h2>
+
+<p> gnuplotで2次元関数を表示するときは，y=f(x)という形でy座標を表しますが，
+媒介変数<i>t</i>を用いて．</p>
+<pre>
+   x = f(t)
+   y = g(t)
+</pre>
+<p> のように媒介変数表示することもできます．この形式を用いることで，複雑
+     な関数をgnuplotに表示させることが可能になります．なお，2つの変数
+     <i>u,v</i>を用いて3 次元の曲面を表現する方法は
+     <a href="spherical_harmonics/parametric.html">球面調和関数の項</a> で
+     説明しています．</p>
+
+<p> 媒介変数を用いてグラフを描くには，まず <tt> set parametric </tt>を用
+     いて，関数が媒介変数表示されていることを明示します．<tt> plot </tt> 
+     に続けて，x座標となる関数f(t)とy座標のg(t)を，<tt> plot
+     <i>f(t),g(t)</i> </tt>のように与えます．</p>
+
+
+
+
+<div class="top"><a href="parametric.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="Q2">垂直線の描き方．</a></h2>
+
+<p> 最も単純かつy=f(x)という関数型で表現できないのが，x=const.という垂直
+     の線です．この縦線は媒介変数<i>t</i>を用いると，</p>
+<pre>
+   x=const
+   y=t
+</pre>
+<p> と書き，<i>t</i>を適当な範囲で変化させた場合に相当します．<i>t</i>の
+     範囲は<tt> set trange </tt>で設定できます．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; const=3
+gnuplot&gt; set trange [1:4]
+gnuplot&gt; set xrange [0:5]
+gnuplot&gt; set yrange [0:5]
+gnuplot&gt; plot const,t
+</pre>
+
+<img src="fig/sampleQ2.1.png" alt="sampleQ2.1" align="left" width="400" height="300">
+<p>この例ではx=3の所に垂直線を描いています．<tt> set trange [1:4] </tt>
+     としていますので，線分のy座標は1から4までとなっています．もし
+     <tt>trange</tt>を設定しないなら，グラフの表示領域一杯に線が引かれま
+     す．</p>
+
+
+
+
+<div class="top"><a href="parametric.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="Q3">円，正多角形の描き方．</a></h2>
+
+<p>円の媒介変数表示は，</p>
+<pre>
+   x=cos(t)
+   y=sin(t)
+</pre>
+<p>で与えられ，<i>t</i>を0から2πまで変化させれば円が描けます．縦横比は，
+     綺麗な円になるように，固定しています．<i>t</i>の範囲は，
+     <tt>plot</tt>コマンドのオプションで与えています．</p>
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; set size square
+gnuplot&gt; set xrange [-1:1]
+gnuplot&gt; set yrange [-1:1]
+gnuplot&gt; plot [0:2*pi] cos(t),sin(t)
+</pre>
+
+<div align="center">
+<img src="fig/sampleQ3.1.png" alt="sampleQ3.1" width="400" height="300">
+</div>
+
+<p> 上の図では，変数<i>t</i>は連続的に変化しているように見えますが，実際
+     には<i>t</i>はある頻度で変化し，その変化の程度は<tt> set samples
+     </tt>で決まります．defaultは100ですが，<tt> set samples 8 </tt>とす
+     れば，gnuplotは0から2πの範囲で8つの<i>t</i>を発生してグラフを表示
+     し，結果として円は正七角形になります．つまり，正N角形を描きたければ，
+     <tt> set samples <i>N+1</i></tt>とすれば良いことになります．</p>
+<br> 
+
+<div align="center">
+<img src="fig/sampleQ3.2.png" alt="sampleQ3.2" width="400" height="300">
+</div>
+
+<p> 2次元関数の媒介変数表示は<a href="polar.html">極座標</a>で表示された
+     関数を表示するのに適しています．2次元極座標では変数として半径
+     <i>r</i>と偏角<i>theta</i>が用いられますが，この<i>theta</i>にパラ
+     メータ<i>t</i>を使います．半径<i>r</i>は角度の関数とし，<i>r(t)</i> 
+     と<i>t</i>を用いると，任意の(x,y)座標は，次式の関係から計算できます．
+     </p>
+
+<pre>
+   x=r(t)*cos(t)
+   y=r(t)*sin(t)
+</pre>
+
+<p> 円はr(t)=const.の特殊な例です．円の半径を<i>t</i>に比例するように変
+     化させれば，渦巻になりますね．</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-10*pi:10*pi]
+gnuplot&gt; set yrange [-10*pi:10*pi]
+gnuplot&gt; plot [0:10*pi] t*cos(t),t*sin(t)
+</pre>
+
+<div align="center">
+<img src="fig/sampleQ3.3.png" alt="sampleQ3.3" width="400" height="300">
+</div>
+
+<p>以下の例はr(t)=const*(1+cos(t))として描かれるCardioidです．</p>
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; r(t) = 1+cos(t)
+gnuplot&gt; plot [0:2*pi] r(t)*cos(t),r(t)*sin(t)
+</pre>
+
+<div align="center">
+<img src="fig/sampleQ3.4.png" alt="sampleQ3.4" width="400" height="300">
+</div>
+
+
+
+
+
+<div class="top"><a href="parametric.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="Q4">X軸とY軸を入れ換える．</a></h2>
+
+<p> 関数表示は普通 y=f(x) と書かれますが，媒介変数を用いると x=f(y)のグ
+     ラフを表示することができます．y=tと考え，xを媒介変数<i>t</i>の関数 
+     f(t) で表現します．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; c=2*pi
+gnuplot&gt; set size square
+gnuplot&gt; set trange [-c:c]
+gnuplot&gt; set xrange [-c:c]
+gnuplot&gt; set yrange [-c:c]
+gnuplot&gt; plot c*sin(t),t with lines, t,c*cos(t) with impulses
+</pre>
+
+<img src="fig/sampleQ4.1.png" alt="sampleQ4.1" align="left" width="320" height="300">
+<p> 2つのグラフを重ねて表示しています．一つは y=2pi*cos(x)で，緑の縞模様で
+     表示しました．もう一つは x=f(t)=2pi*sin(y)で赤の実線です．</p>
+
+<p> <tt> with impulse </tt>は，グラフ上の点からY=0の軸に垂直に足を降ろし
+     ます．ここの例で最初の赤の実線 x=2pi*sin(y) に対して <tt> with
+     impulses </tt>を使っても，やはり垂直線(縦縞)になります．</p>
+
+
+<br clear="all">
+<div class="top"><a href="parametric.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

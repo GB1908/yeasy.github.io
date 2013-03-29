@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / intro / plotfunc </title>
+<!-- Generated 2004/ 4/11  -->
+<!-- $Id: plotfunc-e.html,v 1.4 2004/12/17 07:34:07 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">        HOME </a> |
+                                  INTRODUCTION |
+<a href="../general-e.html">      INFORMATION </a> |
+<a href="../gallery/index-e.html">GALLERY </a> |
+<a href="plotfunc.html">          JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html">   Introduction to Gnuplot  </a></p>
+ <ul>
+  <li> <a href="basic-e.html">   Basic Use  </a>
+  <li> <a href="plotcalc-e.html">Numerical Data </a>
+  <li> <a href="plotexp-e.html"> Experimental Data </a>
+  <li> <a href="plotfunc-e.html">Functions </a>
+   <ul>
+     <li> <a href="plotfunc-e.html#function"> Functions </a>
+     <li> <a href="plotfunc-e.html#value">    Values </a>
+     <li> <a href="plotfunc-e.html#fit">      Least-Squares </a>
+     <li> <a href="plotfunc-e.html#done">     Postscript format </a>
+   </ul>
+  <li> <a href="working-e.html"> Life with gnuplot </a>
+  <li> <a href="style-e.html">   Plotting Styles </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+
+<h1><a name="top"> Introducing to gnuplot --- Functions </a></h1>
+
+<h2><a name="function">User-Defined Functions </a></h2>
+
+<p> If you can write an equation, gnuplot can calculate it. I mean,
+     functions to be plotted are expressed in a simple functional form,
+     for example, f(x)=a*x+b, and they do not contain a complicated
+     integration / differentiation which needs a numerical calculation.
+     Gnuplot has many basic functions such as sine, cosine, Bessel,
+     Gamma, etc, and it can plot them as well as combinations of those
+     functions.</p>
+
+
+<p> Maybe gnuplot users are not so interested in plotting functions,
+     except for your Math homework (or some special purpose which I
+     don't know), but this is extremely useful for a parameter-fitting to
+     experimental data, namely a least-squares fitting. Gnuplot can solve
+     not only linear least-squares problems but also non-linear ones.
+     In this section, we learn how we can use a user-defined function,
+     and how to fit this to experimental data.</p>
+
+<p> The function we are thinking here is the Lorentzian plus background
+     term of 1/sqrt(x). This equation contains four parameters, a, b, c,
+     and d, those are determined by experimental data.</p>
+
+<div align="center"><img src="lorentz.png" alt="" width="269" height="56" border="0"></div>
+
+<p> Definition of a function is similar to Fortran or C programming
+     language.  In the example below,
+     <tt>f(x)=c/((x-a)*(x-a)+b)+d/sqrt(x)</tt> defines our
+     equation. Square of <tt> (x-a)</tt> term also can be written in a
+     Fortran manner, <tt>(x-a)**2 </tt>. The parameters, a,b,c, and d
+     are arbitrary.</p>
+
+<pre class="sample">
+gnuplot&gt; a=0.25
+gnuplot&gt; b=0.02
+gnuplot&gt; c=0.05
+gnuplot&gt; d=0.1
+gnuplot&gt; f(x)=c/((x-a)*(x-a)+b)+d/sqrt(x)
+gnuplot&gt; set xrange [0:1]
+gnuplot&gt; set yrange [0:4]
+gnuplot&gt; plot f(x)
+</pre>
+
+<div align="center"><img src="plotfunc1.png" alt="plotfunc1" width="412" height="336"></div>
+
+
+
+
+<div class="top"><a href="plotfunc-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="value">Values of the function </a></h2>
+
+<p> Since gnuplot calculates user-defined functions numerically
+    to draw a graph on your screen, you can look at the calculated 
+    numbers with the <tt> print </tt> command. The value of function
+    depends on the parameters (a,b,c,d, and e). Gnuplot calculates
+    functions in a double-precision.</p>
+
+<pre class="sample">
+gnuplot&gt; print f(0.25)
+2.7
+gnuplot&gt; print f(0.4)
+1.33458447124371
+gnuplot&gt; a=0.4
+gnuplot&gt; print f(0.4)
+2.65811388300842
+</pre>
+
+<p> To obtain the calculated values in a tabulated format, which can be
+     processed with other applications such as a spread-sheet, use a
+     special terminal <tt> table </tt>. To write the result, specify a
+     file name with <tt> set output </tt>.</p>
+
+<pre class="sample">
+gnuplot&gt; set term table
+Terminal type set to 'table'
+gnuplot&gt; plot f(x)
+#Curve 0, 100 points
+#x y type
+0 0 u
+0.010101 1.63972 i
+0.020202 1.39031 i
+0.030303 1.30688 i
+   ....
+
+0.979798 0.191506 i
+0.989899 0.188622 i
+1 0.185837 i
+
+gnuplot&gt; set output "calc.plt"
+gnuplot&gt; replot
+</pre>
+
+
+
+<div class="top"><a href="plotfunc-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="fit">Search for the parameters with a Least-Squares Method </a></h2>
+
+<p> We now fit the function to experimental data, and obtain best values
+     of the parameters, a, b, c, and d. The experimental data are stored
+     in a file "exp.dat".</p>
+
+<pre class="file">
+ 2.5000E-03 3.0420E+00 6.47E-01
+ 3.5000E-03 2.5700E+00 4.37E-01
+ 4.5000E-03 2.3020E+00 2.53E-01
+   ...
+
+ 7.0000E-01 2.7420E-01 2.14E-03
+ 7.5000E-01 2.5680E-01 1.81E-03
+ 8.0000E-01 2.4630E-01 1.59E-03
+</pre>
+
+<p> The data file consists of 3 columns, each of which is (x,y,z) data
+     pair, the Z-data stand for an absolute uncertainty of the data
+     Y. It means Z has the same dimension as Y. For example (in the case
+     above), if your Y value is 3.04 cm, its uncertainty should be
+     0.647cm. The inverse of Z becomes a weight of this data point at
+     the data fitting. If no uncertainty is given, the weights for all
+     data points are the same.</p>
+
+<p> First of all, we show the data and function in one plot. As shown in
+   <a href="plotexp-e.html"> Experimental Data </a> or 
+   <a href="plotcalc-e.html">Numerical Calculation </a> section,
+     the axis names, ranges, tics, are adjusted properly.</p>
+
+<pre class="sample">
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; set xtics 0.1
+gnuplot&gt; set ytics 0.5
+gnuplot&gt; plot f(x) title "Lorentzian",\
+&gt; "exp.dat" using 1:2:3 title "experiment" with yerrors
+</pre>
+
+<img src="plotfunc2.png" alt="plotfunc2" width="412" height="336" align="left">
+
+<p> As I said that the parameters, a,b,c, and d, are arbitrary, but they
+     were roughly determined for this experimental data.  The parameter
+     'a' is a position of Lorentzian peak, and which is, say, about 0.25
+     from this plotting. For the parameter 'b', its square-root
+     corresponds to the width of this peak, and I estimated that b is
+     about 0.02.</p>
+
+<br clear="all">
+
+<p> It is quite easy to do a least-squares fitting with gnuplot.
+     Just use the <tt> fit </tt> command, and add parameters 
+     to be searched for by the <tt> via </tt> option. When your
+     fitting function is strongly non-linear, you need to be careful
+     about the initial values of your parameters. Here we used
+     the values above as the initial parameters for this fitting.</p>
+
+<pre class="sample">
+gnuplot&gt; fit f(x) "exp.dat" using 1:2:3 via a,b,c,d
+ 
+ 
+Iteration 0
+WSSR        : 96618.1           delta(WSSR)/WSSR   : 0
+delta(WSSR) : 0                 limit for stopping : 1e-05
+lambda    : 1150.73
+ 
+initial set of free parameter values
+
+    ...
+
+After 17 iterations the fit converged.
+final sum of squares of residuals : 3341.93
+rel. change during last iteration : -5.29173e-06
+ 
+degrees of freedom (ndf) : 47
+rms of residuals      (stdfit) = sqrt(WSSR/ndf)      : 8.43237
+variance of residuals (reduced chisquare) = WSSR/ndf : 71.1049
+ 
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+ 
+a               = 0.26191          +/- 0.005759     (2.199%)
+b               = 0.00251445       +/- 0.0008358    (33.24%)
+c               = 0.00541346       +/- 0.0009206    (17.01%)
+d               = 0.182469         +/- 0.007329     (4.016%)
+ 
+ 
+correlation matrix of the fit parameters:
+ 
+               a      b      c      d
+a               1.000
+b               0.042  1.000
+c              -0.229  0.783  1.000
+d               0.210 -0.538 -0.768  1.000
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="plotfunc3.png" alt="plotfunc3" width="412" height="336"></div>
+
+<p> As shown above, the fitted function is not so good except for the
+     region where the data are off-resonance. This is because our
+     fitting function was not the best choice. Its peak shape looks fine
+     with the Lorentzian, so we modify <tt> d/sqrt(x) </tt> by
+     introducing a new parameter 'e' and express it as <tt> d*x**e
+     </tt>. The initial value of 'e' is -0.5.</p>
+
+<pre class="sample">
+gnuplot&gt; e=-0.5
+gnuplot&gt; f(x)=c/((x-a)*(x-a)+b)+d*x**e
+gnuplot&gt; fit f(x) "exp.dat" using 1:2:3 via a,b,c,d,e
+
+     ...
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+ 
+a               = 0.25029          +/- 0.002106     (0.8412%)
+b               = 0.00197707       +/- 0.0002747    (13.89%)
+c               = 0.00550098       +/- 0.0003662    (6.657%)
+d               = 0.21537          +/- 0.003743     (1.738%)
+e               = -0.358371        +/- 0.0115       (3.208%)
+ 
+ 
+correlation matrix of the fit parameters:
+ 
+               a      b      c      d      e
+a               1.000
+b               0.021  1.000
+c              -0.078  0.788  1.000
+d              -0.110 -0.384 -0.500  1.000
+e              -0.304  0.198  0.335  0.381  1.000
+gnuplot&gt; replot
+</pre>
+
+<img src="plotfunc4.png" alt="plotfunc4" width="412" height="336" align="left">
+
+<p> Still its not perfect. Fixing <tt>a=0.24</tt> and search only for
+ <tt> via b,c,d,e</tt> gives you better looks, but its chi-square is
+ larger.</p>
+<br clear="all">
+
+
+
+
+<div class="top"><a href="plotfunc-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="done">Output in the Postscript format </a></h2>
+
+<p> As shown in <a href="plotexp-e.html">Experimental Data</a> section.
+     we generate a Postscript figure. The data points are drawn with
+     solid line and seventh symbol (circle), and the function is shown
+     with the thick dashed line. </p>
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 pt 7
+gnuplot&gt; set linestyle 2 lt 2 lw 3
+gnuplot&gt; set size 0.6,0.6
+gnuplot&gt; set term postscript eps enhanced color
+Terminal type set to 'postscript'
+Options are 'eps enhanced color dashed defaultplex "Helvetica" 14'
+gnuplot&gt; set output "exp.ps"
+gnuplot&gt; plot"exp.dat" using 1:2:3 title "experiment" with yerrors ls 1,\
+&gt;        f(x) title "Lorentzian" with line ls 2
+</pre>
+
+<div align="center"><img src="plotfunc5.png" alt="plotfunc5" width="450" height="315"></div>
+<br clear="all">
+
+
+<div class="top"><a href="plotfunc-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / plot (7) </title>
+<!-- Generated 2004/ 3/17 -->
+<!-- $Id: plot7.html,v 1.5 2004/12/19 09:23:44 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/12/18 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="plot7-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <ul>
+      <li><a href="plot1.html#5.1">
+           一定の大きさ </a>
+      <li><a href="plot1.html#5.2">
+           左右両方のY軸 </a>
+      <li><a href="plot1.html#5.3">
+           軸を消す </a>
+      <li><a href="plot1.html#5.4">
+           縦横比の固定された図 </a>
+      <li><a href="plot2.html#5.5">
+           ゼロ軸 </a>
+      <li><a href="plot2.html#5.6">
+           誤差棒の横線 </a>
+      <li><a href="plot2.html#5.7">
+           文字を大きく</a>
+      <li><a href="plot2.html#5.8">
+           曲線で補間</a>
+      <li><a href="plot2.html#5.9">
+           枠線上データ点を消す </a>
+      <li><a href="plot3.html#5.10">
+           複数のグラフ </a>
+      <li><a href="plot3.html#5.11">
+           格子 </a>
+      <li><a href="plot4.html#5.12">
+           複数の軸 </a>
+      <li><a href="plot4.html#5.13">
+           任意の格子 </a>
+      <li><a href="plot5.html#5.14">
+           図中の図 </a>
+      <li><a href="plot5.html#5.15">
+           棒グラフ </a>
+      <li><a href="plot6.html#5.16">
+           2つの図を並べる．</a>
+      <li><a href="plot7.html#5.17">
+           正規確率軸 </a>
+      <li><a href="plot7.html#5.18">
+           データ値を印刷 </a>
+    </ul>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+
+<h1><a name="top"> 2次元プロットのあれこれ (その7) </a></h1>
+
+<div align="center">
+<a href="plot1.html"> 1 </a> | 
+<a href="plot2.html"> 2 </a> | 
+<a href="plot3.html"> 3 </a> | 
+<a href="plot4.html"> 4 </a> | 
+<a href="plot5.html"> 5 </a> | 
+<a href="plot6.html"> 6 </a> | 
+<a href="plot7.html"> 7 </a>
+</div>
+
+<h2><a name="5.17">正規確率軸を用いた図の表示．</a></h2>
+<div align="right"><i> from Dr. Moriyama. Thanks !</i></div>
+
+
+<p> 粉体やエアロゾルなど粒子を扱う分野では, 累積体積割合 vs 粒径のプロッ
+トをよく描きます. 粒子径の対数をとったものの分布はある値を中心に正
+規分布するケースが多く, 「正規確率軸」と呼ばれる軸がしばしば使われ
+ます．gnuplotには正規分布norm()とその逆関数invnorm()があります
+ので，これらを用いて正規確率軸を描くことができます．同様の方法を用いて
+種々の関数でスケールされた図を描く事ができるでしょう．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set ytics ("0.1" invnorm(0.001),"1" invnorm(0.01),"5" invnorm(0.05),\
+&gt;          "10" invnorm(0.1),"20" invnorm(0.2),"30" invnorm(0.3),\
+&gt;          "40" invnorm(0.4),"50" invnorm(0.5),"60" invnorm(0.6),\
+&gt;          "70" invnorm(0.7),"80" invnorm(0.8),"90" invnorm(0.9),\
+&gt;          "95" invnorm(0.95),"99" invnorm(0.99),"99.9" invnorm(0.999))
+
+gnuplot&gt; set yrange [invnorm(0.0001):invnorm(0.9999)]
+gnuplot&gt; set ylabel "Cumulative mass fraction (%)"
+gnuplot&gt; set xlabel "Diameter (mm)"
+gnuplot&gt; set logscale x
+gnuplot&gt; set grid
+gnuplot&gt; plot "sample.dat" using 1:(invnorm($2)) notitle w lp
+</pre>
+
+<img src="fig/sample5.17a.png" alt="fig/sample5.17a" width="400" height="300" align="left">
+
+<p> この例では，データが対数正規分布をしていると考えているため，X軸に対
+数目盛をとっています．データが実際にこの分布に従う場合，表示される
+グラフは直線になります．</p>
+<br clear="all">
+
+<div class="top"><a href="plot7.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+
+
+
+<h2><a name="5.18"> データ点の位置に数値を書き込みたい．</a></h2>
+<div align="right"><i> from Jon, Thanks !</i></div>
+
+<p> 点データを表示する際，その位置に数値を書いておけば，後で数値を読み取
+るのが簡単になります．普通はグラフから直接数値を読み取ることは無いと思い
+ますが，そのような需要がある図では，考えてもよいかもしれません．</p>
+
+<p> 残念ながら，Gnuplotはデータファイルの数値をテキストとして表示するこ
+とはできませんので，数値を何か別のプログラムで読み取り，<tt> set label
+</tt> を使って表示することになります．次のようなデータがあるとし，この
+データを点で表示して，その位置に数値を書き込みます．</p>
+
+<pre class="file">
+  0.40  80
+  3.00  70
+  3.00  60
+  6.00  50
+  9.00  40
+ 12.00  30
+ 13.00  20
+  5.00  20
+  8.00  20
+</pre>
+
+<p> 直接gnuplotだけでは出来ないので，まずperlを使って，<tt> label </tt>
+コマンドを自動作成します．gnuplotで必要になるのは，次のような行です．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set label "(0.4,80)" at 0.4,80
+gnuplot&gt; set label "(3.0,70)" at 3.0,70
+</pre>
+
+<p>このような文は，Perlを使って書き出すことができます．</p>
+
+
+<pre class="sample">
+  &#37; perl -ane 'print "set label &#92;"($F[0],$F[1])&#92;" at $F[0],$F[1]&#92;n"' file.dat > label.plt
+</pre>
+
+<p> このようにして作られたgnuplotのコマンドをplot時に読み込めば，データ
+点位置に，その数値のラベルが付けられます．</p>
+
+<pre class="sample">
+gnuplot&gt; load "label.plt"
+gnuplot&gt; plot 'file.dat' u 1:2 smooth csp with lines ,\
+&gt;             'file.dat' u 1:2 w points
+</pre>
+
+<img src="fig/sample5.18.png" alt="fig/sample5.18" width="400" height="300" align="left">
+
+
+<br clear="all">
+<div class="top"><a href="plot7.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

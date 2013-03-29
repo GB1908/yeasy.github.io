@@ -1,0 +1,28 @@
+set term postscript enhanced
+set output "| ps2pdf - output.pdf"
+set xlabel "X-Label" 0,-1
+set ylabel "Y-Label" 0,0
+
+unset title
+set xtics font 'Arial,20'
+set ytics font 'Arial,20'
+set xlabel font 'Times New Roman Bold,24'
+set ylabel font 'Times New Roman Bold,24'
+set key top left
+set key spacing 1.4
+set lmargin 3
+set rmargin 0
+set tmargin 0
+set bmargin 1
+
+set style line 1 lt 1 lw 3 pt 1
+set style line 2 lt 2 lw 3 pt 2
+set style line 3 lt 3 lw 3 pt 8
+
+#set xrange[0:10] noreverse nowriteback
+#set yrange[0:10] noreverse nowriteback
+set datafile missing '-' #tell the character type for missing data
+
+plot "result.dat" u 1:xtic(1) ti "{/Times=18 Title1}" w lp ls 1,\
+"" u 2 ti "{/Times=18 Title2}" w lp ls 2,\
+"" u 3 ti "{/Times=18 Title3}" w lp ls 3

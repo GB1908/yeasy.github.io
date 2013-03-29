@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / plot (5E) </title>
+<!-- Generated 2001/ 9/15 -->
+<!-- $Id: plot5-e.html,v 1.13 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="plot5.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <ul>
+      <li><a href="plot1-e.html#5.1">
+           fixed-size plot </a>
+      <li><a href="plot1-e.html#5.2">
+           both sides of Y-axes </a>
+      <li><a href="plot1-e.html#5.3">
+           erase axes </a>
+      <li><a href="plot1-e.html#5.4">
+           fixed aspect ratio figure </a>
+      <li><a href="plot2-e.html#5.5">
+           zero axis </a>
+      <li><a href="plot2-e.html#5.6">
+           small bars of error bars </a>
+      <li><a href="plot2-e.html#5.7">
+           larger letters </a>
+      <li><a href="plot2-e.html#5.8">
+           smooth curves. </a>
+      <li><a href="plot2-e.html#5.9">
+           points on border </a>
+      <li><a href="plot3-e.html#5.10">
+           several figures </a>
+      <li><a href="plot3-e.html#5.11">
+           grid at minor tics </a>
+      <li><a href="plot4-e.html#5.12">
+           two axes </a>
+      <li><a href="plot4-e.html#5.13">
+           grid at an arbitrary position </a>
+      <li><a href="plot5-e.html#5.14">
+           figure in figure </a>
+      <li><a href="plot5-e.html#5.15">
+           bar-chart </a>
+      <li><a href="plot6-e.html#5.16">
+           Align two figures </a>
+      <li><a href="plot7-e.html#5.17">
+           normal probability axis </a>
+    </ul>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> About 2-Dimensional Plot (No.5)</a></h1>
+
+<div align="center">
+<a href="plot1-e.html"> 1 </a> | 
+<a href="plot2-e.html"> 2 </a> | 
+<a href="plot3-e.html"> 3 </a> | 
+<a href="plot4-e.html"> 4 </a> | 
+<a href="plot5-e.html"> 5 </a> | 
+<a href="plot6-e.html"> 6 </a> | 
+<a href="plot7-e.html"> 7 </a>
+</div>
+
+
+<h2><a name="5.14">A small figure in a figure </a></h2>
+
+<p> Making a small figure inside a figure. Sometimes you may see a
+magnified plot in a margin to make a crowded part clear. To put such a
+magnified window, use <a href="plot3-e.html#5.10">multiplot</a>.  We
+make about 1/4 of the full-size figure inside the main plot. Firstly
+draw a main graph in the multiplot mode. </p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [ 0 : 20 ]
+gnuplot&gt; set yrange [ 0 : 6 ]
+gnuplot&gt; set xtics 5
+gnuplot&gt; set ytics 1
+gnuplot&gt; set multiplot
+multiplot&gt; set origin 0.0,0.0
+multiplot&gt; set size 1.0,1.0
+multiplot&gt; plot "file.dat" u 1:2:3 notitle with yerrorbars,\
+&gt;               "file.cal" u 1:2   notitle with lines
+</pre>
+
+<p> Move the origin to the vacant place (0.45,0.1), and draw a small
+graph there. The X and Y ranges should be determined to enlarge the
+place where you want to magnify. The small figure is the same as the
+main one except for the ranges, so that you can use the 
+<tt>replot</tt> command. </p>
+
+<pre class="sample">
+multiplot&gt; set origin 0.45,0.1
+multiplot&gt; set size 0.5,0.5
+multiplot&gt; set xrange [ 1 : 5 ]
+multiplot&gt; set yrange [ 2.4 : 3.0 ]
+multiplot&gt; set ytics 0.5
+multiplot&gt; replot
+multiplot&gt; set nomultiplot
+gnuplot&gt;
+</pre>
+
+<img src="fig/sample5.14.png" alt="fig/sample5.14" align="left" width="401" height="301">
+<p> Now you can see clearly the part where there exists many
+data points. We chose the origin and size so as not to overlap 
+those two figures. It is impossible to erase lines and points of
+the main figure which intrude the small one with gnuplot. </p>
+
+<p> X and Y axis names for the small graph should be empty,
+even the main figure has those stuff. When you want to make a reduced
+size EPS, the <tt>set size </tt> command
+should be outside the multiplot mode. Otherwise gnuplot defines
+BoundingBox in your Postscript file so as to include a whole screen.
+You can see <a href="gallery/nup.html">an example</a> in our gallery. </p>
+
+
+
+
+<div class="top"><a href="plot5-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="5.15">A simple bar-chart </a></h2>
+
+<p> Gnuplot (if older than ver.3.6) draws open rectangulars when <tt>
+with boxes </tt> is used to make a bar-chart, as you can see <a
+href="intro/style-e.html#boxes"> an example.</a> Gnuplot ver.3.8 and newer
+can draw a filled box.</p>
+
+<p> If you are making a Postscript figure, the easiest way is to draw a
+figure <tt> with impluses</tt> with very thick lines. In the next
+example we defined the line type 1 which is 50 times thicker than
+the default width.</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced color
+gnuplot&gt; set linestyle 1 lt 1 lw 50
+gnuplot&gt; # for gnuplot ver.4
+gnuplot&gt; # set style line 1 lt 1 lw 50
+gnuplot&gt; plot "test.dat" using 1:2 with imp ls 1
+</pre>
+
+<div align="center">
+<img src="fig/sample5.15.png" alt="fig/sample5.15" width="419" height="294">
+</div>
+
+<br clear="all">
+<div class="top"><a href="plot5-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> Gnuplot Ver.4 has an option to fill the boxes, which is <tt> with
+boxes fs [pattern | solid] </tt>(fillstyle).  Also you can use <tt> set style
+fill </tt> to define the color-fill pattern separately.</p>
+
+<p> In the case of <tt> with boxes fs pattern </tt>, the pattern number
+is used to specify the filling pattern. In the case of <tt> solid </tt>
+option, density of the filled box is given by a value ranging from 0 to
+1.</p>
+
+<p> In the example below, (3) stands for the bar-width. </p>
+
+
+<pre class="sample">
+gnuplot&gt; plot "test.dat" usi 1:2:(3)      w boxes fs pattern 1,\
+gnuplot&gt;      "test.dat" usi ($1+5):2:(3) w boxes fs solid 0.7
+</pre>
+
+
+<div align="center">
+<img src="fig/sample5.15b.png" alt="fig/sample5.15b" width="400" height="300">
+</div>
+
+<div class="top"><a href="plot5-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / plotpm3d </title>
+<!-- Generated 2004/ 2/16  -->
+<!-- $Id: plotpm3d.html,v 1.5 2004/12/21 06:51:55 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/12/17 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="plotpm3d-e.html">      ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <ul>
+      <li><a href="plot3d.html#6.1">
+           Z軸のゼロ点 </a>
+      <li><a href="plot3d.html#6.2">
+           メッシュを細かく </a>
+      <li><a href="plot3d.html#6.3">
+           角度 </a>
+      <li><a href="plot3d.html#6.4">
+           等高線 </a>
+      <li><a href="plot3d.html#6.5">
+           等高線を2次元プロット </a>
+      <li><a href="plot3d2.html#6.6">
+           3次元格子 </a>
+      <li><a href="plotpm3d.html#6.7">
+           3次元カラー表示 </a>
+          <a href="version.html"><b>[ver.4]</b></a>
+      <li><a href="plotpm3d.html#6.8">
+           等高線を色で表示 </a>
+          <a href="version.html"><b>[ver.4]</b></a>
+      <li><a href="plotpm3d.html#6.9">
+           疑似3次元棒グラフ </a>
+      <li><a href="plotpm3d2.html#6.10">
+           pm3dの色を変える </a>
+          <a href="version.html"><b>[ver.4]</b></a>
+    </ul>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top">カラーマップを使った3次元表示 (pm3d) </a></h1>
+
+<div align="center">
+<a href="plot3d.html">    1 </a> | 
+<a href="plot3d2.html">   2 </a> |
+<a href="plotpm3d.html">  3 </a> |
+<a href="plotpm3d2.html"> 4 </a>
+</div>
+
+<h2><a name="6.10">3次元図をカラー表示で描きたい． </a></h2>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> gnuplotの3次元表示は線あるいは点で描かれますが，ver.3.8や4.0からは 
+     <tt>pm3d</tt> をセットすることでカラーマップを用いた3次元表示が可能
+     になっています．画面へのカラー出力の他，PostScriptやpng/jpegなどのフォー
+     マットでファイルに書き出す事ができます．</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-2:2]
+gnuplot&gt; set yrange [-2:2]
+gnuplot&gt; set pm3d
+gnuplot&gt; splot exp(-x*x)*exp(-y*y)
+</pre>
+
+<div align="center"><img src="fig/sample6.7a.png" alt="fig/sample6.7a" width="400" height="300"></div>
+
+<p> PostScriptに出力する場合は，terminalのオプション<tt>color/monochrome
+     </tt> によりカラーかグレースケールを選べます．グレースケールの図は
+     <tt> set palette gray </tt>を用いても可能ですが，この場合は図中の格
+     子線は色が付いたままとなります．以下の2つの例はPostScript terminal
+     を用いてファイルに出力した結果です．</p>
+
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced color
+gnuplot&gt; set output "color.eps"
+gnuplot&gt; replot
+gnuplot&gt; set term postscript eps enhanced monochromer
+gnuplot&gt; set output "mono.eps"
+gnuplot&gt; replot
+</pre>
+
+<div align="center">
+<img src="fig/sample6.7b.png" alt="fig/sample6.7b" width="300" height="200">
+<img src="fig/sample6.7c.png" alt="fig/sample6.7c" width="300" height="200">
+</div>
+
+
+
+
+<div class="top"><a href="plotpm3d.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="6.8">等高線を色で表示したい． </a></h2>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> gnuplotの等高線はその名のとおり「線」ですが，pm3dを用いると色を塗っ
+     た面で表示させることができます．等高線の表示とは事なり，密度分布を
+     色で表現したようなもので，色を付けられる面を底面や上面に投影すると
+     いった感じになります．等高面を底面に表示するには<tt> set pm3d </tt>
+     にオプション <tt> at b </tt> を付けます．</p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d at b
+gnuplot&gt; set ticslevel 0.8
+gnuplot&gt; set isosample 40,40
+gnuplot&gt; splot x*x*exp(-x*x)*y*y*exp(-y*y)
+</pre>
+
+<div align="center"><img src="fig/sample6.8a.png" alt="fig/sample6.8a" width="400" height="300"></div>
+
+
+<p> pm3dを使って底面だけを2次元表示するのは非常に簡単です．</p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d map
+gnuplot&gt; splot x*x*exp(-x*x)*y*y*exp(-y*y)
+</pre>
+
+
+<div align="center"><img src="fig/sample6.8b.png" alt="fig/sample6.8b" width="400" height="300"></div>
+
+
+
+
+<div class="top"><a href="plotpm3d.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="6.9"> 3次元の棒グラフを描きたい．</a></h2>
+
+<p> gnuplotは3次元棒グラフを描けないので，少々インチキする必要があります．
+3次元データとして，次のようなものを考えます．</p>
+
+<pre class="file">
+# X     Y    Z
+  0.0   0.0  2.0
+  0.0   1.0  3.5
+  1.0   0.0  1.0
+  1.0   1.0  3.0
+</pre>
+
+<p> 最初の行は，0&lt; X &lt;1, 0&lt; Y &lt;1 の範囲で Z=2 を表し，下の図
+の(1)の領域に相当します．データはヒストグラムですが，最後の行で最大のX,Y
+値が定義されていません．これは，1&lt; Y &lt;2, 1&lt; Y &lt;2 で Z=3.0 と
+考えます．描きたいヒストグラムは，次のようなものです．</p>
+
+<div align="center"><img src="fig/sample6.9.png" alt="fig/sample6.9" width="464" height="271"></div>
+
+<p> データの各行を何かプログラムを使って膨らませます．上の図でX=0の線上を
+考えると，Yは2.0, 2.0, 3.5, 3.5 とステップ状に変化しますので，これを
+一つの折れ線で与えます．同様に，X=1とX=2の場合の折れ線も与えます．</p>
+
+
+<pre class="file">
+# X     Y    Z
+  0.0   0.0  2.0
+  0.0   1.0  2.0
+  0.0   1.0  3.5
+  0.0   2.0  3.5
+
+  1.0   0.0  2.0
+  1.0   1.0  2.0
+  1.0   1.0  3.5
+  1.0   2.0  3.5
+
+  1.0   0.0  1.0
+  1.0   1.0  1.0
+  1.0   1.0  3.0
+  1.0   2.0  3.0
+
+  2.0   0.0  1.0
+  2.0   1.0  1.0
+  2.0   1.0  3.0
+  2.0   2.0  3.0
+</pre>
+
+<p> このようにデータを用意できれば，後は隠線処理して線で繋ぐだけです．こ
+のデータを作るプログラムとしては．．．．各自努力してみましょう．</p>
+
+<pre class="sample">
+gnuplot&gt; set hidden3d
+gnuplot&gt; splot "test.dat" with lines
+</pre>
+
+<div align="center"><img src="fig/sample6.9a.png" alt="fig/sample6.9a" width="340" height="240"></div>
+
+
+<div class="top"><a href="plotpm3d.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<p class="newver"> [ver.4] ONLY ! </p>
+
+<p> Gnuplot ver.4を使っているなら，pm3dを使って，もう少しカッコ良いグラ
+フを作ることができます．</p>
+
+<pre class="sample">
+gnuplot&gt; set pm3d
+gnuplot&gt; splot "test.dat" with pm3d
+</pre>
+
+<div align="center"><img src="fig/sample6.9b.png" alt="fig/sample6.9b" width="360" height="240"></div>
+
+<div class="top"><a href="plotpm3d.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

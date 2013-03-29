@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot /gallery / cal2 </title>
+<!-- Generated 1999/ 7/27 -->
+<!-- $Id: cal2.html,v 1.4 2004/12/04 10:01:53 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+</head>
+<body bgcolor="white">
+<hr>
+<ul>
+  <li> <a href="greenfunc.dat"> calculated green function data </a>
+</ul>
+<hr>
+<pre>
+set term postscript eps enhanced
+set output "greenfunc.eps"
+
+set size 0.7,0.8
+set mxtics 2.000000
+set mytics 2.000000
+set xlabel "r_1 [fm]"
+set xrange [ 0 : 10 ]
+set ylabel "r_2 [fm]"
+set yrange [ 0 : 10 ]
+set zlabel "" 0.000000,0.000000  ""
+set zrange [ -0.05 : 0.05 ]
+set ztics -0.1,0.01
+set hidden
+set view 70,45 
+set ticslevel 0 
+
+splot "greenfunc.dat" usi ($1*0.2):($2*0.2):3 notitle with line
+pause -1
+</pre>
+<hr>
+
+<center><img src="greenfunc.png" alt="greenfunc.png" width="629" height="501"></center>
+
+</body>
+</html>

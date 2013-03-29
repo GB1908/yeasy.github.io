@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / plot (7E) </title>
+<!-- Generated 2004/ 3/17 -->
+<!-- $Id: plot7-e.html,v 1.5 2004/12/19 09:23:44 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="plot7.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <ul>
+      <li><a href="plot1-e.html#5.1">
+           fixed-size plot </a>
+      <li><a href="plot1-e.html#5.2">
+           both sides of Y-axes </a>
+      <li><a href="plot1-e.html#5.3">
+           erase axes </a>
+      <li><a href="plot1-e.html#5.4">
+           fixed aspect ratio figure </a>
+      <li><a href="plot2-e.html#5.5">
+           zero axis </a>
+      <li><a href="plot2-e.html#5.6">
+           small bars of error bars </a>
+      <li><a href="plot2-e.html#5.7">
+           larger letters </a>
+      <li><a href="plot2-e.html#5.8">
+           smooth curves. </a>
+      <li><a href="plot2-e.html#5.9">
+           points on border </a>
+      <li><a href="plot3-e.html#5.10">
+           several figures </a>
+      <li><a href="plot3-e.html#5.11">
+           grid at minor tics </a>
+      <li><a href="plot4-e.html#5.12">
+           two axes </a>
+      <li><a href="plot4-e.html#5.13">
+           grid at an arbitrary position </a>
+      <li><a href="plot5-e.html#5.14">
+           figure in figure </a>
+      <li><a href="plot5-e.html#5.15">
+           bar-chart </a>
+      <li><a href="plot6-e.html#5.16">
+           Align two figures </a>
+      <li><a href="plot7-e.html#5.17">
+           normal probability axis </a>
+      <li><a href="plot7-e.html#5.18">
+           print data values </a>
+    </ul>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top">About 2-Dimensional Plot (No.7)</a></h1>
+
+<div align="center">
+<a href="plot1-e.html"> 1 </a> | 
+<a href="plot2-e.html"> 2 </a> | 
+<a href="plot3-e.html"> 3 </a> | 
+<a href="plot4-e.html"> 4 </a> | 
+<a href="plot5-e.html"> 5 </a> | 
+<a href="plot6-e.html"> 6 </a> | 
+<a href="plot7-e.html"> 7 </a>
+</div>
+
+<div class="top"><a href="plot7-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="5.17">Display a graph with normal probability axis. </a></h2>
+<div align="right"><i> from Dr. Moriyama. Thanks !</i></div>
+
+
+<p> In a field of powder or aerosol engineering, they often plot the
+     size distribution of particles. It often shows a "log normal
+     distribution", which becomes a straight line on the "normal
+     probability"(fraction) vs log(size) plot, and so called "normal
+     probability axis" is used. With two built-in functions - the normal
+     distribution norm() and the inverse normal distribution invnorm() -
+     of Gnuplot one can draw the normal probability axis. The following
+     script shows how to make "normal probability axis" for y.  Other
+     modified scales can be made in the same way.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set ytics ("0.1" invnorm(0.001),"1" invnorm(0.01),"5" invnorm(0.05),\
+&gt;          "10" invnorm(0.1),"20" invnorm(0.2),"30" invnorm(0.3),\
+&gt;          "40" invnorm(0.4),"50" invnorm(0.5),"60" invnorm(0.6),\
+&gt;          "70" invnorm(0.7),"80" invnorm(0.8),"90" invnorm(0.9),\
+&gt;          "95" invnorm(0.95),"99" invnorm(0.99),"99.9" invnorm(0.999))
+
+gnuplot&gt; set yrange [invnorm(0.0001):invnorm(0.9999)]
+gnuplot&gt; set ylabel "Cumulative mass fraction (%)"
+gnuplot&gt; set xlabel "Diameter (mm)"
+gnuplot&gt; set logscale x
+gnuplot&gt; set grid
+gnuplot&gt; plot "sample.dat" using 1:(invnorm($2)) notitle w lp
+</pre>
+
+<img src="fig/sample5.17a.png" alt="fig/sample5.17a" width="400" height="300" align="left">
+
+<p> In this example the X-axis is in the log-scale since the 
+log-normal distribution is assumed for the data. </p>
+
+
+<div class="top"><a href="plot7-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+
+
+
+<h2><a name="5.18"> How can I print values at each datapoint ? </a></h2>
+<div align="right"><i> from Jon, Thanks !</i></div>
+
+<p> Sometimes it is helpful if values of the points are shown numerically
+near those points. However gnuplot cannot treat the values in a data
+file as a text, we have to read those numbers with some program,
+and show them by <tt> set label </tt>. Suppose we have the following
+data, those data are shown by points, and we print those values 
+near the points.</p>
+
+<pre class="file">
+  0.40  80
+  3.00  70
+  3.00  60
+  6.00  50
+  9.00  40
+ 12.00  30
+ 13.00  20
+  5.00  20
+  8.00  20
+</pre>
+
+<p> Since we cannot make it with gnuplot alone, here we generate
+the <tt> label </tt> commands with Perl. Gnuplot needs the next lines. </p>
+
+<pre class="sample">
+gnuplot&gt; set label "(0.4,80)" at 0.4,80
+gnuplot&gt; set label "(3.0,70)" at 3.0,70
+</pre>
+
+<p> Those lines can be generated as: </p>
+
+
+<pre class="sample">
+  &#37; perl -ane 'print "set label &#92;"($F[0],$F[1])&#92;" at $F[0],$F[1]&#92;n"' file.dat > label.plt
+</pre>
+
+<p> Now we read those gnuplot commands at plotting, the numerical values 
+are shown at each point.</p>
+
+<pre class="sample">
+gnuplot&gt; load "label.plt"
+gnuplot&gt; plot 'file.dat' u 1:2 smooth csp with lines ,\
+&gt;             'file.dat' u 1:2 w points
+</pre>
+
+
+<img src="fig/sample5.18.png" alt="fig/sample5.18" width="400" height="300" align="left">
+
+
+<br clear="all">
+<div class="top"><a href="plot7-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / misc (4) </title>
+<!-- Generated 2001/8/27 -->
+<!-- $Id: misc4-e.html,v 1.12 2005/11/20 08:04:36 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2007/ 9/24 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="misc4.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+    <ul>
+      <li><a href="misc1-e.html#9.1">
+           ternary operator </a>
+      <li><a href="misc1-e.html#9.1a">
+           broken function </a>
+      <li><a href="misc1-e.html#9.2">
+           loop </a>
+      <li><a href="misc2-e.html#9.3">
+           least-squares fitting (I) </a>
+      <li><a href="misc2-e.html#9.4">
+           least-squares fitting (II) </a>
+      <li><a href="misc3-e.html#9.5">
+           dumb terminal </a>
+      <li><a href="misc4-e.html#9.6">
+           many kinds of lines </a>
+      <li><a href="misc4-e.html#9.7">
+           write a value </a>
+    </ul>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> Miscellaneous Stuff (No.4) </a></h1>
+
+<div align="center">
+<a href="misc1-e.html"> 1 </a> | 
+<a href="misc2-e.html"> 2 </a> | 
+<a href="misc3-e.html"> 3 </a> |
+<a href="misc4-e.html"> 4 </a>
+</div>
+
+
+<h2><a name="9.6"> How do I make a figure with many kinds of lines ? </a></h2>
+
+<p> The number of line-kinds gnuplot can handle depends on the 
+terminal. Lines in a graph you can distinguish by</p>
+<pre>
+ Line Type (solid, dotted, dot-dashed)
+ Thickness (heavy, light)
+ Colors
+ Lines with Symbols
+</pre>
+<p> Some terminal cannot draw a dotted line, and some cannot change
+the thickness.  Then the number of possible combination is limited. The
+following explanation is to use many kinds of lines in the postscript
+terminal. </p>
+
+
+<p> Define the linetype by <tt> set linestyle </tt>
+command. If you are using gnuplot ver.4, use <tt> set style line </tt> instead.
+Here we use 4 line-types, those are the solid, dashed, dotted, and 
+dot-dashed lines. The IDs of 1, 2, 3, and 6 are assigned for them in the
+postscript terminal. With those line-types, we use thick (width 3) and thin 
+(width 1) lines for each of them. We get 8 line-kinds now.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set linestyle 1 lt 1 lw 1
+gnuplot&gt; set linestyle 2 lt 2 lw 1 
+gnuplot&gt; set linestyle 3 lt 3 lw 1 
+gnuplot&gt; set linestyle 4 lt 6 lw 1 
+gnuplot&gt; set linestyle 5 lt 1 lw 3 
+gnuplot&gt; set linestyle 6 lt 2 lw 3 
+gnuplot&gt; set linestyle 7 lt 3 lw 3 
+gnuplot&gt; set linestyle 8 lt 6 lw 3
+gnuplot&gt; set xrange [-pi:pi]
+gnuplot&gt; plot sin(  x) w l ls 1, sin(2*x) w l ls 2, \
+              sin(3*x) w l ls 3, sin(4*x) w l ls 4, \
+              cos(  x) w l ls 5, cos(2*x) w l ls 6, \
+              cos(3*x) w l ls 7, cos(4*x) w l ls 8
+</pre>
+
+<div align="center"><img src="fig/sample9.6a.png" alt="fig/sample9.6a" width="452" height="317"></div>
+
+<p> Maybe you can use more line-kinds by changing the line-type (short
+dashed, long dashed, etc), but the other lines except for 
+<a href="postscript-e.html#8.4"> those 4 types </a> are hard to
+recognize. You should avoid to use several kinds of thickness, because
+they are indistinguishable in a small figure. </p>
+
+
+<p> The maximal number of line kinds may depend on your figure
+     appearance.  Practically, a figure that includes more than 10 lines
+     is impossible. If you really need to use such a many kinds of
+     lines, you should use colors.</p>
+
+<div align="center"><img src="fig/sample9.6b.png" alt="fig/sample9.6b" width="451" height="317"></div>
+
+
+<p> "Lines with Symbols" means to draw a line first, and symbols are
+     overlayed on it in order to distinguish each line.  The symbols you
+     can use are circles, triangles, squares, and so on.</p>
+
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 lw 3 pt 5
+gnuplot&gt; set linestyle 2 lt 1 lw 3 pt 6
+</pre>
+
+<p> The linestyles are defined above, and they are used at plotting
+     <tt>plot sin(x) w linespoints ls 1</tt>.
+     With this method it is sometimes difficult to
+     control an interval of each symbol. When you plot a figure in your
+     datafile, the symbol is placed at the data point, and each data
+     point is connected by a straight line. In the case of function plot
+     just like above, those symbols are placed at a fixed interval which
+     is defined by <tt> set sampling </tt>.</p>
+
+<div class="top"><a href="misc4-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+
+<h2><a name="9.7"> Write least-squares parameter values in the figure </a></h2>
+
+<p> Make a figure label which tells you a value of parameter obtained at the 
+least-squares fitting. First, use <tt> fit </tt> command to get the solution, and
+<tt> set label "A=%g",a </tt> substitutes the value of "a" into the format place
+with the specified format.</p>
+
+<pre class="sample">
+gnuplot&gt; f(x)=a*x*x+b*x+c
+gnuplot&gt; fit f(x) 'test.dat' using 1:2:3 via a,b,c
+gnuplot&gt; set label 1 "Y=AX^2+BX+C" at 11,1225
+gnuplot&gt; set label 2 "A = %g", a at 12,1200
+gnuplot&gt; set label 3 "B = %g", b at 12,1180
+gnuplot&gt; set label 4 "C = %g", c at 12,1160
+gnuplot&gt; plot f(x),'test.dat' using 1:2:3 with yerr
+</pre>
+
+<div align="center"><img src="fig/sample9.7.png" alt="fig/sample9.7" width="400" height="300"></div>
+
+<div align="right"><i> from Joerg in  Switzerland. Thanks !</i></div>
+
+<div class="top"><a href="misc4-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+</body>
+</html>
+

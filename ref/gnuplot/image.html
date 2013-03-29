@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / image </title>
+<!-- Generated 1999/ 7/21 -->
+<!-- $Id: image.html,v 1.11 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="image-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <ul>
+      <li><a href="postproc.html#8.1">
+           TeXの文書 </a>
+      <li><a href="postproc.html#8.2">
+           複数の図をまとめる </a>
+      <li><a href="image.html#8.3">
+           イメージに変換 </a>
+      <li><a href="postscript.html#8.4">
+           グラフの色 </a>
+      <li><a href="postscript.html#8.5">
+           右の余白 </a>
+    </ul>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+
+<h1><a name="top"> 図を描いたその後は．．．(その2) </a></h1>
+
+<div align="center">
+<a href="postproc.html">   1 </a> | 
+<a href="image.html">      2 </a> | 
+<a href="postscript.html"> 3 </a>
+</div>
+
+
+
+<h2><a name="8.3">グラフをPNG等のイメージに変換したい．</a></h2>
+
+
+<p> gnuplotが直接生成することができるイメージのフォーマットは，ppmと
+png です．また，gnuplot3.7からは直接GIFを出力することが可能になりまし
+た．しかしgnuplotが作るGIFは，LZWの特許の関係か，圧縮されていないよう
+です．また，gnuplot3.8からはGIFはサポートされていません．GIFで出力する
+目的の多くは，結果をWeb に載せることではないでしょうか．それなら，GIF
+を使うのを止めてPNG(Portable Network Graphics)形式で出力することを推奨
+します．最近のWebブラウザはPNGをサポートしていますし，ファイルの圧縮率
+も大きいのでネットワークへの負担も小さくなります．</p>
+
+<p> 任意のフォーマットに変換する方法は沢山ありますが，
+主だったものを挙げると．．．</p>
+<ul>
+  <li> X11の画面に表示したものをxwdでファイルにダンプし，それを
+       xvやImageMagick, Gimpで変換する．
+  <li> ppmで出力しておき，ImageMagickやxv，pbmplus, netpbmで変換する．
+  <li> PostScriptで出力し，GhostScriptで変換する(gsがサポートしている
+       フォーマットのみ)．
+  <li> PostScriptで出力し，それをGhostScriptで画面表示したものをxwdで
+       ファイルにダンプし，それをxvやImageMagickで変換する．
+</ul>
+<p>等があります．自動的に変換するならppmで作っておいてppmtoXXXで変換するのが
+便利でしょう．簡単なのは，Xの画面をxwdでダンプする方法でしょう．</p>
+
+<p> まずgnuplotで何かを画面に表示します．別のターミナルを使うか，
+gnuplotのshellコマンドでshellを起動し，xwdで図を表示しているウィンドウ
+をダンプします．</p>
+
+<pre class="sample">
+gnuplot&gt; set yrange [-6:6] 
+gnuplot&gt; set hidden3d
+gnuplot&gt; set isosample 40
+gnuplot&gt; splot x*sin(y)
+gnuplot&gt; shell
+ % xwd &gt; screen.xwd
+ % exit
+exit
+
+gnuplot&gt; 
+</pre>
+
+<p>このscreen.xwdをxvやgimp, Imagemagickのdisplayコマンドで読み込み，他
+の画像フォーマットで保存します．あるいはnetpbmを使って</p>
+<pre class="sample">
+ % xwdtopnm &lt; screen.xwd | ppmtopng &gt; screen.png
+</pre>
+<p>でも変換できます．次の図は，ダンプした画面をPNGに変換したものです．</p>
+
+<div align="center"><img src="fig/sample8.3b.png" alt="fig/sample8.3b" width="530" height="350"></div>
+
+
+<p> GhostScriptで変換するには，使っているgsがどのイメージフォーマットを
+サポートしているかを調べる必要があります．これには，
+-helpのオプション付きでgsを起動します．</p>
+
+<pre class="sample">
+ % gs -help
+ GNU Ghostscript 5.10 (1998-12-17)
+ Copyright (C) 1997 Aladdin Enterprises, Menlo Park, CA.  All rights reserved.
+ Usage: gs [switches] [file1.ps file2.ps ...]
+ Most frequently used switches: (you can use # in place of =)
+  -dNOPAUSE           no pause after page   | -q       `quiet', fewer messages
+  -g&lt;width&gt;x&lt;height&gt;  page size in pixels   | -r&lt;res&gt;  pixels/inch resolution
+  -sDEVICE=&lt;devname&gt;  select device         | -dBATCH  exit after last file
+  -sOutputFile=&lt;file&gt; select output file: - for stdout, |command for pipe,
+                                          embed %d or %ld for page #
+ Input formats: PostScript PostScriptLevel1 PostScriptLevel2 PDF
+ Available devices:
+    x11 x11alpha x11cmyk x11gray2 x11mono ml600 npdl epag escpage lbp310
+    lbp320 lips2p lips3 lips4 lips4c lips4v lips4vc fmpr mjc180 mjc360 mjc720
+    mj500c pr150 jj100 bj10v bj10vh md5000 dmprt deskjet djet500 laserjet
+ .....
+</pre>
+
+<p>ここでは，gsを使ってjpegに変換する方法を説明します．まずgnuplotで
+EPSの図を作っておきます．このEPSファイルをgsで変換します．</p>
+
+<pre class="sample">
+ % gs -dNOPAUSE -sDEVICE=jpeg -sOutputFile=test.jpg -q 
+   -dBATCH -g500x350 test.eps
+</pre>
+
+<p> 上の例では行を折り返していますが，実際は一つの行です．
+     <tt>-sOutputFile</tt> で出力ファイル名を指定します．
+     <tt>-sOutputFile=-</tt> とすると標準出力になります．<tt>-g</tt>でイ
+     メージファイルのピクセル数をしていますが，ここの数値はgnuplotのEPS
+     で書き出したときに，図が大体収まる大きさを適当に与えているものです．
+     図によってははみ出したり余白が大きくなりすぎたりするかもしれません．
+     </p>
+
+<p> ここではjpegに変換してみましたが，図のプロットの様にコントラストが強
+     く境界線がはっきりしたイメージに対しては，jpegは向いていません．イ
+     メージデータにするなら，やはりGIFやPNGが無難です．</p>
+
+<div align="center"><table border="0">
+<tr><td align="center"><img src="fig/sample8.3c.png" alt="fig/sample8.3c" width="563" height="430"></td></tr>
+<tr><td align="center"> gnuplotで作ったEPSをgvで表示 </td></tr>
+<tr><td align="center"><img src="fig/sample8.3d.jpg" alt="fig/sample8.3d" width="500" height="350"></td></tr>
+<tr><td align="center"> gsを使ってjpegに変換 </td></tr>
+</table></div>
+
+<div class="top"><a href="image.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / legend (E) </title>
+<!-- Generated 1999/ 7/23 -->
+<!-- $Id: legend-e.html,v 1.12 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="legend.html">          JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <ul>
+      <li><a href="legend-e.html#2.1">
+           erase legend </a>
+      <li><a href="legend-e.html#2.2">
+           position of legend </a>
+      <li><a href="legend-e.html#2.3">
+           get rid of error bars</a>
+      <li><a href="legend-e.html#2.4">
+           strange location of symbols</a>
+      <li><a href="legend-e.html#2.5">
+           line-skip </a>
+      <li><a href="legend-e.html#2.6">
+           frame-box </a>
+    </ul>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+
+
+<h1><a name="top"> About Legend </a></h1>
+
+<div align="right"> ... but gnuplot calls it "key" </div>
+
+
+
+<h2><a name="2.1">How do I erase a legend ? </a></h2>
+
+<p> There are two ways. The first one is,</p>
+<pre class="sample">
+gnuplot&gt; set nokey
+</pre>
+<p>and the other one is to use the <tt> notitle </tt> key word 
+at plotting. In the case below, the data file has a legend but
+the function does not.</p>
+<pre class="sample">
+gnuplot&gt; plot f(x) notitle, "file.dat" title "data"
+</pre>
+
+
+
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="2.2">How do I change the location of legend ?</a></h2>
+
+<p> Usually a legend appears at the top/right corner int the graph. 
+You can change the position with the <tt>set key </tt> command. 
+If you give the command,</p>
+<pre class="sample">
+gnuplot&gt; set key left bottom
+</pre>
+<p>the legend goes to left/bottom. Available options are, left, right,
+ top, bottom, outside, and below.  You can combine some of them. For
+ example, <tt>outside bottom</tt>. </p>
+
+
+<p> It is possible to set the position of legend <a name="2.2a">directly.</a>
+If you want to move it to the position (X,Y)=(100,100), </p>
+<pre class="sample">
+gnuplot&gt; set key 100,100
+</pre>
+<p>The coordinate (100,100) is the position of the mid-point between 
+a text and a line/symbol of the first line of the legend. 
+The coordinate is the system defined by the X and Y axes. 
+If you want to place the legend independently 
+of the axes, see <a href="label2-e.html#4.4">coordinate</a>. </p>
+
+
+
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="2.3">How do I get rid of error bars in a legend ?</a></h2>
+
+<p> When one plots data with error bars, the error bar also appears in
+the legend (see the figure below).  
+However, even if the data have errors in the Y-direction, the
+error bar in the legend becomes horizontal one, and usually we do not
+need such an error bar. Here is a simple way to remove the error bar
+in the legend. </p>
+
+<p> When we plot the next data (test.dat),</p>
+<pre class="file">
+#  X     Y     Y-error
+   1.0   1.2   0.2
+   2.0   1.8   0.3
+   3.0   1.6   0.2
+</pre>
+<p>with the following commands,</p>
+<pre class="sample">
+gnuplot&gt; set xrange [0:4]
+gnuplot&gt; set yrange [0:3] 
+gnuplot&gt; plot "test.dat" usi 1:2:3 title "data" w yerrorbars
+</pre>
+<div align="center"><img src="fig/sample2.3a.png" alt="fig/sample2.3a" width="292" height="221"></div>
+<p>the error bar in the legend becomes like above. <br>
+It is not a smart way, but </p>
+<pre class="sample">
+gnuplot&gt; set xrange [0:4]
+gnuplot&gt; set yrange [0:3] 
+gnuplot&gt; plot "test.dat" usi 1:2:3 notitle        w yerrorbars 1,\
+              "test.dat" usi 1:2     title "data" w points     1
+</pre>
+works well.
+<div align="center"><img src="fig/sample2.3b.png" alt="fig/sample2.3b" width="295" height="221"></div>
+
+
+
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="2.4">Location of the text is sometimes strange when Postscript symbols are used in it. </a></h2>
+
+<p> Sometimes gnuplot places a text (in title or legend) at wrong
+position when a postscript symbol -- like "{/Symbol a}" -- is
+used. For example, you may have an extra white-space at the left side even though
+you want to place the legend just next to the Y-axis with the command <tt> set key left</tt>.
+This happens because gnuplot does not count "{/Symbol a}" as one character.  To adjust the
+location of the legend containing postscript symbols, you have to give
+<a href="legend-e.html#2.2a"> its coordinate directly. </a></p>
+
+
+
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="2.5">Adjust the line-skip  </a></h2>
+
+<p> You can change the line-skip in the legend with <tt> set key spacing </tt>
+command.  To make the skip 1.5 times wider, <tt> set key spacing 1.5 </tt> </p>
+
+
+
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="2.6">Make a frame-box </a></h2>
+
+<p> To make a frame-box around the legend, use <tt> set key box </tt>.
+The line-kind for the
+box is the same as the frame of the graph. You can change this
+by providing the <tt> box </tt> keyword followed by an index of the line-kind.
+Otherwise you can define the linestyle as:</p>
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 2 lw 3
+gnuplot&gt; set key box linestyle 1
+</pre>
+
+
+<p> For gnuplot ver.4.0, </p>
+
+<pre class="sample">
+gnuplot&gt; set style line 1 lt 2 lw 3
+gnuplot&gt; set key box linestyle 1
+</pre>
+
+<div class="top"><a href="legend-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

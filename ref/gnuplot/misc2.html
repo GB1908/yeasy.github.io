@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / misc (2) </title>
+<!-- Generated 1999/ 9/ 21 -->
+<!-- $Id: misc2.html,v 1.12 2005/11/20 08:04:36 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="misc2-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+    <ul>
+      <li><a href="misc1.html#9.1">
+           3項演算子 </a>
+      <li><a href="misc1.html#9.1a">
+           途切れた関数 </a>
+      <li><a href="misc1.html#9.2">
+           ループ </a>
+      <li><a href="misc2.html#9.3">
+           最小自乗法(その1) </a>
+      <li><a href="misc2.html#9.4">
+           最小自乗法(その2) </a>
+      <li><a href="misc3.html#9.5">
+           dumb端末  </a>
+      <li><a href="misc4.html#9.6">
+           多くの線種 </a>
+      <li><a href="misc4.html#9.7">
+           数値の書き込み </a>
+    </ul>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> その他もろもろ (その2) </a></h1>
+
+<div align="center">
+<a href="misc1.html"> 1 </a> | 
+<a href="misc2.html"> 2 </a> | 
+<a href="misc3.html"> 3 </a> |
+<a href="misc4.html"> 4 </a>
+</div>
+
+
+<h2><a name="9.3"> 非線形関数を使った最小自乗フィッティングの方法(その1)．</a></h2>
+
+<p> gnuplot3.7の強力な機能の一つに，関数のフィッティング(当てはめ)があり
+     ます．パラメータを含んだ関数を用意すると，データファイルの数値に対
+     して最適なパラメータの数値を自動的に探索します．関数はgnuplotで表現
+     できるものなら，線形・非線形を問いません．ここでは，
+     f(x)=a/(1+b*x*x) というLorentz型の関数を使った例を示します．この関
+     数のパラメータは，<i>a</i>と<i>b</i>の2 つです．</p>
+
+<p>サンプルのデータとして，<i>a</i>=2, <i>b</i>=1 の値をこの関数に与えて
+     計算したものを用意しました．この数値に関数をフィットしたときに，
+     <i>a</i>=2, <i>b</i>=1という結果が得られるかどうかを見ようとしてい
+     ます．</p>
+
+<pre class="file">
+-10.000000    0.019802
+ -8.947370    0.024674
+ -7.894740    0.031582
+ -6.842110    0.041828
+ -5.789470    0.057941
+ -4.736840    0.085333
+ -3.684210    0.137236
+ -2.631580    0.252359
+ -1.578950    0.572561
+ -0.526316    1.566160
+  0.526316    1.566160
+  1.578950    0.572561
+  2.631580    0.252359
+  3.684210    0.137236
+  4.736840    0.085333
+  5.789470    0.057941
+  6.842110    0.041828
+  7.894740    0.031582
+  8.947370    0.024674
+ 10.000000    0.019802
+</pre>
+
+<p>この数値を，"exp.dat" という名前のファイルに保存しておきます．最初
+に，gnuplotで当てはめたい関数を定義します．探索するパラメータの変数名
+は，xやt等のgnuplotが使う特別な変数でなければ何でも構いません．関数フィッ
+ティングには，<tt> fit </tt>コマンドを使います．オプションに，探索した
+いパラメータ名を <tt> via </tt>に続けて与えます．</p>
+
+
+<p> フィットを行うデータファイルに対しては，<tt>using</tt>,
+     <tt>index</tt>, <tt>every</tt>等のオプションが使うことができ，デー
+     タファイル中の任意の数値をフィッティングの対象にすることができます．
+     また，データの誤差を与える事で，各点での重みを変えることができます．
+     データの重みは，誤差σの2乗の逆数(σ^{-2})となります．重み付き最小
+     自乗法を行うためには，データファイルの3カラム目に誤差を用意し，<tt>
+     fit f(x) "exp.dat" using 1:2:3 via a,b </tt>のように<tt>using</tt>
+     を使って誤差のカラムを指定します．誤差を与えない場合は，全データの
+     重みは1になります．</p>
+
+
+<pre class="sample">
+gnuplot&gt; f(x)=a/(1+b*x*x)
+gnuplot&gt; fit f(x) "exp.dat" via a,b
+
+
+Iteration 0
+WSSR        : 1.43879           delta(WSSR)/WSSR   : 0
+delta(WSSR) : 0                 limit for stopping : 1e-05
+lambda      : 0.201184
+
+                         .......
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 2                +/- 5.236e-07    (2.618e-05%)
+b               = 0.999998         +/- 7.397e-07    (7.397e-05%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      
+a               1.000 
+b               0.837  1.000 
+</pre>
+
+
+<p> 途中，フィッティングのログが長々と画面を流れて行きます．同じ内容が，
+     fit.log という名前のファイルにも同時に書き出されています．フィッティ
+     ングがうまく終れば，得られたパラメータの値と，それらの相関(共分散)
+     行列が出力されます．上の例では，<i>a</i>=2, <i>b</i>=1がほぼ正しく
+     得られています．</p>
+
+<p> 得られた数値は，変数<i>a,b</i>に入っていますので，関数f(x)をデータと
+     ともにプロットすると，フィッティングの結果をプロットできます．</p>
+
+<pre class="sample">
+gnuplot&gt; plot f(x) with lines, "exp.dat" using 1:2 w points
+</pre>
+
+<div align="center"><img src="fig/sample9.3.png" alt="fig/sample9.3" width="303" height="228"></div>
+
+
+
+
+<div class="top"><a href="misc2.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="9.4"> 非線形関数を使った最小自乗フィッティングの方法(その2)．</a></h2>
+
+
+<p> 次はもう少し具体的な例を用います．次のような実験データがあります．こ
+     のデータに関数f(x)=c*(x-a)**bをフィットし，変数<i>a,b,c</i>の値を求
+     めます．</p>
+
+<pre class="file">
+# X        Y     Z
+  6.295    8.4   0.3
+  6.795   23.9   0.7
+  7.826  104.0   3.0
+  8.830  255.0   8.0
+  9.841  421.0  13.0
+ 10.860  566.0  18.0
+ 11.864  690.0  22.0
+</pre>
+
+<p>各データ点の重みは，誤差の値をZとすると，1/Z*Zとなります．従って誤
+差が大きい程重みは小さくなります．</p>
+
+<p>まず，実験値だけをプロットしてその傾向を見ます．</p>
+
+<pre class="sample">
+gnuplot&gt; set log y
+gnuplot&gt; plot "exp.dat" using 1:2:3 w yerrorbars
+</pre>
+
+<div align="center"><img src="fig/sample9.4a.png" alt="fig/sample9.4a" width="400" height="300"></div>
+
+<p>次に変数<i>a,b,c</i>の初期値を決めます．gnuplotのフィッティングでは，
+     初期値を与えていないと全て1として計算を始めます．しかし，反復回数が
+     多くなったり場合によっては結果が出なかったりしますので，ほどほどの
+     初期値を決めておいた方がうまく行きます．f(x)=c*(x-a)**bをあてはめま
+     すので，上のプロットを見れば，<i>a</i>は大体6位だろうと想像できます
+     (<i>x</i>=<i>a</i>で関数はゼロになるはずなので)．<i>x</i>が1増える
+     と数十倍になっているので，<i>b</i>は1〜2程度でしょう．また，
+     <i>c</i>は10のオーダー(f(x)の対数をとったら分かります)，これを初期
+     値にして，fit を実行します．</p>
+
+<pre class="sample">
+gnuplot&gt; a=6
+gnuplot&gt; b=1
+gnuplot&gt; c=10
+gnuplot&gt; f(x)=c*(x-a)**b
+gnuplot&gt; fit f(x) "exp.dat" using 1:2:3 via a,b,c
+</pre>
+
+<p>17回の反復の後に計算が収束したメッセージが出，最終的なパラメータの値
+     とその共分散が出力されます．得られた値は<i>a</i>=5.77,
+     <i>b</i>=1.89, <i>c</i>=25.8 でしたので，仮定した初期値はまずまずだっ
+     たようです(プロットしてみるとあまりデータにあっていないのですが．．．)
+     </p>
+
+<pre class="sample">
+After 17 iterations the fit converged.
+final sum of squares of residuals : 90.8196
+rel. change during last iteration : -9.71916e-09
+
+degrees of freedom (ndf) : 4
+rms of residuals      (stdfit) = sqrt(WSSR/ndf)      : 4.76497
+variance of residuals (reduced chisquare) = WSSR/ndf : 22.7049
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 5.76731          +/- 0.176        (3.051%)
+b               = 1.89369          +/- 0.2127       (11.23%)
+c               = 25.7956          +/- 9.807        (38.02%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      
+a               1.000 
+b              -0.944  1.000 
+c               0.975 -0.975  1.000 
+</pre>
+
+<p> この結果を，先程のプロットに重ねて表示します．</p>
+
+<pre class="sample">
+gnuplot&gt; plot f(x),"exp.dat" using 1:2:3 w yerrorbars
+</pre>
+
+<div align="center"><img src="fig/sample9.4b.png" alt="fig/sample9.4b" width="400" height="300"></div>
+
+<div class="top"><a href="misc2.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

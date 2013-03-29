@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / postproc </title>
+<!-- Generated 1999/ 7/21 -->
+<!-- $Id: postproc.html,v 1.14 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="postproc-e.html">      ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <ul>
+      <li><a href="postproc.html#8.1">
+           TeXの文書 </a>
+      <li><a href="postproc.html#8.2">
+           複数の図をまとめる </a>
+      <li><a href="image.html#8.3">
+           イメージに変換 </a>
+      <li><a href="postscript.html#8.4">
+           グラフの色 </a>
+      <li><a href="postscript.html#8.5">
+           右の余白 </a>
+    </ul>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+
+<h1><a name="top"> 図を描いたその後は．．．(その1)</a></h1>
+
+<div align="center">
+<a href="postproc.html">   1 </a> | 
+<a href="image.html">      2 </a> | 
+<a href="postscript.html"> 3 </a>
+</div>
+
+
+<h2><a name="8.1">作ったグラフをTeXの文書に貼り込みたい．</a></h2>
+
+<p> gnuplotのドライバにはlatexというのがあり，これを使えばグラフを
+PicTeXにして出力してくれます．しかし，この方法は描く図によっては表示す
+る点の数が非常に多くなる場合があり，TeXの処理がメモリ不足で出来なくな
+ることがあります．従って，TeXに図を取り込む場合は，図をEPSで出力してお
+いて，LaTeXのgraphicsパッケージで読み込む方が簡単です．</p>
+
+<p> まず，gnuplotで図をプロットし，出力ドライバをenhanced EPSにして，
+EPSのファイルを作っておきます．</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set output "test.eps"
+gnuplot&gt; set key left top
+gnuplot&gt; set size 0.5,0.5
+gnuplot&gt; set xrange [0:4]
+gnuplot&gt; set yrange [0:4]
+gnuplot&gt; set xlabel "Energy [MeV]"
+gnuplot&gt; set ylabel "Cross Section [b]"
+gnuplot&gt; set linestyle 1 lt 1
+gnuplot&gt; set linestyle 2 lt 1 pt 7
+gnuplot&gt; # for gnuplot ver.4
+gnuplot&gt; # set style line 1 lt 1
+gnuplot&gt; # set style line 2 lt 1 pt 7
+gnuplot&gt; plot 0.2536*x+1.1717      title "LESQ fit" \
+&gt;                                  with lines      linestyle 1,\
+&gt;             "test.dat" usi 1:2:3 title "data" \
+&gt;                                  with yerrorbars linestyle 2
+</pre>
+
+<img src="fig/sample8.1a.png" alt="fig/sample8.1a" align="left" width="452" height="318">
+
+<p> 標準のままでEPSを作ると，図に比べて文字が小さくなりすぎてしまいま
+す．<tt> set term </tt>のオプションで大きめのフォントを指定するか，この
+例の様に<tt> set size </tt>で全体を小さくしてしまいます．フォントの大き
+さは変わらないので，相対的に文字が大きくなります．</p>
+
+<p> 誤差棒付きの記号を描く場合，gnuplotのPostScriptドライバは，線種を1以
+     外にすると破線や点線で誤差棒を描いてしまいます．従って，実線で種々
+     の記号を描くには，<tt>linestyle</tt>を使い，<tt>lt</tt>(線種)には1
+     番(実線)を指定した上で<tt>pt</tt>(記号)の番号を変えます．</p>
+<br clear="all">
+
+<p> TeX(LaTeX2e)に図を貼り込むには，graphicsパッケージを使います．図を任
+     意の位置に挿入するには，<tt>\includegraphics{<i> EPS file
+     </i>}</tt>を使います．<i>EPS file</i>の所にEPSのファイル名を指定し
+     ます．挿入時に，<tt>\resizebox{<i>X size</i>}{<i>Y size</i>}</tt>を
+     使って図全体を拡大縮小することができます．図の縦横の比率を変えずに
+     リサイズするには，X,Y sizeのどちらかに!を指定します．次の例は，
+     figure環境に図を入れてキャプションを付けた場合です．図の横幅を120mm
+     にしています．</p>
+
+<pre class="file">
+\documentclass{article}
+\usepackage{graphics}
+\begin{document}
+  \begin{figure}
+    \begin{center}
+      \resizebox{120mm}{!}{\includegraphics{test.eps}}
+      \caption{This is a sample figure.}
+      \label{test}
+    \end{center}
+  \end{figure}
+\end{document}
+</pre>
+
+<div align="center"><img src="fig/sample8.1b.png" alt="fig/sample8.1b" width="400" height="438"></div>
+
+
+
+
+<div class="top"><a href="postproc.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="8.2">複数の図をまとめて一つにしたい．</a></h2>
+
+<p> 複数の図をまとめるには，gnuplot の multiplotを使う方法や複数のEPS
+を作っておいてそれらを再配置する方法等が考えられますが，EPSをたくさん
+作っておいて，LaTeXのtabular環境で整列させる方法が簡単でしょう．</p>
+
+<p> 2行2列の計 4枚の図を配置する場合を考えましょう．Y軸のラベルは，
+4枚の内の左側にある図だけに付け，X軸のラベルは下側にある図だけに
+付けるとします．また，4枚全体に対して一つのキャプションを付けます．</p>
+
+<p> まず，4つそれぞれの図のEPSファイルを作っておきます．このとき，
+X軸とY軸がかならず揃うようにするため，
+<a href="plot1.html#5.1">図の大きさが一定</a>になるようにします．
+例として，y=sin(x), cos(x), sin(2x), cos(2x)のグラフを描いてみます．</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set lmargin 5
+gnuplot&gt; set bmargin 3
+gnuplot&gt; set rmargin 2
+gnuplot&gt; set tmargin 2
+gnuplot&gt; set size 0.5,0.5
+gnuplot&gt; set xrange [0:2*pi]
+gnuplot&gt; set yrange [-1:1]
+
+gnuplot&gt; set output "test1.eps"
+gnuplot&gt; set xlabel ""
+gnuplot&gt; set ylabel "sin x"
+gnuplot&gt; plot sin(x) notitle
+
+gnuplot&gt; set output "test2.eps"
+gnuplot&gt; set xlabel ""
+gnuplot&gt; set ylabel ""
+gnuplot&gt; plot sin(2*x) notitle
+
+gnuplot&gt; set output "test3.eps"
+gnuplot&gt; set xlabel "X [nodim.]"
+gnuplot&gt; set ylabel "cos x"
+gnuplot&gt; plot cos(x) notitle
+
+gnuplot&gt; set output "test4.eps"
+gnuplot&gt; set xlabel "X [nodim.]"
+gnuplot&gt; set ylabel ""
+gnuplot&gt; plot cos(2*x) notitle
+</pre>
+
+<p>これらtabular環境に取り込んで，整列させます．</p>
+
+<pre class="file">
+\documentclass{article}
+\usepackage{graphics}
+\begin{document}
+\begin{figure}
+  \begin{center}
+    \begin{tabular}{cc}
+      \resizebox{60mm}{!}{\includegraphics{test1.eps}} &amp;
+      \resizebox{60mm}{!}{\includegraphics{test2.eps}} \\
+      \resizebox{60mm}{!}{\includegraphics{test3.eps}} &amp;
+      \resizebox{60mm}{!}{\includegraphics{test4.eps}} \\
+    \end{tabular}
+    \caption{This is sample figures.}
+    \label{test4}
+  \end{center}
+\end{figure}
+\end{document}
+</pre>
+
+<div align="center"><img src="fig/sample8.2b.png" alt="fig/sample8.2b" width="400" height="438"></div>
+
+<p>figure環境にせず，単純にtabularで配置した後，そのページだけをdvipsで
+PostScriptにしてしまえば，一つのPSにまとめることも可能です．これには，
+dvipsのコマンドラインオプション<tt> -pp </tt>を使います．また，<tt> -E
+</tt>オプションを使って，グラフのある部分だけを切り取ってEPSにすること
+もできます．この方法は案外便利で，任意の数のグラフを，TeXを使って好き
+なように配置し，それらをひとまとめにしたEPSを作れます．詳しくはdvipsの
+マニュアルを参照してください．</p>
+
+<p> この他にも，tgifを使って，複数のプロットを一つにまとめる方法もあり
+ます．また，EPSを読み込めるDraw系のソフトを使って図を並べる手もありま
+す．</p>
+
+
+<div class="top"><a href="postproc.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+
+<hr class="topsep">
+
+
+</body>
+</html>
+

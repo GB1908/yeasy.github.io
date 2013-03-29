@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / spherical_harmonics / parametric (E) </title>
+<!-- Generated 2002/ 4/12 -->
+<!-- $Id: parametric-e.html,v 1.9 2004/12/19 09:23:51 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index-e.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/16 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index-e.html">          HOME </a> |
+<a href="../intro/index-e.html">    INTRODUCTION </a> |
+<a href="../general-e.html">        INFORMATION </a> |
+<a href="../gallery/index-e.html">  GALLERY </a> |
+<a href="parametric.html">          JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index-e.html"> Spherical Harmonics </a></p>
+
+ <ul>
+  <li><a href="parametric-e.html"> Parametric </a>
+  <li><a href="spharm1-e.html">    Spherical harmonics </a>
+  <li><a href="spharm2-e.html">    Various quantum numbers </a>
+  <li><a href="deformed-e.html">   Deformed nucleus </a>
+      <a href="../version-e.html"><b>[ver.4]</b></a>
+</ul>
+
+<td id="content">
+
+
+
+<h1><a name="top"> Parametric Expression </a></h1>
+
+<p> There are two ways to display a 3-dimensional function. The 
+first one is to use variables <i> x,y </i>, and define <i>z</i> values
+as z=f(x,y). The other method is to define a 3-D function by two parameters
+<i>u,v</i> as :</p>
+<pre>
+   x = f(u,v)
+   y = g(u,v)
+   z = h(u,v)
+</pre>
+<p> When your function f(x,y) is not so complicated, the former method
+is easier.</p>
+
+<pre class="sample">
+gnuplot&gt; f(x,y)=sin(x)*cos(y)
+gnuplot&gt; splot f(x,y)
+</pre>
+
+<p> However a function defined in the polar coordinate is hard to
+express in a form "z=", so that we need to use a parametric
+representation.  For example, a sphere of unit radius is expressed as
+x^2+y^2+z^2=1, then one has to define two functions (z &gt; 0 and z
+&lt; 0), namely z=sqrt(1-x*x-y*y) and z = -sqrt(1-x*x-y*y).</p>
+
+<p> The sphere can be expressed with two parameters <i>u</i> and
+<i>v</i> those define the condition that the radius is
+constant. Suppose <i>u</i> and <i>v</i> are the angles as follows, 
+and alter those values from zero to 360 under the
+condition that the radius <i>r</i> does not change.</p>
+
+<img src="coordinate1.png" alt="coordinate1" align="left" width="319" height="252">
+
+<p> With the angles <i>u,v</i> and radius <i>r</i>, an arbitrary
+coordinate <i>x,y,z</i> can be expressed as follows:</p>
+<pre>
+   x = r*cos(u)*cos(v)
+   y = r*sin(u)*cos(v)
+   z = r*sin(v)
+</pre>
+
+<p> The sphere can be defined in the polar coordinate so as that
+the radius  <i>r</i>=<i>a</i>=constant, then one can get the 
+sphere when the parameter <i>r</i> is replaced by a constant value.
+When a=1, the functions above represent the sphere of unit radius.</p>
+<pre>
+   x = cos(u)*cos(v)
+   y = sin(u)*cos(v)
+   z = sin(v)
+</pre>
+
+<br clear="all">
+
+
+<p> Therefore to draw a 3-D sphere with gnuplot:</p>
+
+<pre class="sample">
+gnuplot&gt; set parametric
+
+        dummy variable is t for curves, u/v for surfaces
+gnuplot&gt; set angle degree
+gnuplot&gt; set urange [0:360]
+gnuplot&gt; set vrange [-90:90]
+gnuplot&gt; set isosample 72,36
+gnuplot&gt; set ticslevel 0
+gnuplot&gt; set size 0.7,1.0
+gnuplot&gt; a=1
+gnuplot&gt; splot a*cos(u)*cos(v),a*sin(u)*cos(v),a*sin(v)
+</pre>
+
+<img src="sphere.png" alt="sphere" align="left" width="260" height="260">
+
+<p> The default angle unit is radian. The second line <tt> set angle
+     degree </tt> changes the angle unit into degree. The third and
+     fourth lines tell gnuplot to change the parameters <i>u,v</i> from
+     zero to 360 deg. We changed the aspect ratio by the <tt> set size
+     </tt> command in order to make the sphere be spherical on your
+     screen (otherwise the drawing becomes like a pancake). </p>
+
+<p> The roughness of wire-frame can be controlled by <tt> set isosample
+     m,n </tt>.  The larger the number is, the finer the mesh becomes.
+     The number <i>m</i> is for the parameter <i>u</i>, while <i>n</i>
+     is for <i>v</i>.</p>
+<br clear="all">
+
+
+<p> The functions used above can be more in a convenient form when one
+defines functions:</p>
+
+<pre class="sample">
+gnuplot&gt; fx(u,v)=cos(u)*cos(v)
+gnuplot&gt; fy(u,v)=sin(u)*cos(v)
+gnuplot&gt; fz(v)=sin(v)
+gnuplot&gt; splot a*fx(u,v),a*fy(u,v),a*fz(v)
+</pre>
+
+<div class="top"><a href="parametric-e.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>

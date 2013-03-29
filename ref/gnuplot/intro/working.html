@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / intro / working </title>
+<!-- Generated 1999/ 9/ 1 -->
+<!-- $Id: working.html,v 1.13 2004/12/04 10:01:55 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/8/31 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index.html">          HOME </a> |
+                                  INTRODUCTION |
+<a href="../general.html">        INFORMATION </a> |
+<a href="../gallery/index.html">  GALLERY </a> |
+<a href="working-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index.html">   gnuplot入門  </a></p>
+ <ul>
+  <li> <a href="basic.html">   基本の基本編  </a>
+  <li> <a href="plotcalc.html">数値計算編 </a>
+  <li> <a href="plotexp.html"> 実験データ編 </a>
+  <li> <a href="plotfunc.html">関数表示編 </a>
+  <li> <a href="working.html"> 生活編 </a>
+    <ul>
+     <li> <a href="working.html#batch">     作業のバッチ化 </a>
+     <li> <a href="working.html#many">      図の大量生産 </a>
+    </ul>
+  <li> <a href="style.html">   スタイル一覧 </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+
+<h1><a name="top"> gnuplot 入門 --- 生活編 </a></h1>
+<div align="right"> <i> It's working ! <br> (Anakin, Tatooine)</i></div>
+
+
+<h2><a name="batch">作業のバッチ化 </a></h2>
+
+<p> ここでは，数値計算編の最後に保存したプロットファイル
+<a href="output.plt"> "output.plt" </a> を使って，「その後」の仕事を楽に
+する方法を概説します．このファイルを覗いてみると，作業中に設定した部分
+(軸の範囲やプロットするファイル名)と，その他のデフォルトで設定されてい
+る部分が混在しているのが分かると思います．ちょっと見づらいので，デフォ
+ルトで設定されている部分を消して，自分で設定したものだけを残してみましょ
+う．但し，termianlとplotの部分は長くなりすぎるので，継続行記号(backslash)を
+使って折り返しています．</p>
+
+<pre class="file">
+#!/usr/local/bin/gnuplot -persist
+# set terminal postscript landscape noenhanced monochrome \
+#              dashed defaultplex "Helvetica" 14
+# set output 'output.ps'
+set xlabel "x" 0.000000,0.000000  ""
+set ylabel "y=exp(-x)" 0.000000,0.000000  ""
+set title "Pade approximation" 0.000000,0.000000  ""
+set xrange [ 0 : 2 ] noreverse nowriteback
+set yrange [ 0 : 1 ] noreverse nowriteback
+set mxtics 5.000000
+set mytics 5.000000
+set xtics border mirror norotate 1
+set ytics border mirror norotate 0.5
+plot "output.dat" using 1:2 title "Analytical" w l, \
+     "output.dat" using 1:3 title "L=1, M=2" w l, \
+     "output.dat" using 1:4 title "L=2, M=1" w l
+#    EOF
+</pre>
+
+
+<p>PostScriptに出力する部分はコメントアウトされています．gnuplotを再び
+起動し，このファイルを<tt>load</tt>コマンドで読み込めば，同じグラフを
+もう一度描くことができます．また，新しい計算結果等を同じファイル(ここ
+ではoutput.dat)に書き込むようにすれば，計算結果を決まったフォーマットで
+すぐに見ることができて便利です．</p>
+
+<pre class="sample">
+gnuplot&gt; load "output.plt"
+</pre>
+
+<p>他に，gnuplot起動時にこのファイル名をオプションとして渡す方法があり
+ますが，そのままではグラフを表示した直後にgnuplotが終了してしまい，画
+面がすぐに消えてしまいます．表示した画面を残すには，上のプロットファイ
+ルの最後(plotコマンドの後)に <tt> pause -1 </tt>を入れておきます．こう
+すると，リターンキーが押されるまで画面表示が止まります．</p>
+
+<pre class="sample">
+ % gnuplot output.plt
+</pre>
+
+
+<p>gnuplotの画面表示を残すもう一つの方法として，起動時のオプションに
+<tt>-persist</tt>をつける方法があります．gnuplotそのものは終了しますが，
+画面の表示は残ったままになります．</p>
+
+<pre class="sample">
+ % gnuplot -persist output.plt
+</pre>
+
+<p>上のプロットファイルの例を見ると，一行目にこのオプションが書かれて
+のがわかります．gnuplotが書き出すプロットファイルは，実行可能の許可を
+与えてやれば，スクリプトとしてそのまま実行することができます．</p>
+
+<pre class="sample">
+ % chmod +x  output.plt
+ % ./output.plt
+</pre>
+
+<p>なお，この方法では，画面を閉じるためにkillコマンドやウィンドウのク
+ローズボタン等を使ってプロセスそのものを殺す必要がありますので，何度も
+プロットを繰り返す場合は<tt> pause -1</tt>を使う方法が便利でしょう．</p>
+
+<p> プロットファイルをloadし直して，再び対話的にプロット作業を進める事も
+できますが，ファイルが出来た後ではバッチ処理による作業の方が効率的です．
+まずファイルの最後に <tt> pause -1 </tt>を入れておいて，</p>
+
+<ul>
+ <li> プロットファイルをEditorを使って修正する
+ <li> プロット結果を画面で見る
+</ul>
+
+<p>という作業を繰り返して，満足のいくグラフを作っていきます．
+また，最終目的がPostScriptであれば，</p>
+
+<ul>
+ <li> プロットファイルを修正する
+ <li> PostScriptに出力する
+ <li> PostScriptファイルをgv等でプレビューする
+</ul>
+
+<p>という作業の繰り返しになります．この場合は，上ではコメントアウトされ
+     ていた<tt> set terminal postscript </tt>と出力ファイル名をプロット
+     ファイルに書いておきます．また，画面には描かれないので，
+     <tt>pause</tt>を入れる必要はありません．</p>
+
+
+
+
+
+<div class="top"><a href="working.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+<h2><a name="many">図の大量生産 </a></h2>
+
+<p> 研究活動にgnuplotが特に便利なのは，出来上がったプロットファイルを
+再利用できる点です．研究を続けていると，枠や軸名が全く同じで中の数値だ
+けが異なっているような図を何度も描かなければならないことがあります．
+gnuplotなら，一つのプロットファイルを使い，その中の表示するファイル名
+の部分だけを変更することで，次々と別の図を作成することができますので効
+率的です．これには，<tt>plot "datafile"</tt>の datafileの部分だけを書
+き直しても良いし，あるいはdatafileの中身そのものを新しいデータに上書き
+して何度もプロットを繰り返すこともできます．</p>
+
+<p> gnuplotのバッチモードは大量のデータを処理するときに非常に便利です．
+グラフを作りたいデータの数が多いとき，市販のグラフソフトを使いながら一
+枚一枚図を作っていては，いつまで経っても仕事が終わりません(簡単にでき
+るソフトもあるかもしれません．このページの作者が知らないだけです)．
+gnuplotとUNIXのコマンドを組み合わせて，全てのデータを一気にグラフにす
+る方法を考ます．</p>
+
+<p> あるディレクトリの中に，calc1.dat, calc2.dat, calc3.dat のように番
+号が付いたデータファイルがたくさん入っているとします．各々のデータファ
+イルの中身は，(X,Y)の組だけが書かれた単純な数値データです．まず，<a
+href="calc1.dat"> calc1.dat </a> だけをとりだして，この図を作成するプロットファ
+イルを書きます．ここでは，<a href="plotcalc.html">数値計算編</a>で行っ
+たように，図の表題，軸名，XYの範囲，目盛間隔だけを指定します．</p>
+
+
+<pre class="file">
+set terminal png
+set output "calc1.png"
+set xlabel "Energy [MeV]"
+set ylabel "Cross Section [b]"
+set title "(n,2n) reaction"
+set xrange [ 0 : 20 ]
+set yrange [ 0 : 2 ]
+set mxtics 5
+set mytics 5
+set xtics 5
+set ytics 0.5
+plot "calc1.dat" using 1:2 notitle w l
+</pre>
+
+<p> このファイル <a href="data.plt"> data.plt </a>をgnuplotに「食わす」
+とPNGの画像が同じディレクトリに出来上がります．EPSのファイルを作りたけ
+れば，<tt> set terminal </tt>でPostscriptを指定し，あとファイル名を 
+calc1.eps等に変更します．</p>
+
+<pre class="sample">
+ % gnuplot &lt; data.plt
+</pre>
+
+<div align="center"><img src="calc1.png" alt="calc1.png" width="640" height="480"></div>
+
+
+<p> このプロットファイルを他のデータに流用する方法を考えます．上で作った
+     data.pltで，書き直さないといけないのは，"calc1.dat"と"calc1.png"の2 
+     つのファイル名だけです．残念ながらgnuplotは文字列定数を扱えないので，
+     これらを変数にはできません．ここでは<a href="working.html#sed">sedを使ってcalc1
+     をcalc2に置換する方法</a>と，ファイル名を<a href="working.html#heredoc">shellス
+     クリプトの引数として外部から与える方法</a>を紹介します．</p>
+
+<hr width="50%">
+
+<p><a name="sed"> sedを使ってファイルの一部を置換するには，次のようにします．</a></p>
+
+<pre class="sample">
+ % sed "s/calc1/calc2/g" data.plt | gnuplot
+</pre>
+
+<p> たったこれだけで，新しい図calc2.pngが出来上がります．あとはこの作
+業を全データファイルに対して行うだけです．データファイルの数があまり多
+くないなら，コマンドラインだけで作業できます．</p>
+
+<p> csh, tcsh</p>
+<pre class="sample">
+ % foreach i (calc2 calc3 calc4 cal5)
+ foreach? sed "s/calc1/$i/g" data.plt | gnuplot
+ foreach? end
+</pre>
+
+<p> sh, bash</p>
+<pre class="sample">
+ $ for i in calc2 calc3 calc4 cal5 ; do
+ &gt; sed "s/calc1/$i/g" data.plt | gnuplot
+ &gt; done
+</pre>
+
+<p> データファイル数が多い時は，以下のようにsedを使って，datという拡張
+子が付いたファイル名から拡張子以外の部分だけを取り出して処理します．
+クォートとバッククォートを間違えないように．内側のsedは変数<i>$i</i>に
+ある".dat"を消す部分，外側はその文字列で calc1 を置換するためのもので
+す．</p>
+
+<pre class="sample">
+ $ for i in *.dat ; do
+ &gt; sed "s/calc1/`echo $i | sed "s/\.dat$//"`/g" data.plt | gnuplot
+ &gt; done
+</pre>
+
+<p> 図を一枚ずつ描くshellスクリプトを書くこともできます．こちらの方が，
+後で再利用できるので便利かもしれません．スクリプトには，上にあるような
+sedで変換しながらgnuplotに流し込む行を，ファイルの数だけ並べれば良いの
+ですが，</p>
+
+<pre class="file">
+#!/bin/sh
+sed "s/calc1/calc2/g" data.plt | gnuplot
+sed "s/calc1/calc3/g" data.plt | gnuplot
+sed "s/calc1/calc4/g" data.plt | gnuplot
+sed "s/calc1/calc5/g" data.plt | gnuplot
+ ...
+</pre>
+
+<p> 以下のように awkを使って lsコマンドの出力を整形すれば，このスクリ
+プトを簡単に作成することができます．スクリプトのファイルを作るには，下
+のコマンドの実行結果をファイルにリダイレクトします(コマンド <tt> &gt;
+script.sh</tt>)．</p>
+
+<pre class="sample">
+ % ls *.dat | awk '{printf("sed \"s/calc1/%s/g\" data.plt | gnuplot\n",$1)}'
+</pre>
+
+<br>
+<hr width="50%">
+<br>
+
+
+<p><a name="heredoc"> プロットファイルの文字列を置き換える</a>別の方法と
+ して，shellスクリプトの中に直接gnuplotのコマンドを書いてしまい，その中
+ のファイル名をshellの変数にする方法もあります．gnuplotのコマンドをshell
+ スクリプトに書き込むには，以下のようなHere Documentを使います．今度はデー
+ タファイルcalc1.datから，EPSファイル calc1.epsを作ってみましょう．</p>
+
+<pre class="file">
+#!/bin/sh
+gnuplot &lt;&lt; EOF
+set terminal postscript eps color enhanced
+set output "$1.eps"
+set xlabel "Energy [MeV]"
+set ylabel "Cross Section [b]"
+set title "(n,2n) reaction"
+set xrange [ 0 : 20 ]
+set yrange [ 0 : 2 ]
+set mxtics 5
+set mytics 5
+set xtics 5
+set ytics 0.5
+plot "$1.dat" using 1:2 notitle w l
+EOF
+</pre>
+
+<p> 見て分かるように，データファイルと出力EPSファイル名の拡張子を除いた
+     部分が，変数<i>$1</i> に置き換えられています．この変数はスクリプト 
+     <a href="plot.sh">plot.sh</a>のコマンドライン引数として与えられます
+     ので，下のようにコマンドラインから実行すれば，calc1.datから
+     calc1.eps という図ができあがります．この方法なら，任意のディレクト
+     リにあるデータをプロットし，その結果を同じディレクトリのファイルと
+     して生成することができます．</p>
+
+<pre class="sample">
+ $ ./plot.sh calc1
+</pre>
+
+<p> データファイルとEPSファイルの名前を変える場合は，上のスクリプトの中
+     にあるどちらかの<i>$1</i>を<i>$2</i>としておき，コマンドラインで2つ
+     の引数を与えます．</p>
+
+<p> さらに次のようなshellスクリプトやforeachなどを用いれば，上の例と同様
+     な図の大量生産が可能になります．</p>
+
+<pre class="file">
+#!/bin/sh
+./plot.sh  calc1
+./plot.sh  calc2
+./plot.sh  calc3
+./plot.sh  calc4
+ ...
+</pre>
+<div align="right"><i> from Dr. Sato. Thanks !</i></div>
+
+
+<div align="center"><img src="manyfigure.png" alt="manyfigure.png" width="640" height="480"></div>
+
+
+<div class="top"><a href="working.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+</body>
+</html>
+

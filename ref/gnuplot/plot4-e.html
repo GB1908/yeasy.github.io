@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title> gnuplot / plot (4E) </title>
+<!-- Generated 2001/ 5/28 -->
+<!-- $Id: plot4-e.html,v 1.11 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=us-ascii">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+ <body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index-e.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index-e.html">         HOME </a> |
+<a href="intro/index-e.html">   INTRODUCTION </a> |
+<a href="general-e.html">       INFORMATION </a> |
+<a href="gallery/index-e.html"> GALLERY </a> |
+<a href="plot4.html">           JAPANESE </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend-e.html">     Legend </a>
+    <li><a href="tics-e.html">       Tics </a>
+    <li><a href="label-e.html">      Label </a>
+    <li><a href="plot1-e.html">      2-D Plot </a>
+    <ul>
+      <li><a href="plot1-e.html#5.1">
+           fixed-size plot </a>
+      <li><a href="plot1-e.html#5.2">
+           both sides of Y-axes </a>
+      <li><a href="plot1-e.html#5.3">
+           erase axes </a>
+      <li><a href="plot1-e.html#5.4">
+           fixed aspect ratio figure </a>
+      <li><a href="plot2-e.html#5.5">
+           zero axis </a>
+      <li><a href="plot2-e.html#5.6">
+           small bars of error bars </a>
+      <li><a href="plot2-e.html#5.7">
+           larger letters </a>
+      <li><a href="plot2-e.html#5.8">
+           smooth curves. </a>
+      <li><a href="plot2-e.html#5.9">
+           points on border </a>
+      <li><a href="plot3-e.html#5.10">
+           several figures </a>
+      <li><a href="plot3-e.html#5.11">
+           grid at minor tics </a>
+      <li><a href="plot4-e.html#5.12">
+           two axes </a>
+      <li><a href="plot4-e.html#5.13">
+           grid at an arbitrary position </a>
+      <li><a href="plot5-e.html#5.14">
+           figure in figure </a>
+      <li><a href="plot5-e.html#5.15">
+           bar-chart </a>
+      <li><a href="plot6-e.html#5.16">
+           Align two figures </a>
+      <li><a href="plot7-e.html#5.17">
+           normal probability axis </a>
+    </ul>
+    <li><a href="plot3d-e.html">     3-D Plot </a>
+    <li><a href="polar-e.html">      Polar Coordinate </a>
+    <li><a href="parametric-e.html"> Parametric Functions </a>
+    <li><a href="datafile-e.html">   Data File </a>
+    <li><a href="postproc-e.html">   After Plotting </a>
+    <li><a href="misc1-e.html">      Miscellaneous Stuff </a>
+  </ul>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> About 2-Dimensional Plot (No.4)</a></h1>
+
+<div align="center">
+<a href="plot1-e.html"> 1 </a> | 
+<a href="plot2-e.html"> 2 </a> | 
+<a href="plot3-e.html"> 3 </a> | 
+<a href="plot4-e.html"> 4 </a> | 
+<a href="plot5-e.html"> 5 </a> | 
+<a href="plot6-e.html"> 6 </a> | 
+<a href="plot7-e.html"> 7 </a>
+</div>
+
+
+<h2><a name="5.12">I want to draw two axes in the different scale.  </a></h2>
+
+<p> Sometimes one wants to make two axes in one figure --- for example,
+     the X-axis is a temperature which is represented by both Celsius
+     (C) and absolute (K). There are several ways to do it, for example,
+     display two figures by <a href="plot3-e.html#5.10">multiplot</a>,
+     or use <a href="plot1-e.html#5.2">the opposite axis</a>. Here is an
+     example of use of <tt> multiplot.</tt></p>
+
+
+<p> Let's make two X-axes. At first, make the figure height smaller, set
+     the bottom margin zero, then enter the multiplot mode.</p>
+
+<pre class="sample">
+gnuplot&gt; set size 1.0,0.7
+gnuplot&gt; set bmargin 0
+gnuplot&gt; set yrange [0:5]
+gnuplot&gt; set multiplot
+</pre>
+
+<p> Raise the figure slightly, and plot the first graph. In a following
+     example we draw a function y=exp(x)-1. The unit of x is
+     "minutes".</p>
+
+<pre class="sample">
+multiplot&gt; set origin 0,0.3
+multiplot&gt; set xrange [0:2]
+multiplot&gt; set xtics 1
+multiplot&gt; set xlabel "Time [min]"
+multiplot&gt; plot exp(x)-1 notitle
+</pre>
+
+<p> Now, lower the figure, and <a href="plot1-e.html#5.3"> draw the
+     X-axis only</a>. To avoid overlapping, adjust tics by <tt> set
+     noytics </tt>, <tt> set xtics nomirror </tt>. Finally, plot
+     a function which does not fit to the current drawing (I mean, it is
+     outside the graph). In this example it was y= -1</p>
+
+
+<pre class="sample">
+multiplot&gt; set origin 0,0.15
+multiplot&gt; set xrange [0:120] 
+multiplot&gt; set xtics nomirror 30 
+multiplot&gt; set noytics
+multiplot&gt; set xlabel "Time [sec]"
+multiplot&gt; set border 1
+multiplot&gt; plot -1 notitle
+multiplot&gt; set nomultiplot
+gnuplot&gt; 
+</pre>
+
+<img src="fig/sample5.12.png" alt="fig/sample5.12" align="left" width="400" height="300">
+<p> Well... probable there are more elegant ways to do it than this
+     example, but practically it is no problem. It is not easy to adjust
+     precisely the distance between two X-axes. To make it easier, add a
+     new axis with other drawing programs other than gnuplot such as
+     Tgif.</p>
+
+
+
+<div class="top"><a href="plot4-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="5.13">I want to make grid at an arbitrary position. </a></h2>
+
+<p> The command <tt> set grid </tt> makes grid lines at the major tics
+     positions, and those are equidistant usually. To make the grid at
+     an arbitrary position, adjust the major tics position by the
+     command <a href="tics.html"><tt> set tics </tt></a>.</p>
+
+<p> In the following example, three tics are displayed at 0.5, 1.2, and
+     2.5 by the <tt> set xtics </tt> command.</p>
+
+<pre class="sample">
+gnuplot&gt; set xtics ("0.5" 0.5, "1.2" 1.2, "2.3" 2.3)
+gnuplot&gt; set grid
+</pre>
+
+<div align="center"><img src="fig/sample5.13a.png" alt="fig/sample5.13a" width="400" height="300"></div>
+
+<p> In order to make the arbitrary grid keeping the tic position
+     equidistant, use the opposite axis. Choose the grid positions by
+     <tt> set x2tics </tt>, then make the
+     grid according to the X2 axis by <tt> set grid </tt> command option. </p>
+
+<pre class="sample">
+gnuplot&gt; set xtics 0,1
+gnuplot&gt; set x2tics ("0.5" 0.5, "1.2" 1.2, "2.3" 2.3)
+gnuplot&gt; set grid noxtics x2tics
+</pre>
+
+<div align="center"><img src="fig/sample5.13b.png" alt="fig/sample5.13b" width="400" height="300"></div>
+
+<p> If you want to remove numbers at the top of this figure, <tt> set
+     x2tics "" 0.5 </tt>.  Those numbers disappear but X2 major tics
+     still remain.</p>
+
+
+<div class="top"><a href="plot4-e.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

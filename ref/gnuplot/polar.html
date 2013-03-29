@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / polar </title>
+<!-- Generated 2000/ 2/22 -->
+<!-- $Id: polar.html,v 1.13 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="polar-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <ul>
+      <li><a href="polar.html#P1">
+           2次元極座標 </a>
+      <li><a href="polar.html#P2">
+           中心からの線 </a>
+      <li><a href="polar.html#P3">
+           グリッド </a>
+    </ul>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> 極座標プロットのあれこれ </a></h1>
+
+
+
+<h2><a name="P1">データを2次元極座標でプロットする． </a></h2>
+
+<p> 通常の2次元データはデカルト座標系の(X,Y)の点の組として与えられていま
+     す．これを極座標で表示します．データファイルの書き方は，普通の<a
+     href="datafile.html#2dim">2次元データ</a>と同じです．極座標表示では，
+     (X,Y)の組が，(θ,r)として取り扱われます．つまり，X=角度，Y=動径長さ，
+     です．角度の単位は，デフォルトではradianで，0〜2πでプロットは一周
+     します．度(degree)を使いたいときは，<tt> set angles degrees</tt> と
+     します．</p>
+
+<p> 次の様な2次元データがあるとします．これはデカルト座標系でプロッ
+トしたもので，Xは0〜180度までの角度，Yは-1〜1で変化する量です．</p>
+
+<div align="center"><img src="fig/sampleP1.1.png" alt="fig/sampleP1.1" width="400" height="300"></div>
+
+<p> これを極座標表示します．</p>
+
+<pre class="sample">
+gnuplot&gt; set polar
+
+        dummy variable is t for curves
+gnuplot&gt; set angles degrees
+gnuplot&gt; plot "datafile.dat" with lines
+</pre>
+
+<div align="center"><img src="fig/sampleP1.2.png" alt="fig/sampleP1.2" width="400" height="300"></div>
+
+<p>次に，極座標らしくなるようにXYの範囲を調整し，またプロットの
+サイズにsquareを指定して，正方形にします．</p>
+
+<pre class="sample">
+gnuplot&gt; set size square
+gnuplot&gt; set xrange [-1:1]
+gnuplot&gt; set yrange [-1:1] 
+gnuplot&gt; replot
+</pre>
+
+<div align="center"><img src="fig/sampleP1.3.png" alt="fig/sampleP1.3" width="289" height="299"></div>
+
+
+
+<div class="top"><a href="polar.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="P2">中心からデータまでの線を引く．</a></h2>
+
+<p><a href="polar.html#P1">上の例</a>では，各(θ,r)の点を結んだグラフを作りました．
+     原点から各点へ線を引くには，<tt> with impules </tt>を使います．</p>
+
+<pre class="sample">
+gnuplot&gt; plot "datafile.dat" with impulses
+</pre>
+
+<div align="center"><img src="fig/sampleP2.1.png" alt="fig/sampleP2.1" width="300" height="300"></div>
+
+
+
+<div class="top"><a href="polar.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="P3">グリッドを描く．</a></h2>
+
+<p>極座標表示では，2種類のグリッドがあります．一つは普通のプロットと同じ
+     くXY軸の主目盛に描かれるもので<tt>set grid</tt>で表示します．もう一
+     つは半径rに対する同心円状のグリッドで<tt>set grid
+     polar</tt> <i>angle</i> と指定します．角度<i>angle</i>毎に半径方向の
+     格子も入ります．角度を省略すると30度になります．</p>
+
+<pre class="sample">
+gnuplot&gt; set grid polar
+</pre>
+
+<div align="center"><img src="fig/sampleP3.1.png" alt="fig/sampleP3.1" width="289" height="300"></div>
+
+<p> 同心円のグリッドは，XY軸両方の主目盛に関連しています．上の図では
+xtics, yticsいづれも0.5となっていますので，同心円も半径0.5毎に描かれて
+います．これを変えると円が描かれる半径も変わります．次の例では，XYの目盛
+を変えていますので，0.3,0.5,0.6,0.9,1.0に円が描かれています．</p>
+
+<pre class="sample">
+gnuplot&gt; set xtics 0.5 
+gnuplot&gt; set ytics 0.3 
+</pre>
+
+<div align="center"><img src="fig/sampleP3.2.png" alt="fig/sampleP3.2" width="300" height="300"></div>
+
+<div class="top"><a href="polar.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+

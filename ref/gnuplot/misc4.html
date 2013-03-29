@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / misc (4) </title>
+<!-- Generated 2001/ 5/ 8 -->
+<!-- $Id: misc4.html,v 1.11 2005/11/20 08:04:36 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2007/ 9/24 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="misc4-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+    <ul>
+      <li><a href="misc1.html#9.1">
+           3項演算子 </a>
+      <li><a href="misc1.html#9.1a">
+           途切れた関数 </a>
+      <li><a href="misc1.html#9.2">
+           ループ </a>
+      <li><a href="misc2.html#9.3">
+           最小自乗法(その1) </a>
+      <li><a href="misc2.html#9.4">
+           最小自乗法(その2) </a>
+      <li><a href="misc3.html#9.5">
+           dumb端末  </a>
+      <li><a href="misc4.html#9.6">
+           多くの線種 </a>
+      <li><a href="misc4.html#9.7">
+           数値の書き込み </a>
+    </ul>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+
+
+<h1><a name="top"> その他もろもろ (その4) </a></h1>
+
+<div align="center">
+<a href="misc1.html"> 1 </a> | 
+<a href="misc2.html"> 2 </a> | 
+<a href="misc3.html"> 3 </a> |
+<a href="misc4.html"> 4 </a>
+</div>
+
+
+<h2><a name="9.6"> 多くの線種を使う図 </a></h2>
+
+<p> 一つの図の中に沢山の線をひき，それらを区別したい場合があります．し
+かしながら，gnuplotで表示できる線の種類はterminal毎に違うため，一度に
+何種類の線がひけるかはterm次第です．線種を区別するには，以下のような
+属性を組合せることで可能です．</p>
+<pre>
+ 種類 (実線・点線・一点鎖線等)
+ 太さ (細線・太線)
+ 色
+ 線と記号の同時表示
+</pre>
+<p> terminalによっては点線が描けなかったり，太さが変えられなかったりし
+ますので，組合せの数はあまり多くないかもしれません． 以下にpostscript
+を用いて線種の数をかせぐ方法の一例を示します．</p>
+
+<p> 表示する線の種類を指定するために，<tt> set linestyle </tt>で予めい
+くつかの線種を定義しておきます．gnuplot ver.4の場合は <tt> set style line </tt>
+とします．ここでは実線(postscript terminalの1番
+の線)，破線(同2番)，点線(3番)，一点鎖線(6番)の4種を用い，それぞれに対
+して太い線(width 3)と細い線(width 1)を用います．これで8種類の線種が定義
+されます．下の例では，正弦を細い線で，余弦を太い線で表示しています．</p>
+
+<pre class="sample">
+gnuplot&gt; set term postscript eps enhanced
+gnuplot&gt; set linestyle 1 lt 1 lw 1
+gnuplot&gt; set linestyle 2 lt 2 lw 1 
+gnuplot&gt; set linestyle 3 lt 3 lw 1 
+gnuplot&gt; set linestyle 4 lt 6 lw 1 
+gnuplot&gt; set linestyle 5 lt 1 lw 3 
+gnuplot&gt; set linestyle 6 lt 2 lw 3 
+gnuplot&gt; set linestyle 7 lt 3 lw 3 
+gnuplot&gt; set linestyle 8 lt 6 lw 3
+gnuplot&gt; set xrange [-pi:pi]
+gnuplot&gt; plot sin(  x) w l ls 1, sin(2*x) w l ls 2, \
+              sin(3*x) w l ls 3, sin(4*x) w l ls 4, \
+              cos(  x) w l ls 5, cos(2*x) w l ls 6, \
+              cos(3*x) w l ls 7, cos(4*x) w l ls 8
+</pre>
+
+<div align="center"><img src="fig/sample9.6a.png" alt="fig/sample9.6a" width="452" height="317"></div>
+
+<p> 線種を変えればもう少し多くの線を区別して表示することが可能ですが，
+これら<a href="postscript.html#8.4">4種以外</a>は判別が難しいかもしれ
+ません．また，太さを変える場合は，太/細の2種類にとどめておいた方が良い
+と思います．太さの違う線は，印刷されたものをコピーを取っているうちに判
+別が付きにくくなります．</p>
+
+<p> 描こうとしている図にもよりますが，実用的には10種類程度の線種を混ぜ
+て表示するのが限界でしょう．通常は同時に表示する線はせいぜい5,6種類に
+しておかないと，図が非常に見にくくなります．沢山の線を区別する必要があ
+るなら，色を併用したほうが良いです．</p>
+
+<div align="center"><img src="fig/sample9.6b.png" alt="fig/sample9.6b" width="451" height="317"></div>
+
+<p> 上に書いてある「線と記号の同時表示」とは，線に重ねて記号を表示する
+方法です．記号の種類を変えることで線の数を増やせます．</p>
+
+<pre class="sample">
+gnuplot&gt; set linestyle 1 lt 1 lw 3 pt 5
+gnuplot&gt; set linestyle 2 lt 1 lw 3 pt 6
+</pre>
+
+<p> このように線と記号の種類を同時に定義しておき，プロットする際に<tt>
+plot sin(x) w lp ls 1 </tt> (<tt>lp</tt>はlinespointsの略)とします．た
+だし，この方法は記号を表示する間隔を制御するのが難しいという欠点があり
+ます．データファイルの中身をプロットする場合は，データのある点だけに記
+号が描かれ，点の間は直線で結ばれます．一方，上の例のように関数をプロッ
+トする場合は，<tt> set sampling </tt> で決められた間隔(defaultでは全区
+間を100等分)で記号が描かれます．</p>
+
+
+<div class="top"><a href="misc4.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+
+<h2><a name="9.7"> 最小自乗法で得られたパラメータ数値を図に書き込む </a></h2>
+
+<p> 最小自乗fitを行って得られたパラメータの数値を，図のラベルとして書き込みます．
+<tt> fit </tt>コマンドでまず数値を求め，<tt> set label "A=%g",a </tt>のように
+ラベルを定義すると，指定されたフォーマットでラベルの文字が作られます．</p>
+
+<pre class="sample">
+gnuplot&gt; f(x)=a*x*x+b*x+c
+gnuplot&gt; fit f(x) 'test.dat' using 1:2:3 via a,b,c
+gnuplot&gt; set label 1 "Y=AX^2+BX+C" at 11,1225
+gnuplot&gt; set label 2 "A = %g", a at 12,1200
+gnuplot&gt; set label 3 "B = %g", b at 12,1180
+gnuplot&gt; set label 4 "C = %g", c at 12,1160
+gnuplot&gt; plot f(x),'test.dat' using 1:2:3 with yerr
+</pre>
+
+<div align="center"><img src="fig/sample9.7.png" alt="fig/sample9.7" width="400" height="300"></div>
+
+<div align="right"><i> from Joerg in  Switzerland. Thanks !</i></div>
+
+<div class="top"><a href="misc4.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+</body>
+</html>
+

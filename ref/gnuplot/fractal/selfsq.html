@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / fractal / selfsq </title>
+<!-- Generated 2002/4/15 -->
+<!-- $Id: selfsq.html,v 1.5 2004/12/04 10:01:51 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="../style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="../index.html">
+    <img src="../image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/11/29 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="../index.html">          HOME </a> |
+<a href="../intro/index.html">    INTRODUCTION </a> |
+<a href="../general.html">        INFORMATION </a> |
+<a href="../gallery/index.html">  GALLERY </a> |
+<a href="selfsq-e.html">          ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> <a href="index.html">   フラクタル  </a></p>
+
+ <ul>
+  <li><a href="recursive.html">  関数の再帰定義 </a>
+  <li><a href="mandelbrot.html"> Mandelbrot集合 </a>
+  <li><a href="selfsq.html">     Julia集合 (自己平方フラクタル) </a>
+ </ul>
+</td>
+
+<td id="content">
+
+
+<h1><a name="top"> Julia集合 (自己平方フラクタル) </a></h1>
+
+<p> Mandelbrot集合と同様，ある複素数 A を用いて対して漸化式を計算し，n
+が無限に大きくなっても|z(n)|^2 が発散しないような集合を求めます．
+Mandelbrot集合と違うのは，漸化式の初期値として，複素平面上の座標(X,Y)
+を用い，Aを任意の複素定数とするとろこです．</p>
+
+<pre class="file">
+    z(0)   = X + iY
+    z(n+1) = z(n)*z(n) + A
+</pre>
+
+<p> この関数は<a href="mandelbrot.html">Mandelbrot集合のページ</a> で
+定義した関数<tt>mandel</tt>をそのまま用いることができます．任意の複素
+定数は予め定義しておき，関数をプロットする際の初期値として(X,Y)座標値
+を使います．ここでは複素定数を A = -0.37-0.612 i としています．</p>
+
+<pre class="sample">
+gnuplot&gt; set xrange [-0.5:0.5]
+gnuplot&gt; set yrange [-0.5:0.5]
+gnuplot&gt; set logscale z
+gnuplot&gt; set isosample 50
+gnuplot&gt; set hidden3d
+gnuplot&gt; set contour
+gnuplot&gt; a= -0.37
+gnuplot&gt; b= -0.612
+gnuplot&gt; splot mandel(a,b,complex(x,y),0) notitle
+</pre>
+
+<div align="center">
+<img src="selfsq1.png" alt="selfsq1" height="350" width="520">
+</div>
+
+
+<p> 自己平方フラクタルでは，複素定数 A を変化させることで色々な画像を
+表示することができます．実際，定数をわずかに変化させただけで，まったく
+違った図になったりします．上の図ではA=-0.37 -0.612 i でしたが，
+この虚部を0.6にしただけで，下の絵のように変化します．</p>
+
+<div align="center">
+<img src="selfsq2.png" alt="selfsq2" height="350" width="520">
+</div>
+
+<br clear="all"><br>
+
+<div class="top"><a href="selfsq.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+
+<p> ここでもgnuplotとは関係無いオマケのCGをお見せします．下の絵は先ほ
+どgnuplotで描いた2つの図と同じパラメータで計算した自己平方フラクタルで
+す．</p>
+
+<div align="center">
+<img src="selfsquared1.png" width="256" height="256" alt="selfsquared1">
+<img src="selfsquared2.png" width="256" height="256" alt="selfsquared2">
+</div>
+
+<div class="top"><a href="selfsq.html#top"><img src="../image/mark-up.png" alt="up"></a></div>
+
+</td>
+</tr></table>
+<hr class="topsep">
+
+</body>
+</html>

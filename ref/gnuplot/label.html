@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+<title> gnuplot / label (1)</title>
+<!-- Generated 1999/ 7/21 -->
+<!-- $Id: label.html,v 1.11 2004/12/17 07:33:39 kawano Exp $ -->
+<meta http-equiv="content-type" content="text/html;charset=iso-2022-jp">
+<link rel="stylesheet" href="style-new.css" type="text/css">
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td bgcolor="#cccc90" width="320">
+    <div align="left">
+    <a href="index.html">
+    <img src="image/gnuplot_logo2.png" alt="GNUPLOT" width="320" height="90">
+    </a></div></td>
+    <td bgcolor="#cccc90">
+      <div align="center"><h3> - not so Frequently Asked Questions - </h3> </div>
+      <div class="update"> update 2004/9/5 </div>
+    </td>
+</tr>
+<tr><td bgcolor="#fae8ba"></td>
+    <td bgcolor="#fae8ba"><div class="navi"> 
+<a href="index.html">           HOME </a> |
+<a href="intro/index.html">     INTRODUCTION </a> |
+<a href="general.html">         INFORMATION </a> |
+<a href="gallery/index.html">   GALLERY </a> |
+<a href="label-e.html">         ENGLISH </a>
+</div></td></tr>
+</table>
+<hr class="topsep">
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr><td id="menu">
+ <p> not so FAQ</p>
+  <ul>
+    <li><a href="legend.html">      凡例(Legend) </a>
+    <li><a href="tics.html">        目盛(Tics) </a>
+    <li><a href="label.html">       ラベル(Label) </a>
+    <ul>
+      <li><a href="label.html#4.1">
+           上付き・下付き添字 </a>
+      <li><a href="label.html#4.2">
+           ギリシャ文字 </a>
+      <li><a href="label.html#4.3">
+           間隔の調整 </a>
+      <li><a href="label2.html#4.4">
+           ラベルの座標は </a>
+      <li><a href="label2.html#4.5">
+           矢印 </a>
+      <li><a href="label3.html#4.6">
+           ラベルの色  </a> 
+          <a href="version.html"><b>[ver.4]</b></a>
+      <li><a href="label3.html#4.7">
+           Y軸の向き </a>
+    </ul>
+    <li><a href="plot1.html">       2次元プロット </a>
+    <li><a href="plot3d.html">      3次元プロット </a>
+    <li><a href="polar.html">       極座標プロット </a>
+    <li><a href="parametric.html">  媒介変数表示 </a>
+    <li><a href="datafile.html">    データファイルの数値 </a>
+    <li><a href="postproc.html">    図を描いたその後は</a>
+    <li><a href="misc1.html">       その他 </a>
+  </ul>
+ <br>
+</td>
+
+
+<td id="content">
+<h1><a name="top"> ラベルあれこれ (その1)</a></h1>
+
+<div align="center">
+<a href="label.html">  1 </a> | 
+<a href="label2.html"> 2 </a> | 
+<a href="label3.html"> 3 </a>
+</div>
+
+
+<h2><a name="4.1">ラベルに上付き・下付き添字を使いたい．</a></h2>
+
+<p> enhanced postscriptのterminalを使うと，軸の名前や図中のラベルの
+文字列に添字を使うことができます．このterminalに設定するには，</p>
+<pre class="sample">
+gnuplot&gt; set terminal postscript enhanced 
+</pre>
+<p>の様に，enhaned のオプションが必要です．TeXの添字の書き方のように，X^2 
+とすると2が上付き添字になり，Y_3 とすると3が下付き添字になります．幾つ
+かの文字をまとめて添字にするには，Z_{64}の様に { } で括ります．上下の添字
+を同時に付けたい時は，Z@^2_{64} の様に＠記号を使います．</p>
+
+<p>例として，y=sin**2(x),y=sin**3(x),y=sqrt(sin(x)) の3つを描いて，その
+凡例に添字を使ってみます．</p>
+<pre class="sample">
+gnuplot&gt; set terminal postscript eps enhanced 
+gnuplot&gt; set key spacing 1.3
+gnuplot&gt; set xrange [ 0 : pi ]
+gnuplot&gt; set yrange [ 0 : 1.5 ]
+gnuplot&gt; plot sin(x)**2 ti "sin^2(x)", \
+         sin(x)**3      ti "sin^3(x)",\
+         sqrt(sin(x))   ti "sin^{1/2}(x)"
+</pre>
+<div align="center"><img src="fig/sample4.1.png" alt="fig/sample4.1" width="525" height="369"></div>
+
+<p>凡例の文字列に添字が付いていると，そのままでは凡例同士がくっつき
+過ぎてしまうようです．上の例では，<tt>set key spacing 1.3 </tt>
+を使って，<a href="legend.html#2.5">改行量</a>を3割ほど増やしました．</p>
+
+
+
+<div class="top"><a href="label.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="4.2">ラベルにα，βの様なギリシャ文字を使いたい．</a></h2>
+
+<p> 文字列の中にギリシャ文字を使う場合も，<a href="label.html#4.1">添字</a>の
+例と同じく，enhanced postscriptのterminalを使います．
+terminalの設定には，</p>
+<pre class="sample">
+gnuplot&gt; set terminal postscript enhanced 
+</pre>
+<p>の様に，enhanced のオプションを付けます．</p>
+
+<p>ギリシャ文字は {/Symbol a} の様に記述します．この場合は小文字の"a"に
+対応するαが表示されます．Symbolとアルファベットの対応は，次のように
+なっています．</p>
+<div align="center">
+<table border="1" bgcolor="#ccffff">
+<tr> <th> ALPHABET </th><th>SYMBOL</th>
+     <th> ALPHABET </th><th>SYMBOL</th>
+     <th> alphabet </th><th>symbol</th>
+     <th> alphabet </th><th>symbol</th></tr>
+<tr> <td> A </td><td> Α </td> <td> N </td><td> Ν </td>
+     <td> a </td><td> α </td> <td> n </td><td> ν </td></tr>
+<tr> <td> B </td><td> Β </td> <td> O </td><td> Ο </td>
+     <td> b </td><td> β </td> <td> o </td><td> ο </td></tr>
+<tr> <td> C </td><td> Χ </td> <td> P </td><td> Π </td>
+     <td> c </td><td> χ </td> <td> p </td><td> π </td></tr>
+<tr> <td> D </td><td> Δ </td> <td> Q </td><td> Θ </td>
+     <td> d </td><td> δ </td> <td> q </td><td> θ </td></tr>
+<tr> <td> E </td><td> Ε </td> <td> R </td><td> Ρ </td>
+     <td> e </td><td> ε </td> <td> r </td><td> ρ </td></tr>
+<tr> <td> F </td><td> Φ </td> <td> S </td><td> Σ </td>
+     <td> f </td><td> φ </td> <td> s </td><td> σ </td></tr>
+<tr> <td> G </td><td> Γ </td> <td> T </td><td> Τ </td>
+     <td> g </td><td> γ </td> <td> t </td><td> τ </td></tr>
+<tr> <td> H </td><td> Η </td> <td> U </td><td> Υ </td>
+     <td> h </td><td> η </td> <td> u </td><td> υ </td></tr>
+<tr> <td> I </td><td> Ι </td> <td> W </td><td> Ω </td>
+     <td> i </td><td> ι </td> <td> w </td><td> ω </td></tr>
+<tr> <td> K </td><td> Κ </td> <td> X </td><td> Ξ </td>
+     <td> k </td><td> κ </td> <td> x </td><td> ξ </td></tr>
+<tr> <td> L </td><td> Λ </td> <td> Y </td><td> Ψ </td>
+     <td> l </td><td> λ </td> <td> y </td><td> ψ </td></tr>
+<tr> <td> M </td><td> Μ </td> <td> Z </td><td> Ζ </td>
+     <td> m </td><td> μ </td> <td> z </td><td> ζ </td></tr>
+</table></div>
+<p>その他，直接8進数のキャラクタコードを指定することで，{/243}なら£，
+{/247}なら§といった様々なポストスクリプトのコードを表示することができ
+ます．詳しくは，gnuplotに付属の ps_guide.ps を参照してください．</p>
+
+<p>例として，y=αx+γ という直線をプロットし，図中にα，γの値を
+ラベルで記入してみましょう．</p>
+<pre class="sample">
+gnuplot&gt; set terminal postscript eps enhanced 
+gnuplot&gt; set xrange [ 0 : 5 ]
+gnuplot&gt; set label "{/Symbol a}=0.5, {/Symbol g}=0.2" at 2,0
+gnuplot&gt; plot 0.5*x-0.2 ti "y={/Symbol a}x-{/Symbol g}"
+</pre>
+<div align="center"><img src="fig/sample4.2.png" alt="fig/sample4.2" width="522" height="362"></div>
+
+
+
+<div class="top"><a href="label.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+<h2><a name="4.3">X,Y軸のラベルとグラフの間隔を調整したい．</a></h2>
+
+<p> <tt>set {x|y}label</tt> のオプションに
+あるオフセットで設定します．</p>
+<pre class="sample">
+gnuplot&gt; set xlabel "x" 0.0,1.0 
+</pre>
+<p>とすると，x軸の名前が1文字分だけ上に上がり，グラフに近付きます．yのオ
+フセットをさらに大きくすると，軸名がグラフの中に入ってしまいます．逆に
+yのオフセットを負の値にすると，軸名はグラフから離れていき，軸名とグラ
+フの間に空間ができます．gnuplotは描画領域を目一杯使ってグラフを描こう
+とするので，x軸名が上に上がると，その分だけグラフの高さが大きくなり，
+軸名を下げるとグラフは小さくなります．</p>
+
+<div align="center"><table border="0">
+<tr><td align="center"><img src="fig/sample4.3.png" alt="fig/sample4.3" width="376" height="263"></td>
+    <td align="center"> Y offset = 0 </td></tr>
+<tr><td align="center"><img src="fig/sample4.3a.png" alt="fig/sample4.3c" width="374" height="262"></td>
+    <td align="center"> Y offset = +5 </td></tr>
+<tr><td align="center"><img src="fig/sample4.3b.png" alt="fig/sample4.3d" width="377" height="267"></td>
+    <td align="center"> Y offset = -5 </td></tr>
+</table></div>
+
+<p> 同様に<tt> set ylabel "Y-AXIS" +n,+m </tt>の
+様にy軸のオフセットを設定すれば，y軸の位置を変えられます．次の例はxの
+オフセットを+5と-5にした場合で，これらを変えるとグラフの幅が変化します．</p>
+
+<div align="center"><table border="0">
+<tr><td align="center"><img src="fig/sample4.3.png" alt="fig/sample4.3" width="376" height="263"></td>
+    <td align="center"> X offset = 0 </td></tr>
+<tr><td align="center"><img src="fig/sample4.3c.png" alt="fig/sample4.3c" width="373" height="263"></td>
+    <td align="center"> X offset = +5 </td></tr>
+<tr><td align="center"><img src="fig/sample4.3d.png" alt="fig/sample4.3d" width="376" height="263"></td>
+    <td align="center"> X offset = -5 </td></tr>
+</table></div>
+
+
+<div class="top"><a href="label.html#top"><img src="image/mark-up.png" alt="up"></a></div>
+</td></tr></table>
+<hr class="topsep">
+
+
+</body>
+</html>
+
