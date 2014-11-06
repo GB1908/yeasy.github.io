@@ -37,14 +37,8 @@
 
     <!-- Static navbar -->
     <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="#">@</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
@@ -54,6 +48,17 @@
                     <li><a href="http://blog.csdn.net/yeasy" target="_blank">Blog</a></li>
                     <li><a href="http://github.com/yeasy" target="_blank">Github</a></li>
                     <li><a href="about.html">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <form class="navbar-form" role="search" action="http://www.google.com/search"
+                          method="GET"
+                          target="_blank">
+                        <div class="form-group">
+                            <input type="text" name="q" class="form-control" id="content"  placeholder="Keyword">
+                        </div>
+                        <button type="submit" name="sitesearch"
+                                value="yeasy.github.io"  class="btn btn-default">Search</button>
+                    </form>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

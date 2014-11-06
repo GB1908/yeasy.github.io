@@ -39,15 +39,8 @@
 
     <!-- Static navbar -->
     <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="#">@</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
@@ -57,14 +50,16 @@
                     <li><a href="http://blog.csdn.net/yeasy" target="_blank">Blog</a></li>
                     <li><a href="http://github.com/yeasy" target="_blank">Github</a></li>
                     <li><a href="about.html">About</a></li>
-                    <form class="navbar-form navbar-right" role="search" action="http://www.google.com/search"
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <form class="navbar-form" role="search" action="http://www.google.com/search"
                           method="GET"
                           target="_blank">
                         <div class="form-group">
-                            <input type="text" name="q" class="form-control" id="content"  placeholder="Search">
+                            <input type="text" name="q" class="form-control" id="content"  placeholder="Keyword">
                         </div>
                         <button type="submit" name="sitesearch"
-                                value="yeasy.github.io"  class="btn btn-default">Submit</button>
+                                value="yeasy.github.io"  class="btn btn-default">Search</button>
                     </form>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -73,16 +68,17 @@
 
     <!-- Begin page content -->
     <div class="container" >
-        <div class="page-header" style="max-width: 1000px;">
+        <div class="page-header">
             <img src="img/me.jpg" class="img-responsive">
-            <p>
+        </div>
+            <div class="container" >
                 Baohua Yang received his Ph.D.and BS degrees at Tsinghua University, in the year 2013 and 2007 respectively.<br>
                 Currently, he is working on datacenter and SDE related technologies at IBM Research. He has been an IEEE & IEEE Communications Society Member, and PC/TPC/reviewer for numbers of international conferences and journals.<br>
                 Baohua Yang's research interests mainly include algorithmic optimization, security and performance issues in computer networking and architectures, specially on data center architecture and future network management technologies. His recent projects are based on OpenStack and SDN (OpenFlow, OpenvSwitch, etc.). More infomation could be found at the Research page.<br>
                 His curriculum Vitae is available in both English and <a href="personal/cv2.pdf">Chinese</a>. Also, you can find him at <a href="http://http://linkedin.com/in/baohua">Linkedin</a>.
-            </p>
-        </div>
+            <div>
     </div>
+                <br>
 
     <div class="footer">
         <div class="container">
